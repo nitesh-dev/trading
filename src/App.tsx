@@ -22,11 +22,13 @@ function App() {
     chart.setChartType("area");
     chart.setColors({
       areaTheme: {
-        lineColor: "#1c77c3",
-        startColor: "rgba(255, 255, 255, 0.08)",
-        stopColor: "rgba(255, 255, 255, 0.08)",
+        lineColor: "#0099F7",
+        startColor: "rgba(0, 152, 247, 0.08)",
+        stopColor: "rgba(0, 152, 247, 0.08)",
       },
     });
+
+    chart.setGridVertical(false)
     chart.setData({ candles });
 
     chartInstance.current = chart;

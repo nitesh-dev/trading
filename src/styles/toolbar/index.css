@@ -16,7 +16,11 @@
     gap: 8px;
 }
 
-.my-toolbar .inner button{
+.my-toolbar .inner>div{
+    position: relative;
+}
+
+.my-toolbar .inner button.inner-btn{
     height: 40px;
     min-width: 40px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -33,25 +37,31 @@
     gap: 8px;
 }
 
-.my-toolbar .inner button:first-child{
+.my-toolbar .inner button.inner-btn:first-child{
     padding-left: 12px;
     padding-right: 12px;
 }
 
-.my-toolbar .inner button:first-child svg{
+.my-toolbar .inner button.inner-btn:first-child svg{
     width: 16px;
     height: 16px;
+    transition: all 200ms;
+    display: block;
+}
+
+.my-toolbar .inner button.inner-btn:first-child svg.flip{
+    transform: rotateZ(180deg);
 }
 
 
 
-.my-toolbar .inner button svg{
+.my-toolbar .inner button.inner-btn svg{
     fill: white;
     width: 24px;
     height: 24px;
 }
 
-.my-toolbar .inner button.active, .my-toolbar .inner button:hover{
+.my-toolbar .inner button.inner-btn.active, .my-toolbar .inner button.inner-btn:hover{
     background-color: rgba(255, 255, 255, 0.2);
 }
 
