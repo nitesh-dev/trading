@@ -7,8 +7,9 @@ import {
 } from "@devexperts/dxcharts-lite";
 import { RightPanel } from "./components/RightPanel";
 
+import mountainImage from "./assets/mountain.jpg";
 
-import "./styles/app.css"
+import "./styles/app.css";
 function App() {
   let chartInstance = useRef<Chart>();
 
@@ -17,52 +18,36 @@ function App() {
     const item = document.querySelector("#chart-holder") as HTMLDivElement;
     const candles = generateCandlesData();
 
-    const chart = createChart(item, {})
+    const chart = createChart(item, {});
+    chart.setChartType("area");
+    chart.setColors({
+      areaTheme: {
+        lineColor: "#1c77c3",
+        startColor: "rgba(255, 255, 255, 0.08)",
+        stopColor: "rgba(255, 255, 255, 0.08)",
+      },
+    });
     chart.setData({ candles });
 
-
-    chartInstance.current = chart
+    chartInstance.current = chart;
   }, []);
 
   return (
     <>
       <div className="main-app">
         <ToolBar />
-        <div id="chart-holder" style={{ height: "100vh", width: "100%" }} className="chart-holder"></div>
-        <RightPanel/>
+        <div className="chart-holder-parent">
+          <img className="image-layer" src={mountainImage} />
+          <div
+            id="chart-holder"
+            style={{ height: "100vh", width: "100%" }}
+            className="chart-holder"
+          ></div>
+        </div>
+        <RightPanel />
       </div>
     </>
   );
 }
 
 export default App;
-
-
-{/* <ChartReactApp
-
-          dependencies={{
-            onApiCreated,
-            initialChartReactSettings: {
-              legend:{
-                showOHLC: false,
-                showVolume:false,
-                showInstrument:false,
-                showPeriod:false
-              },
-              
-            },
-
-            chartReactConfig: {
-              drawings: {
-                sidebar: {
-                  enabled: false
-                }
-              },
-              toolbar: {
-                showButtonsTooltip: true,
-                enabled: false
-              },
-            
-
-            },
-          }} /> */}

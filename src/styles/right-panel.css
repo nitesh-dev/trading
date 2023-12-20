@@ -1,6 +1,5 @@
 .right-panel {
     width: 200px;
-    min-height: 100vh;
     background-color: var(--color-surface);
     padding: 16px;
     display: flex;
@@ -8,3 +7,74 @@
     align-items: center;
     padding-top: 24px;
 }
+
+
+.right-panel .payout{
+    border: 1px solid var(--border-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    min-height: 100px;
+    border-radius: var(--default-radius);
+    color: white;
+    padding: 0.5em 0;
+    margin-bottom: 24px;
+}
+
+.right-panel .payout *{
+    text-align: center;
+}
+
+
+.right-panel .payout .title{
+    font-size: 16px;
+    color: var(--color-on-surface-light);
+}
+
+.right-panel .payout p{
+    font-size: var(--medium-font);
+    margin: 0.1em 0;
+    color: var(--color-on-surface-light);
+}
+
+.right-panel .payout h3{
+    margin: 0;
+    font-size: var(--big-font);
+}
+
+.right-panel>button{
+    margin-bottom: 0.5em;
+    width: 100%;
+    height: 60px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: var(--big-font);
+    color: var(--color-on-surface);
+    padding: 0 1em;
+    border-radius: var(--default-radius);
+    transition: all 200ms;
+}
+
+.right-panel>button:hover{
+    opacity: 0.7;
+}
+
+.right-panel>button svg{
+    height: 24px;
+    width: auto;
+    fill: white;
+}
+
+.right-panel .high{
+    background-color: var(--success-color);
+}
+
+.right-panel .low{
+    background-color: var(--error-color);
+}
+
+

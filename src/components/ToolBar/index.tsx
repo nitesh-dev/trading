@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/toolbar.css";
+import "../../styles/toolbar/index.css";
 
 export function ToolBar() {
 
