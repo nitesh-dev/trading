@@ -206,12 +206,12 @@
 .chart-bar .chart-holder svg {
     width: auto;
     height: 40px;
-    fill: #8CA6BF;
+    fill: var(--color-on-surface-light);
 }
 
 .chart-bar .chart-holder>div {
     cursor: pointer;
-    color: #8CA6BF;
+    color: var(--color-on-surface-light);
     width: 120px;
     height: 120px;
     border-radius: var(--default-radius);
@@ -220,13 +220,13 @@
     align-items: center;
     justify-content: center;
     gap: 1em;
-    background-color: #2931444f;
+    background-color: #293144b4;
     transition: all 200ms;
 }
 
 .chart-bar .chart-holder>div:hover,
 .chart-bar .chart-holder>div.active {
-    background-color: #293144;
+    background-color: #343f57;
 }
 
 
@@ -235,6 +235,6 @@
     align-items: center;
     gap: 1em;
     font-size: var(--medium-font);
-    color: #8CA6BF;
+    color: var(--color-on-surface-light);
     margin: 0.5em 0;
 }
