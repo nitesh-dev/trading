@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+dxchart.lib
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

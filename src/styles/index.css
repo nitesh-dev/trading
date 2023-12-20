@@ -3,13 +3,20 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --default-radius: 6px;
+  --medium-font: 16px;
+  --small-font: 13px;
+  --color-surface: black;
+
 }
 
+
+body{
+  margin: 0;
+  background-color: var(--color-surface);
+}

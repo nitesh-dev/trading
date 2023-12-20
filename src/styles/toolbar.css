@@ -1,0 +1,64 @@
+
+
+.my-toolbar{
+    position: absolute;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    min-width: 200px;
+    min-height: 40px;
+}
+
+.my-toolbar .inner{
+    margin: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.my-toolbar .inner button{
+    height: 40px;
+    min-width: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    outline: none;
+    border-radius: var(--default-radius);
+    font-weight: bold;
+    transition: all 200ms;
+    font-size: var(--medium-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.my-toolbar .inner button:first-child{
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.my-toolbar .inner button:first-child svg{
+    width: 16px;
+    height: 16px;
+}
+
+
+
+.my-toolbar .inner button svg{
+    fill: white;
+    width: 24px;
+    height: 24px;
+}
+
+.my-toolbar .inner button.active, .my-toolbar .inner button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.my-toolbar .legend{
+    margin-left: 24px;
+    font-size: var(--small-font);
+    color: rgba(255, 255, 255, 0.644);
+    letter-spacing: 1px;
+    
+}
