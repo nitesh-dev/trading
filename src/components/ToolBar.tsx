@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/toolbar.css";
 
 export function ToolBar() {
+
   return (
     <div className="my-toolbar">
       <div className="inner">

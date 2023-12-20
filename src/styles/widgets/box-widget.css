@@ -1,0 +1,78 @@
+.box-widget{
+    position: relative;
+    width: 100%;
+    color: var(--color-on-surface);
+    border: 1px solid var(--border-color);
+    min-height: 60px;
+    border-radius: var(--default-radius);
+    margin-bottom: 24px;
+}
+
+.box-widget .label{
+    position: absolute;
+    padding: 0 0.8em;
+    left: 50%;
+    top: 0;
+    background-color: var(--color-surface);
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: var(--small-font);
+    color: var(--color-on-surface-light);
+}
+
+.box-widget .label svg{
+    width: 16px;
+    height: 16px;
+    fill: var(--color-on-surface-light);
+}
+
+.box-widget .content{
+    font-size: var(--big-font);
+    color: var(--color-on-surface);
+    text-align: center;
+    margin: 0.8em 0;
+}
+
+
+
+.box-widget .bottom{
+    background-color: var(--border-color);
+    border-top: 1px solid var(--border-color);
+}
+
+.box-widget .bottom .inner{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 1px;
+    transform: translateY(-0.5px);
+}
+
+.box-widget .bottom button{
+    height: 30px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: var(--color-surface);
+    outline: none;
+    transition: all 200ms;
+    fill: white;
+}
+
+.box-widget .bottom button.disabled{
+    background-color: var(--color-surface) !important;
+}
+
+.box-widget .bottom button:hover{
+    background-color: rgba(255, 255, 255, 0.089);
+}
+
+.box-widget .bottom button svg{
+    fill: inherit;
+    width: 18px;
+    height: 18px;
+}

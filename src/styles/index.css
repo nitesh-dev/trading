@@ -9,10 +9,13 @@
   -moz-osx-font-smoothing: grayscale;
 
   --default-radius: 6px;
+  --big-font: 24px;
   --medium-font: 16px;
   --small-font: 13px;
   --color-surface: black;
-
+  --color-on-surface: white;
+  --color-on-surface-light: rgba(255, 255, 255, 0.507);
+  --border-color: rgba(255, 255, 255, 0.24);
 }
 
 
