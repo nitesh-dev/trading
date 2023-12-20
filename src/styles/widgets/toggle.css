@@ -1,0 +1,34 @@
+.toggle{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.001;
+}
+
+.toggle svg{
+    height: 40px;
+    width: auto;
+    fill: #8CA6BF;
+    display: block;
+    
+}
+
+.toggle svg.on{
+    display: none;
+}
+.toggle input:checked ~ .off{
+    display: none;
+}
+
+.toggle input:checked ~ .on{
+    display: block;
+}

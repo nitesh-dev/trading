@@ -1,27 +1,35 @@
-.assets-bar{
+.assets-bar,
+.chart-bar {
     border-radius: var(--default-radius);
     margin-top: 12px;
-    /* background-color: var(--color-surface-2); */
     backdrop-filter: blur(12px);
-    min-width: 500px;
     min-height: 300px;
     position: absolute;
     z-index: 2000;
     padding: 16px;
-    display: grid;
-    grid-template-columns: 180px 400px;
-    gap: 24px;
     border: 1px solid var(--border-color);
 }
 
-.assets-bar .tabs{
+.chart-bar {
+    min-width: 300px;
+}
+
+
+.assets-bar {
+    min-width: 500px;
+    display: grid;
+    grid-template-columns: 180px 400px;
+    gap: 24px;
+}
+
+.assets-bar .tabs {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
     justify-content: center;
 }
 
-.assets-bar .tabs button{
+.assets-bar .tabs button {
     border: none;
     border: 1px solid var(--border-color);
     border-radius: var(--default-radius);
@@ -39,12 +47,13 @@
     transition: all 200ms;
 }
 
-.assets-bar .tabs button.active, .assets-bar .tabs button:hover{
+.assets-bar .tabs button.active,
+.assets-bar .tabs button:hover {
     border-color: var(--color-primary);
     background-color: var(--color-primary-light);
 }
 
-.assets-bar .tabs p{
+.assets-bar .tabs p {
     font-size: var(--small-font);
     color: var(--color-on-surface-light);
 }
@@ -56,7 +65,7 @@
 
 /* 1 */
 
-.assets-bar  .search-bar{
+.assets-bar .search-bar {
     display: grid;
     grid-template-columns: auto max-content;
     gap: 8px;
@@ -66,7 +75,7 @@
     background-color: var(--color-surface);
 }
 
-.assets-bar .search-bar input{
+.assets-bar .search-bar input {
     display: block;
     width: 100%;
     height: 36px;
@@ -79,23 +88,23 @@
     font-size: var(--medium-font);
 }
 
-.assets-bar .search-bar button{
+.assets-bar .search-bar button {
     background-color: transparent;
     border: none;
     outline: none;
     height: 100%;
 }
 
-.assets-bar .search-bar button:hover{
+.assets-bar .search-bar button:hover {
     opacity: 0.7;
 }
 
-.assets-bar .search-bar button svg{
+.assets-bar .search-bar button svg {
     fill: white;
 }
 
 
-.assets-bar .list-header{
+.assets-bar .list-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -105,7 +114,7 @@
     margin-left: 40px;
 }
 
-.assets-bar .list-header button{
+.assets-bar .list-header button {
     border: none;
     display: flex;
     align-items: center;
@@ -115,27 +124,27 @@
     font-size: inherit;
 }
 
-.assets-bar .list-header button svg{
+.assets-bar .list-header button svg {
     fill: white;
     width: 18px;
 }
 
 
-.assets-bar .list .content{
+.assets-bar .list .content {
     margin-top: 24px;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.548);
     font-size: var(--medium-font);
 }
 
-.assets-bar .list .content svg{
+.assets-bar .list .content svg {
     fill: orange;
     width: 24px;
     height: 24px;
 }
 
 
-.assets-bar .list .item{
+.assets-bar .list .item {
     display: grid;
     grid-template-columns: max-content max-content 1fr max-content;
     align-items: center;
@@ -146,16 +155,17 @@
     padding: 0.4em 1em;
 }
 
-.assets-bar .list .item:hover{
+.assets-bar .list .item:hover {
     background-color: rgba(0, 152, 247, 0.2);
 }
 
-.assets-bar .list .item .logo{
+.assets-bar .list .item .logo {
     width: 40px;
     position: relative;
     height: 26px;
 }
-.assets-bar .list .item img{
+
+.assets-bar .list .item img {
     position: absolute;
     width: 24px;
     height: 24px;
@@ -165,9 +175,66 @@
     border: 1px solid white;
 }
 
-.assets-bar .list .item .logo img:last-child{
+.assets-bar .list .item .logo img:last-child {
     left: unset;
     right: 0;
 }
 
 
+
+
+
+
+
+
+
+/* chart bar */
+
+
+.chart-bar p {
+    color: var(--color-on-surface-light);
+    margin: 0;
+    font-size: var(--medium-font);
+}
+
+.chart-bar .chart-holder {
+    display: flex;
+    gap: 0.8em;
+    margin: 1em 0;
+}
+
+.chart-bar .chart-holder svg {
+    width: auto;
+    height: 40px;
+    fill: #8CA6BF;
+}
+
+.chart-bar .chart-holder>div {
+    cursor: pointer;
+    color: #8CA6BF;
+    width: 120px;
+    height: 120px;
+    border-radius: var(--default-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    background-color: #2931444f;
+    transition: all 200ms;
+}
+
+.chart-bar .chart-holder>div:hover,
+.chart-bar .chart-holder>div.active {
+    background-color: #293144;
+}
+
+
+.chart-bar .toggle-holder {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: var(--medium-font);
+    color: #8CA6BF;
+    margin: 0.5em 0;
+}

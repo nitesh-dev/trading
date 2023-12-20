@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../styles/toolbar/index.css";
 import "../../styles/toolbar/common.css";
 import { AssetsToolBar } from "./AssetsToolBar";
+import { ChartToolBar } from "./ChartToolBar";
 
 enum ToolVisible {
   none,
@@ -12,7 +13,9 @@ enum ToolVisible {
 }
 
 export function ToolBar() {
-  const [toolVisible, setToolVisible] = useState<ToolVisible>(ToolVisible.assets);
+  const [toolVisible, setToolVisible] = useState<ToolVisible>(
+    ToolVisible.chart
+  );
 
   function toggleDropdown(item: ToolVisible) {
     if (toolVisible == item) {
@@ -27,7 +30,11 @@ export function ToolBar() {
       <div className="inner">
         <div>
           <button
-            className="inner-btn"
+            className={
+              toolVisible == ToolVisible.assets
+                ? "inner-btn active"
+                : "inner-btn"
+            }
             onClick={() => toggleDropdown(ToolVisible.assets)}
           >
             EUR/USD OTC
@@ -44,7 +51,14 @@ export function ToolBar() {
         </div>
 
         <div>
-          <button className="inner-btn">
+          <button
+            className={
+              toolVisible == ToolVisible.chart
+                ? "inner-btn active"
+                : "inner-btn"
+            }
+            onClick={() => toggleDropdown(ToolVisible.chart)}
+          >
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -53,6 +67,7 @@ export function ToolBar() {
               <path d="M9 5.23a2.25 2.25 0 0 1 2.25-2.25h1.5A2.25 2.25 0 0 1 15 5.23V21H9V5.23ZM7.5 10H5.25A2.25 2.25 0 0 0 3 12.25v8c0 .415.336.75.75.75H7.5V10ZM16.5 21h3.75a.75.75 0 0 0 .75-.75v-11A2.25 2.25 0 0 0 18.75 7H16.5v14Z" />
             </svg>
           </button>
+          {toolVisible == ToolVisible.chart && <ChartToolBar />}
         </div>
 
         <div>
