@@ -16,7 +16,7 @@ enum ToolVisible {
 
 export function ToolBar() {
   const [toolVisible, setToolVisible] = useState<ToolVisible>(
-    ToolVisible.chart
+    ToolVisible.none
   );
 
   function toggleDropdown(item: ToolVisible) {
