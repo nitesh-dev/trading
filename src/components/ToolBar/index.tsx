@@ -5,6 +5,8 @@ import { AssetsToolBar } from "./AssetsToolBar";
 import { ChartToolBar } from "./ChartToolBar";
 import { IndicatorToolBar } from "./IndicatorToolBar";
 import { ToolsToolBar } from "./ToolsToolBar";
+import { IconBar } from "../icons/IconBar";
+import { ChartDialogData } from "../../lib/DataType";
 
 enum ToolVisible {
   none,
@@ -14,10 +16,16 @@ enum ToolVisible {
   tools,
 }
 
+
+
 export function ToolBar() {
-  const [toolVisible, setToolVisible] = useState<ToolVisible>(
-    ToolVisible.none
-  );
+  const [toolVisible, setToolVisible] = useState<ToolVisible>(ToolVisible.none);
+
+  const [chartToolBar, setChartToolBar] = useState<ChartDialogData>({
+    autoScroll: true,
+    selectedChart: "area",
+    showArea: true,
+  });
 
   function toggleDropdown(item: ToolVisible) {
     if (toolVisible == item) {
@@ -61,15 +69,9 @@ export function ToolBar() {
             }
             onClick={() => toggleDropdown(ToolVisible.chart)}
           >
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9 5.23a2.25 2.25 0 0 1 2.25-2.25h1.5A2.25 2.25 0 0 1 15 5.23V21H9V5.23ZM7.5 10H5.25A2.25 2.25 0 0 0 3 12.25v8c0 .415.336.75.75.75H7.5V10ZM16.5 21h3.75a.75.75 0 0 0 .75-.75v-11A2.25 2.25 0 0 0 18.75 7H16.5v14Z" />
-            </svg>
+            <IconBar />
           </button>
-          {toolVisible == ToolVisible.chart && <ChartToolBar />}
+          {toolVisible == ToolVisible.chart && <ChartToolBar chart={chartToolBar} setChart={setChartToolBar}/>}
         </div>
 
         <div>
