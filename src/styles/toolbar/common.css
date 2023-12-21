@@ -1,6 +1,6 @@
 .assets-bar,
 .chart-bar,
-.indicators {
+.indicators, .tools {
     border-radius: var(--default-radius);
     margin-top: 12px;
     backdrop-filter: blur(12px);
@@ -136,7 +136,7 @@
 .assets-bar .list .content {
     margin-top: 24px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.548);
+    color: var(--color-on-surface-light);
     font-size: var(--medium-font);
 }
 
@@ -286,3 +286,41 @@
     height: 20px;
     fill: orange;
 }
+
+
+
+
+
+/* tools */
+
+
+.tools{
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tools button{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: var(--medium-font);
+    color: var(--color-on-surface-light);
+    padding: 0.7em 1em;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-radius: var(--default-radius);
+}
+
+.tools button:hover, .tools button.active{
+    background-color: rgba(0, 152, 247, 0.2);
+}
+
+
+.tools button svg{
+    width: 24px;
+    height: auto;
+}
+
