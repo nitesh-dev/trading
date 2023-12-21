@@ -50,6 +50,12 @@
     transition: all 200ms;
 }
 
+.assets-bar .tabs button svg{
+    height: 16px;
+    width: auto;
+    fill: white;
+}
+
 .assets-bar .tabs button.active,
 .assets-bar .tabs button:hover {
     border-color: var(--color-primary);

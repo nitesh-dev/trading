@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { getFlagImg } from "../../lib/Utils";
+import { IconDollar } from "../icons/IconDollar";
+import { IconBitcoin } from "../icons/IconBitcoin";
+import { IconDrop } from "../icons/IconDrop";
+import { IconFav } from "../icons/IconFav";
+import { IconFile } from "../icons/IconFile";
+import { IconTrend } from "../icons/IconTrend";
+import { IconSchedule } from "../icons/IconSchedule";
 
 export function AssetsToolBar() {
   const [activeTab, setActiveTab] = useState(0);
@@ -11,42 +18,49 @@ export function AssetsToolBar() {
           onClick={() => setActiveTab(0)}
           className={activeTab == 0 ? "active" : ""}
         >
+          <IconDollar/>
           Currencies
         </button>
         <button
           onClick={() => setActiveTab(1)}
           className={activeTab == 1 ? "active" : ""}
         >
+          <IconBitcoin/>
           Crypto currencies
         </button>
         <button
           onClick={() => setActiveTab(2)}
           className={activeTab == 2 ? "active" : ""}
         >
+          <IconDrop/>
           Commodities
         </button>
         <button
           onClick={() => setActiveTab(3)}
           className={activeTab == 3 ? "active" : ""}
         >
+          <IconFile/>
           Stocks
         </button>
         <button
           onClick={() => setActiveTab(4)}
           className={activeTab == 4 ? "active" : ""}
         >
+          <IconTrend/>
           Indices
         </button>
         <button
           onClick={() => setActiveTab(5)}
           className={activeTab == 5 ? "active" : ""}
         >
+          <IconFav/>
           Favorites
         </button>
         <button
           onClick={() => setActiveTab(6)}
           className={activeTab == 6 ? "active" : ""}
         >
+          <IconSchedule/>
           Schedule
         </button>
 
