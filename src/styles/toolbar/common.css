@@ -1,5 +1,6 @@
 .assets-bar,
-.chart-bar {
+.chart-bar,
+.indicators {
     border-radius: var(--default-radius);
     margin-top: 12px;
     backdrop-filter: blur(12px);
@@ -9,6 +10,8 @@
     padding: 16px;
     border: 1px solid var(--border-color);
 }
+
+
 
 .chart-bar {
     min-width: 300px;
@@ -237,4 +240,49 @@
     font-size: var(--medium-font);
     color: var(--color-on-surface-light);
     margin: 0.5em 0;
+}
+
+
+
+
+
+
+
+
+
+/* indicators */
+
+.indicators {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    min-width: 700px;
+    text-align: left;
+}
+
+.indicators>button {
+    border: none;
+    text-align: left;
+    background-color: transparent;
+    outline: none;
+    padding: 0.5em 1em;
+    color: var(--color-on-surface-light);
+    font-size: var(--medium-font);
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    border-radius: var(--default-radius);
+    border: 1px solid transparent;
+    transition: all 200ms;
+}
+
+.indicators>button:hover, .indicators>button.active{
+    background-color: rgba(0, 152, 247, 0.2);
+    /* background-color: var(--color-primary-light); */
+    border-color: var(--color-primary);
+}
+
+.indicators>button svg{
+    width: 20px;
+    height: 20px;
+    fill: orange;
 }
