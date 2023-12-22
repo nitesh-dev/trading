@@ -30,6 +30,7 @@ function App() {
         stopColor: "rgba(0, 152, 247, 0.08)",
       },
     });
+    
 
     chart.setGridVertical(false);
     chart.setData({ candles: candleData.current });
