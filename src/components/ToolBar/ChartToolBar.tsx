@@ -15,7 +15,7 @@ export function ChartToolBar(props: {
 
   function changeChartType(type: "bar" | "line" | "candle" | "area") {
     if (appContext && appContext.chatRef.current) {
-      appContext.chatRef.current.setChartType(type);
+      appContext.chatRef.current.internal.multiChartViewModel.setChartType(type);
       props.setChart((old) => {
         const clone = structuredClone(old);
         clone.selectedChart = type;

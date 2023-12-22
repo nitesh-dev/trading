@@ -1,4 +1,5 @@
-import { Chart } from "@devexperts/dxcharts-lite";
+
+import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models/api/chart-react-api.view-model";
 
 export interface BoxWidgetData {
   icon: React.JSX.Element;
@@ -12,5 +13,5 @@ export interface ChartDialogData {
 }
 
 export interface MyAppContextData {
-  chatRef: React.RefObject<Chart | undefined>;
+  chatRef: React.RefObject<ChartReactAPI | undefined>;
 }

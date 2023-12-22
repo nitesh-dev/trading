@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@devexperts/dxcharts-lite": "^2.4.1",
+    "@dx-private/dxchart5-modules": "./dxchart.lib/dxchart5-modules",
+    "@dx-private/dxchart5-react": "./dxchart.lib/dxchart5-react",
     "@dx-private/dxstudies": "./dxchart.lib/dxstudies",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
