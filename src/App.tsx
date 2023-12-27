@@ -1,7 +1,6 @@
 import { createContext, useCallback, useEffect, useRef } from "react";
 import { ToolBar } from "./components/ToolBar";
 import {
-  Chart,
   createChart,
   generateCandlesData,
 } from "@devexperts/dxcharts-lite";
@@ -10,9 +9,13 @@ import mountainImage from "./assets/mountain.jpg";
 import "./styles/app.css";
 import { MyAppContextData } from "./lib/DataType";
 
-import { ChartReactApp } from "@dx-private/dxchart5-react/dist/chart/chart-react-app";
+import { ChartAppDependencies, ChartReactApp } from "@dx-private/dxchart5-react/dist/chart/chart-react-app";
 import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models/api/chart-react-api.view-model";
 import { ChartAreaTheme } from "@devexperts/dxcharts-lite/dist/chart/chart.config";
+import { CenterLineDrawer } from "./plugins/CenterLineDrawer";
+import { Chart } from "@dx-private/dxchart5-modules";
+import { ChartWithModules } from "@dx-private/dxchart5-react/dist/chart/components/canvas-chart-renderer/chart-with-modules";
+import { CenterHoverDrawer } from "./plugins/CenterHoverDrawer";
 
 export const AppContext = createContext<MyAppContextData | undefined>(
   undefined
@@ -22,11 +25,28 @@ function App() {
   let candleData = useRef(generateCandlesData());
 
   const chartReactAPI = useRef<ChartReactAPI>();
+  const centerHoverDrawer = useRef<CenterHoverDrawer>();
+
+  const onChartCreated = useCallback((chart: Chart) => {
+    const lineDrawer = new CenterLineDrawer(chart);
+    chart.drawingManager.addDrawer(lineDrawer, "center-line-drawer");
+    
+    const hoverDrawer = new CenterHoverDrawer(chart);
+    centerHoverDrawer.current = hoverDrawer
+
+    chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
+    
+  }, []);
+
   const onApiCreated = useCallback((api: ChartReactAPI) => {
     chartReactAPI.current = api;
     chartReactAPI.current.changePeriod({ duration: 1, durationType: "h" });
     chartReactAPI.current.internal.multiChartViewModel.setChartTypeSync(true);
     chartReactAPI.current.internal.multiChartViewModel.setChartType("area");
+
+    chartReactAPI.current.onChartCreated((chartId: string, chart: ChartWithModules) => {
+      onChartCreated(chart);
+    });
 
     // chartReactAPI.current
     chartReactAPI.current.setVolumesEnabled(false);
@@ -51,7 +71,9 @@ function App() {
 
   const contextValue: MyAppContextData = {
     chatRef: chartReactAPI,
+    centerHoverDrawer: centerHoverDrawer
   };
+
 
   return (
     <>
@@ -83,15 +105,18 @@ function App() {
                   chartReactConfig: {
                     drawings: {
                       sidebar: {
-                        enabled: true,
+                        enabled: false,
                       },
                     },
                     toolbar: {
                       showButtonsTooltip: true,
-                      enabled: true,
+                      enabled: false,
                     },
                   },
-                }}
+                  
+                }
+              }
+                
               />
             </div>
           </div>

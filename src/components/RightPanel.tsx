@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "../styles/right-panel.css";
 import { BoxWidget } from "./widgets/BoxWidget";
-import { BoxWidgetData } from "../lib/DataType";
+import { BoxWidgetData, HoverDirection } from "../lib/DataType";
+import { AppContext } from "../App";
 
 export function RightPanel() {
   const [currentAmount, setCurrentAmount] = useState(10);
@@ -47,6 +48,17 @@ export function RightPanel() {
     },
   ]);
 
+  const appContext = useContext(AppContext);
+
+
+  function showHover(direction: HoverDirection) {
+    
+      if(appContext && appContext.centerHoverDrawer.current){
+        appContext.centerHoverDrawer.current.showHover(direction)
+      }
+    
+  }
+
   return (
     <div className="right-panel">
       <BoxWidget title="Time" value="00:00:05" buttons={timeButtons.current} />
@@ -68,7 +80,7 @@ export function RightPanel() {
         </div>
       </div>
 
-      <button className="high">
+      <button className="high" onMouseOver={() => showHover(HoverDirection.up)} >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 576 512"
@@ -78,7 +90,7 @@ export function RightPanel() {
         Higher
       </button>
 
-      <button className="low">
+      <button className="low" onMouseOver={() => showHover(HoverDirection.down)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 576 512"
