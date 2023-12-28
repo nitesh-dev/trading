@@ -3,22 +3,27 @@ import { Drawer } from "@devexperts/dxcharts-lite/dist/chart/drawers/drawing-man
 import { CanvasElement } from "@devexperts/dxcharts-lite/dist/chart/canvas/canvas-bounds-container";
 import { Chart } from "@dx-private/dxchart5-modules";
 import { Candle } from "@devexperts/dxcharts-lite/dist/chart/model/candle.model";
-import { dangerHover, dangerHoverLight, primaryColor, successHover, successHoverLight } from "../lib/Color";
+import {
+  dangerHover,
+  dangerHoverLight,
+  primaryColor,
+  successHover,
+  successHoverLight,
+  dangerColor
+} from "../lib/Color";
 import { HoverDirection } from "../lib/DataType";
 import redArrow from "../assets/red-arrow.png";
 import greenArrow from "../assets/green-arrow.png";
 export class CenterHoverDrawer implements Drawer {
   constructor(private chart: Chart) {
-    console.log("created")
+    console.log("created");
   }
 
-  private hoverDir = HoverDirection.down;
+  private hoverDir = HoverDirection.none;
 
   draw() {
+    // if (this.hoverDir == HoverDirection.none) return;
 
-    console.log("draw", this.hoverDir)
-    if (this.hoverDir == HoverDirection.none) return;
-    
     const canvasModel = this.chart.mainCanvasModel;
     const ctx = canvasModel.ctx;
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
@@ -29,6 +34,30 @@ export class CenterHoverDrawer implements Drawer {
     const lastCandleX = candle ? candle.x(candleSeries.view) : 0;
     const lastCandleY = candle ? candle.y(candleSeries.view) : 0;
 
+    // draw line and circle
+    ctx.save();
+    ctx.fillStyle = primaryColor;
+    if(this.hoverDir == HoverDirection.down){
+      ctx.fillStyle = dangerColor;
+    }
+    ctx.beginPath();
+    ctx.moveTo(lastCandleX, lastCandleY);
+    ctx.ellipse(lastCandleX, lastCandleY, 8, 8, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.strokeStyle = primaryColor;
+    if(this.hoverDir == HoverDirection.down){
+      ctx.strokeStyle = dangerColor;
+    }
+    ctx.beginPath();
+    ctx.moveTo(0, lastCandleY);
+    ctx.lineTo(chartBounds.width, lastCandleY);
+    ctx.stroke();
+    ctx.restore();
+
+    // gradient
     ctx.save();
     ctx.beginPath();
 
@@ -39,39 +68,37 @@ export class CenterHoverDrawer implements Drawer {
       gradient.addColorStop(0, successHoverLight);
       gradient.addColorStop(1, successHover);
     } else if (this.hoverDir == HoverDirection.down) {
-        gradient.addColorStop(0, dangerHover);
-        gradient.addColorStop(1, dangerHoverLight);
+      gradient.addColorStop(0, dangerHover);
+      gradient.addColorStop(1, dangerHoverLight);
     }
 
     ctx.fillStyle = gradient;
-    // ctx.moveTo(0, lastCandleY);
 
     if (this.hoverDir == HoverDirection.up) {
       ctx.fillRect(0, 0, chartBounds.width, lastCandleY);
-      const image = new Image()
-      image.src = greenArrow
-      ctx.drawImage(image, lastCandleX + 10, lastCandleY - 50, 40, 40)
-    } else {
+      const image = new Image();
+      image.src = greenArrow;
+      ctx.drawImage(image, lastCandleX + 10, lastCandleY - 50, 40, 40);
+    } else if (this.hoverDir == HoverDirection.down) {
       ctx.fillRect(
         0,
         lastCandleY,
         chartBounds.width,
         chartBounds.height - lastCandleY
       );
-      const image = new Image()
-      image.src = redArrow
-      ctx.drawImage(image, lastCandleX + 10, lastCandleY + 10, 40, 40)
+      const image = new Image();
+      image.src = redArrow;
+      ctx.drawImage(image, lastCandleX + 10, lastCandleY + 10, 40, 40);
     }
 
     ctx.fill();
     ctx.restore();
-
   }
 
   showHover(dir: HoverDirection) {
     this.hoverDir = dir;
-    console.log(dir)
-    // this.draw()
+    console.log(dir);
+    this.chart.drawingManager.redrawCanvasesImmediate();
   }
 
   getCanvasIds(): Array<string> {

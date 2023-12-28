@@ -3,6 +3,7 @@ import "../styles/right-panel.css";
 import { BoxWidget } from "./widgets/BoxWidget";
 import { BoxWidgetData, HoverDirection } from "../lib/DataType";
 import { AppContext } from "../App";
+import { CenterHoverDrawer } from "../plugins/CenterHoverDrawer";
 
 export function RightPanel() {
   const [currentAmount, setCurrentAmount] = useState(10);
@@ -53,8 +54,9 @@ export function RightPanel() {
 
   function showHover(direction: HoverDirection) {
     
-      if(appContext && appContext.centerHoverDrawer.current){
-        appContext.centerHoverDrawer.current.showHover(direction)
+      if(appContext && appContext.chartRef.current){
+        const drawer = appContext.chartRef.current.drawingManager.getDrawerByName("center-hover-drawer") as CenterHoverDrawer;
+        drawer.showHover(direction);
       }
     
   }
@@ -80,7 +82,7 @@ export function RightPanel() {
         </div>
       </div>
 
-      <button className="high" onMouseOver={() => showHover(HoverDirection.up)} >
+      <button className="high" onMouseOver={() => showHover(HoverDirection.up)} onMouseOut={() => showHover(HoverDirection.none)} >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 576 512"
@@ -90,7 +92,7 @@ export function RightPanel() {
         Higher
       </button>
 
-      <button className="low" onMouseOver={() => showHover(HoverDirection.down)}>
+      <button className="low" onMouseOver={() => showHover(HoverDirection.down)} onMouseOut={() => showHover(HoverDirection.none)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 576 512"

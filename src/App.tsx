@@ -7,7 +7,7 @@ import {
 import { RightPanel } from "./components/RightPanel";
 import mountainImage from "./assets/mountain.jpg";
 import "./styles/app.css";
-import { MyAppContextData } from "./lib/DataType";
+import { HoverDirection, MyAppContextData } from "./lib/DataType";
 
 import { ChartAppDependencies, ChartReactApp } from "@dx-private/dxchart5-react/dist/chart/chart-react-app";
 import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models/api/chart-react-api.view-model";
@@ -25,16 +25,14 @@ function App() {
   let candleData = useRef(generateCandlesData());
 
   const chartReactAPI = useRef<ChartReactAPI>();
-  const centerHoverDrawer = useRef<CenterHoverDrawer>();
+
+  const chartRef = useRef<Chart>();
 
   const onChartCreated = useCallback((chart: Chart) => {
-    const lineDrawer = new CenterLineDrawer(chart);
-    chart.drawingManager.addDrawer(lineDrawer, "center-line-drawer");
-    
     const hoverDrawer = new CenterHoverDrawer(chart);
-    centerHoverDrawer.current = hoverDrawer
 
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
+    chartRef.current = chart;
     
   }, []);
 
@@ -45,7 +43,11 @@ function App() {
     chartReactAPI.current.internal.multiChartViewModel.setChartType("area");
 
     chartReactAPI.current.onChartCreated((chartId: string, chart: ChartWithModules) => {
-      onChartCreated(chart);
+      console.log({chartId,chart})
+      
+      if(chartId == "0"){
+        onChartCreated(chart);
+      }
     });
 
     // chartReactAPI.current
@@ -70,8 +72,8 @@ function App() {
   }, []);
 
   const contextValue: MyAppContextData = {
-    chatRef: chartReactAPI,
-    centerHoverDrawer: centerHoverDrawer
+    chartReactApi: chartReactAPI,
+    chartRef: chartRef
   };
 
 
