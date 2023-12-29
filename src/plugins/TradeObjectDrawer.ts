@@ -44,7 +44,6 @@ export class TradeObjectDrawer implements Drawer {
     ctx: CanvasRenderingContext2D,
     tradeObject: TradeObject
   ) {
-    console.log(tradeObject);
     const chartModel = this.chart.chartModel;
     const candleSeries = this.chart.chartModel.mainCandleSeries;
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
@@ -60,6 +59,19 @@ export class TradeObjectDrawer implements Drawer {
     const startCandleX = startCandle.x(candleSeries.view);
     const startCandleY = startCandle.y(candleSeries.view);
 
+
+
+    this.drawTradeArea(ctx, tradeObject, startCandleX, startCandleY, endCandleX);
+    this.drawExpiryArea(
+      ctx,
+      endCandleX,
+      endCandleY,
+      chartBounds.height,
+      tradeObject.endTimestamp
+    );
+  }
+
+  private drawTradeArea(ctx: CanvasRenderingContext2D, tradeObject: TradeObject, startCandleX: number, startCandleY: number, endCandleX: number) {
     ctx.save();
     ctx.beginPath();
 
@@ -138,18 +150,6 @@ export class TradeObjectDrawer implements Drawer {
     );
 
     ctx.restore();
-
-    this.drawTradeArea();
-    this.drawExpiryArea(
-      ctx,
-      endCandleX,
-      endCandleY,
-      chartBounds.height,
-      tradeObject.endTimestamp
-    );
-  }
-
-  private drawTradeArea() {
 
   }
 

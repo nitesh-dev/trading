@@ -33,9 +33,10 @@ function App() {
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
     
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
-    chart.drawingManager.addDrawerAfter(tradeObjectDrawer, 'trade-object-drawer', "MAIN_BACKGROUND");
+    chart.drawingManager.addDrawer(tradeObjectDrawer, 'trade-object-drawer');
+    
     // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-
+  
     chartRef.current = chart;
     // chart.data.setMainSeries({
     //   candles: generateCandlesData({ quantity: 5 }),

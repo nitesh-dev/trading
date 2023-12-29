@@ -99,7 +99,6 @@ export class CenterHoverDrawer implements Drawer {
 
   showHover(dir: HoverDirection) {
     this.hoverDir = dir;
-    console.log(dir);
     this.chart.drawingManager.redrawCanvasesImmediate();
   }
 
