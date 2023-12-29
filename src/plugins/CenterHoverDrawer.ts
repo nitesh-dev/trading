@@ -25,7 +25,7 @@ export class CenterHoverDrawer implements Drawer {
     // if (this.hoverDir == HoverDirection.none) return;
 
 
-    const canvasModel = this.chart.mainCanvasModel;
+    const canvasModel = this.chart.dynamicObjectsCanvasModel;
     const ctx = canvasModel.ctx;
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
 
@@ -103,6 +103,6 @@ export class CenterHoverDrawer implements Drawer {
   }
 
   getCanvasIds(): Array<string> {
-    return [this.chart.mainCanvasModel.canvasId];
+    return [this.chart.dynamicObjectsCanvasModel.canvasId];
   }
 }
