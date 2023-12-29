@@ -20,7 +20,7 @@ export class TradeObjectDrawer implements Drawer {
 
   constructor(private chart: Chart) {}
   draw() {
-    const canvasModel = this.chart.mainCanvasModel;
+    const canvasModel = this.chart.dynamicObjectsCanvasModel;
     const ctx = canvasModel.ctx;
 
     this.tradeObjects.forEach((element) => {
@@ -189,7 +189,7 @@ export class TradeObjectDrawer implements Drawer {
   }
 
   getCanvasIds(): Array<string> {
-    return [this.chart.mainCanvasModel.canvasId];
+    return [this.chart.dynamicObjectsCanvasModel.canvasId];
   }
 
   addTradeObject(

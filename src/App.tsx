@@ -30,10 +30,10 @@ function App() {
 
   const onChartCreated = useCallback((chart: Chart) => {
     const hoverDrawer = new CenterHoverDrawer(chart);
-    chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
+    chart.drawingManager.addDrawerAfter(hoverDrawer, "center-hover-drawer", "DYNAMIC_OBJECTS");
     
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
-    chart.drawingManager.addDrawer(tradeObjectDrawer, 'trade-object-drawer');
+    chart.drawingManager.addDrawerAfter(tradeObjectDrawer, 'trade-object-drawer', "DYNAMIC_OBJECTS");
     
     // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
   
