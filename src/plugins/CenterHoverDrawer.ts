@@ -9,7 +9,8 @@ import {
   primaryColor,
   successHover,
   successHoverLight,
-  dangerColor
+  dangerColor,
+  successColor,
 } from "../lib/Color";
 import { HoverDirection } from "../lib/DataType";
 import redArrow from "../assets/red-arrow.png";
@@ -23,7 +24,6 @@ export class CenterHoverDrawer implements Drawer {
 
   draw() {
     // if (this.hoverDir == HoverDirection.none) return;
-
 
     const canvasModel = this.chart.dynamicObjectsCanvasModel;
     const ctx = canvasModel.ctx;
@@ -39,9 +39,12 @@ export class CenterHoverDrawer implements Drawer {
     // draw line and circle
     ctx.save();
     ctx.fillStyle = primaryColor;
-    if(this.hoverDir == HoverDirection.down){
+    if (this.hoverDir == HoverDirection.down) {
       ctx.fillStyle = dangerColor;
+    } else if (this.hoverDir == HoverDirection.up) {
+      ctx.fillStyle = successColor;
     }
+
     ctx.beginPath();
     ctx.moveTo(lastCandleX, lastCandleY);
     ctx.ellipse(lastCandleX, lastCandleY, 8, 8, 0, 0, 2 * Math.PI);
@@ -50,8 +53,10 @@ export class CenterHoverDrawer implements Drawer {
 
     ctx.save();
     ctx.strokeStyle = primaryColor;
-    if(this.hoverDir == HoverDirection.down){
+    if (this.hoverDir == HoverDirection.down) {
       ctx.strokeStyle = dangerColor;
+    }else if (this.hoverDir == HoverDirection.up) {
+      ctx.strokeStyle = successColor;
     }
     ctx.beginPath();
     ctx.moveTo(0, lastCandleY);
