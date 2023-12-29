@@ -24,15 +24,19 @@ export class CenterHoverDrawer implements Drawer {
   draw() {
     // if (this.hoverDir == HoverDirection.none) return;
 
+
     const canvasModel = this.chart.mainCanvasModel;
     const ctx = canvasModel.ctx;
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
 
     const chartModel = this.chart.chartModel;
     const candle = chartModel.mainCandleSeries.getLastDataSeriesPoint();
+    const candle2 = chartModel.mainCandleSeries.getSeriesInViewport();
     const candleSeries = this.chart.chartModel.mainCandleSeries;
     const lastCandleX = candle ? candle.x(candleSeries.view) : 0;
     const lastCandleY = candle ? candle.y(candleSeries.view) : 0;
+
+    return
 
     // draw line and circle
     ctx.save();

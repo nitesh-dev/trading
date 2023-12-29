@@ -1,18 +1,18 @@
 import { createContext, useCallback, useEffect, useRef } from "react";
 import { ToolBar } from "./components/ToolBar";
-import {
-  createChart,
-  generateCandlesData,
-} from "@devexperts/dxcharts-lite";
+import { createChart, generateCandlesData } from "@devexperts/dxcharts-lite";
 import { RightPanel } from "./components/RightPanel";
 import mountainImage from "./assets/mountain.jpg";
 import "./styles/app.css";
 import { HoverDirection, MyAppContextData } from "./lib/DataType";
 
-import { ChartAppDependencies, ChartReactApp } from "@dx-private/dxchart5-react/dist/chart/chart-react-app";
+import {
+  ChartAppDependencies,
+  ChartReactApp,
+} from "@dx-private/dxchart5-react/dist/chart/chart-react-app";
 import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models/api/chart-react-api.view-model";
 import { ChartAreaTheme } from "@devexperts/dxcharts-lite/dist/chart/chart.config";
-import { CenterLineDrawer } from "./plugins/CenterLineDrawer";
+import { TradeObjectDrawer } from "./plugins/TradeObjectDrawer";
 import { Chart } from "@dx-private/dxchart5-modules";
 import { ChartWithModules } from "@dx-private/dxchart5-react/dist/chart/components/canvas-chart-renderer/chart-with-modules";
 import { CenterHoverDrawer } from "./plugins/CenterHoverDrawer";
@@ -30,10 +30,25 @@ function App() {
 
   const onChartCreated = useCallback((chart: Chart) => {
     const hoverDrawer = new CenterHoverDrawer(chart);
-
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
-    chartRef.current = chart;
     
+    const tradeObjectDrawer = new TradeObjectDrawer(chart);
+    chart.drawingManager.addDrawerAfter(tradeObjectDrawer, 'trade-object-drawer', "MAIN_BACKGROUND");
+    // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
+
+    chartRef.current = chart;
+    // chart.data.setMainSeries({
+    //   candles: generateCandlesData({ quantity: 5 }),
+    // });
+    // chartRef.current.setData();
+    // setInterval(() => {
+    //   const data = generateCandlesData({ quantity: 5 });
+    //   const candle = data[0];
+    //   candle.timestamp = Date.now();
+    //   if (chartRef.current) {
+    //     chartRef.current.data.addLastCandle(candle);
+    //   }
+    // }, 1000);
   }, []);
 
   const onApiCreated = useCallback((api: ChartReactAPI) => {
@@ -42,13 +57,15 @@ function App() {
     chartReactAPI.current.internal.multiChartViewModel.setChartTypeSync(true);
     chartReactAPI.current.internal.multiChartViewModel.setChartType("area");
 
-    chartReactAPI.current.onChartCreated((chartId: string, chart: ChartWithModules) => {
-      console.log({chartId,chart})
-      
-      if(chartId == "0"){
-        onChartCreated(chart);
+    chartReactAPI.current.onChartCreated(
+      (chartId: string, chart: ChartWithModules) => {
+        console.log({ chartId, chart });
+
+        if (chartId == "0") {
+          onChartCreated(chart);
+        }
       }
-    });
+    );
 
     // chartReactAPI.current
     chartReactAPI.current.setVolumesEnabled(false);
@@ -73,9 +90,8 @@ function App() {
 
   const contextValue: MyAppContextData = {
     chartReactApi: chartReactAPI,
-    chartRef: chartRef
+    chartRef: chartRef,
   };
-
 
   return (
     <>
@@ -115,10 +131,7 @@ function App() {
                       enabled: false,
                     },
                   },
-                  
-                }
-              }
-                
+                }}
               />
             </div>
           </div>

@@ -4,6 +4,7 @@ import { BoxWidget } from "./widgets/BoxWidget";
 import { BoxWidgetData, HoverDirection } from "../lib/DataType";
 import { AppContext } from "../App";
 import { CenterHoverDrawer } from "../plugins/CenterHoverDrawer";
+import { TradeObjectDrawer } from "../plugins/TradeObjectDrawer";
 
 export function RightPanel() {
   const [currentAmount, setCurrentAmount] = useState(10);
@@ -51,14 +52,22 @@ export function RightPanel() {
 
   const appContext = useContext(AppContext);
 
-
   function showHover(direction: HoverDirection) {
-    
-      if(appContext && appContext.chartRef.current){
-        const drawer = appContext.chartRef.current.drawingManager.getDrawerByName("center-hover-drawer") as CenterHoverDrawer;
-        drawer.showHover(direction);
-      }
-    
+    if (appContext && appContext.chartRef.current) {
+      const drawer = appContext.chartRef.current.drawingManager.getDrawerByName(
+        "center-hover-drawer"
+      ) as CenterHoverDrawer;
+      drawer.showHover(direction);
+    }
+  }
+
+  function addTradeObject(tradeType: "higher" | "lower") {
+    if (appContext && appContext.chartRef.current) {
+      const drawer = appContext.chartRef.current.drawingManager.getDrawerByName(
+        "trade-object-drawer"
+      ) as TradeObjectDrawer;
+      drawer.addTradeObject(Math.round(Math.random() * 200 + 20), tradeType, currentAmount);
+    }
   }
 
   return (
@@ -82,21 +91,25 @@ export function RightPanel() {
         </div>
       </div>
 
-      <button className="high" onMouseOver={() => showHover(HoverDirection.up)} onMouseOut={() => showHover(HoverDirection.none)} >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 576 512"
-        >
+      <button
+      onClick={() => addTradeObject("higher")}
+        className="high"
+        onMouseOver={() => showHover(HoverDirection.up)}
+        onMouseOut={() => showHover(HoverDirection.none)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
           <path d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z" />
         </svg>
         Higher
       </button>
 
-      <button className="low" onMouseOver={() => showHover(HoverDirection.down)} onMouseOut={() => showHover(HoverDirection.none)}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 576 512"
-        >
+      <button
+        onClick={() => addTradeObject("lower")}
+        className="low"
+        onMouseOver={() => showHover(HoverDirection.down)}
+        onMouseOut={() => showHover(HoverDirection.none)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
           <path d="M384 352c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32s-32 14.3-32 32v82.7L342.6 137.4c-12.5-12.5-32.8-12.5-45.3 0L192 242.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0L320 205.3 466.7 352H384z" />
         </svg>
         Lower

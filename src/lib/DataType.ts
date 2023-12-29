@@ -1,4 +1,3 @@
-
 import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models/api/chart-react-api.view-model";
 import { CenterHoverDrawer } from "../plugins/CenterHoverDrawer";
 import { Chart } from "@dx-private/dxchart5-modules";
@@ -19,9 +18,17 @@ export interface MyAppContextData {
   chartRef: React.RefObject<Chart | undefined>;
 }
 
-
-export enum HoverDirection{
+export enum HoverDirection {
   up,
   down,
-  none
+  none,
+}
+
+export interface TradeObject {
+  id: string;
+  startTimestamp: number;
+  endTimestamp: number;
+  price: number;
+  timeInterval: number;
+  tradeType: "higher" | "lower";
 }
