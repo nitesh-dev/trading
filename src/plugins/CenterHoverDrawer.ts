@@ -36,8 +36,6 @@ export class CenterHoverDrawer implements Drawer {
     const lastCandleX = candle ? candle.x(candleSeries.view) : 0;
     const lastCandleY = candle ? candle.y(candleSeries.view) : 0;
 
-    return
-
     // draw line and circle
     ctx.save();
     ctx.fillStyle = primaryColor;

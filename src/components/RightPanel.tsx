@@ -115,5 +115,6 @@ export function RightPanel() {
         Lower
       </button>
     </div>
+    
   );
 }
