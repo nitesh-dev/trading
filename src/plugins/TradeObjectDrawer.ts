@@ -8,7 +8,6 @@ import {
   primaryColor,
   successColor,
 } from "../lib/Color";
-import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
 import { TradeObject } from "../lib/DataType";
 import { uid } from "uid";
 import flagIcon from "../assets/flag.png";
@@ -117,6 +116,7 @@ export class TradeObjectDrawer implements Drawer {
     // arrow img
     const image = new Image();
     image.src = dropdownDownIcon;
+    if(tradeObject.tradeType == "higher")  image.src = dropdownUpIcon;
     ctx.drawImage(image, rectX + padding, rectY + padding, 24, 24);
 
     // price text
@@ -149,7 +149,9 @@ export class TradeObjectDrawer implements Drawer {
     );
   }
 
-  private drawTradeArea() {}
+  private drawTradeArea() {
+
+  }
 
   private drawExpiryArea(
     ctx: CanvasRenderingContext2D,
@@ -218,6 +220,16 @@ export class TradeObjectDrawer implements Drawer {
     };
 
     this.tradeObjects.push(newTrade);
+    this.chart.drawingManager.redrawCanvasesImmediate();
+
+    return structuredClone(newTrade);
+  }
+
+
+  removeTradeObjectById(id: string){
+    this.tradeObjects = this.tradeObjects.filter((tradeObject) => {
+      return tradeObject.id != id;
+    });
     this.chart.drawingManager.redrawCanvasesImmediate();
   }
 
