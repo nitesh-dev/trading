@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../../styles/toolbar/index.css";
 import "../../styles/toolbar/common.css";
 import { AssetsToolBar } from "./AssetsToolBar";
@@ -7,6 +7,7 @@ import { IndicatorToolBar } from "./IndicatorToolBar";
 import { ToolsToolBar } from "./ToolsToolBar";
 import { IconBar } from "../icons/IconBar";
 import { ChartDialogData } from "../../lib/DataType";
+import { AppContext } from "../../App";
 
 enum ToolVisible {
   none,
@@ -16,16 +17,65 @@ enum ToolVisible {
   tools,
 }
 
-
+import json1 from "../../others/data1.json";
+import json2 from "../../others/data2.json";
+import { PartialCandle } from "@devexperts/dxcharts-lite/dist/chart/components/chart/chart.component";
+import { generateCandlesData } from "@dx-private/dxchart5-modules";
 
 export function ToolBar() {
+  const appContext = useContext(AppContext);
+
   const [toolVisible, setToolVisible] = useState<ToolVisible>(ToolVisible.none);
 
   const [chartToolBar, setChartToolBar] = useState<ChartDialogData>({
     autoScroll: true,
     selectedChart: "area",
     showArea: true,
+    selectedTimeFrame: "S10",
   });
+
+  useEffect(() => {
+    const durationType = chartToolBar.selectedTimeFrame[0].toLowerCase() as "s" | "m" | "h" | "d";
+    const duration = parseInt(chartToolBar.selectedTimeFrame.slice(1));
+
+    console.log(durationType, duration)
+
+    let _candles: PartialCandle[] = [];
+
+    if (chartToolBar.selectedTimeFrame == "S5") {
+      _candles = json2.map((item: any) => {
+        return {
+          hi: item.high,
+          lo: item.low,
+          open: item.open,
+          close: item.close,
+          timestamp: item.time * 1000,
+          volume: 0,
+          isVisible: true,
+        };
+      });
+
+    }else{
+      _candles = generateCandlesData({ quantity: 10 });
+    }
+    // console.log(_candles);
+    
+    if (
+      appContext &&
+      appContext.chartRef.current &&
+      appContext.chartReactApi.current
+    ) {
+      appContext.chartReactApi.current.changePeriod({
+        duration: duration,
+        durationType: durationType,
+      });
+      appContext.chartRef.current.setData({ candles: _candles });
+      appContext.chartRef.current.data.setMainSeries({ candles: _candles });
+
+      appContext.setTimeInterval(duration)
+      appContext.setLastCandleTimestamp(_candles[_candles.length - 1].timestamp)
+    }
+  }, [chartToolBar.selectedTimeFrame]);
 
   function toggleDropdown(item: ToolVisible) {
     if (toolVisible == item) {
@@ -71,7 +121,9 @@ export function ToolBar() {
           >
             <IconBar />
           </button>
-          {toolVisible == ToolVisible.chart && <ChartToolBar chart={chartToolBar} setChart={setChartToolBar}/>}
+          {toolVisible == ToolVisible.chart && (
+            <ChartToolBar chart={chartToolBar} setChart={setChartToolBar} />
+          )}
         </div>
 
         <div>

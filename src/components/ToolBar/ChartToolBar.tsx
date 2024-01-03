@@ -15,7 +15,9 @@ export function ChartToolBar(props: {
 
   function changeChartType(type: "bar" | "line" | "candle" | "area") {
     if (appContext && appContext.chartReactApi.current) {
-      appContext.chartReactApi.current.internal.multiChartViewModel.setChartType(type);
+      appContext.chartReactApi.current.internal.multiChartViewModel.setChartType(
+        type
+      );
       props.setChart((old) => {
         const clone = structuredClone(old);
         clone.selectedChart = type;
@@ -35,6 +37,31 @@ export function ChartToolBar(props: {
       return clone;
     });
   }
+
+  function changeTimeFrame(timeFrame: string) {
+    props.setChart((old) => {
+      const clone = structuredClone(old);
+      clone.selectedTimeFrame = timeFrame;
+      return clone;
+    });
+  }
+
+  const timeFrames = [
+    "S5",
+    "S10",
+    "S15",
+    "S30",
+    "M1",
+    "M2",
+    "M3",
+    "M5",
+    "M10",
+    "M15",
+    "M30",
+    "H1",
+    "H4",
+    "D1",
+  ];
 
   return (
     <div className="chart-bar">
@@ -67,6 +94,21 @@ export function ChartToolBar(props: {
         >
           <IconCandle />
           <span>Candle</span>
+        </div>
+      </div>
+
+      <div className="time-frame">
+        <p>Time frames</p>
+        <div className="inner">
+          {timeFrames.map((item, index) => (
+            <span
+              onClick={() => changeTimeFrame(item)}
+              key={index}
+              className={item == props.chart.selectedTimeFrame ? "active" : ""}
+            >
+              {item}
+            </span>
+          ))}
         </div>
       </div>
 

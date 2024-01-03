@@ -214,15 +214,15 @@
 
 .chart-bar .chart-holder svg {
     width: auto;
-    height: 40px;
+    height: 32px;
     fill: var(--color-on-surface-light);
 }
 
 .chart-bar .chart-holder>div {
     cursor: pointer;
     color: var(--color-on-surface-light);
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: var(--default-radius);
     display: flex;
     flex-direction: column;
@@ -246,6 +246,31 @@
     font-size: var(--medium-font);
     color: var(--color-on-surface-light);
     margin: 0.5em 0;
+}
+
+.chart-bar .time-frame .inner{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    font-size: var(--medium-font);
+    color: var(--color-on-surface-light);
+    margin: 1em 0;
+}
+
+
+.chart-bar .time-frame .inner span{
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #293144b4;
+    cursor: pointer;
+}
+
+.chart-bar .time-frame .inner span:hover, .chart-bar .time-frame .inner span.active{
+    background-color: #343f57;
 }
 
 

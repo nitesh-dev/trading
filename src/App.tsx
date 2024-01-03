@@ -18,27 +18,21 @@ import { ChartWithModules } from "@dx-private/dxchart5-react/dist/chart/componen
 import { CenterHoverDrawer } from "./plugins/CenterHoverDrawer";
 import { ToastProvider } from "./components/widgets/Toast";
 
-//@ts-ignore
-import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
-import {
-  TStudyParameter,
-  TStudySettings,
-} from "@dx-private/dxchart5-react/dist/chart/model/studies.model";
 export const AppContext = createContext<MyAppContextData | undefined>(
   undefined
 );
 
 import json1 from "./others/data1.json";
 import json2 from "./others/data2.json";
+import { io, Socket } from "socket.io-client";
 
 function App() {
-  let candleData = useRef(generateCandlesData());
-
   const chartReactAPI = useRef<ChartReactAPI>();
-
   const chartsRef = useRef<ChartWithModules[]>([]);
-
   const chartRef = useRef<Chart>();
+  const socketRef = useRef<Socket>();
+  const timeFrameIntervalSecRef = useRef<number>(10);
+  const lastCandleTimestamp = useRef<number>(0);
 
   const onChartCreated = useCallback((chart: Chart) => {
     const hoverDrawer = new CenterHoverDrawer(chart);
@@ -47,7 +41,6 @@ function App() {
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-
     chartRef.current = chart;
     // {
     //   const candles = generateCandlesData({ quantity: 5 });
@@ -67,64 +60,63 @@ function App() {
 }
     */
 
-    setTimeout(() => {
-      if (isFirst) {
-        isFirst = false;
-        // const _candles = generateCandlesData({ quantity: 0 });
-        const _candles = json2.map((item: any) => {
-          return {
-            hi: item.high,
-            lo: item.low,
-            open: item.open ,
-            close: item.close,
-            timestamp: item.time * 1000,
-            volume: 0,
-            isVisible: true,
-          };
-        });
-  
-        console.log(_candles)
-  
-        chart.setData({ candles: _candles });
-        chart.data.setMainSeries({ candles: _candles });
-      }
-    } , 1000)
+    // setTimeout(() => {
+    //   if (isFirst) {
+    //     isFirst = false;
+    //     // const _candles = generateCandlesData({ quantity: 0 });
+    //     const _candles = json2.map((item: any) => {
+    //       return {
+    //         hi: item.high,
+    //         lo: item.low,
+    //         open: item.open ,
+    //         close: item.close,
+    //         timestamp: item.time * 1000,
+    //         volume: 0,
+    //         isVisible: true,
+    //       };
+    //     });
 
-    const socket = io("http://85.206.172.238:2088", {
-      reconnectionDelayMax: 10000,
-    });
+    //     console.log(_candles)
 
-    socket.on("connect", () => {
+    //     chart.setData({ candles: _candles });
+    //     chart.data.setMainSeries({ candles: _candles });
+    //   }
+    // } , 1000)
 
-      console.log("connected");
-    })
+    // const socket = io("http://85.206.172.238:2088", {
+    //   reconnectionDelayMax: 10000,
+    // });
 
-    socket.emit("room", "BTCUSD");
-    socket.on(
-      "notification",
-      function (data: any) {
+    // socket.on("connect", () => {
+    //   console.log("connected");
+    // })
 
-        return
-        console.log(data);
-        // const _candles = generateCandlesData({ quantity: 1 });
-        const candle = {
-          hi: data.High ,
-          lo: data.Low ,
-          open: data.Bid ,
-          close: data.Bid ,
-          timestamp: Date.now(),
-          volume: 0,
-          isVisible: true,
-        };
+    // socket.emit("room", "BTCUSD");
+    // socket.on(
+    //   "notification",
+    //   function (data: any) {
 
-        chart.data.addLastCandle(candle);
-        console.log(chartsRef.current.length, "length");
-        chart.redraw();
-        chart.drawingManager.forceDraw();
-        chart.scale.autoScale(true);
-        chart.timeZoneModel.observeTimeZoneChanged();
-      }
-    );
+    //     return
+    //     console.log(data);
+    //     // const _candles = generateCandlesData({ quantity: 1 });
+    //     const candle = {
+    //       hi: data.High ,
+    //       lo: data.Low ,
+    //       open: data.Bid ,
+    //       close: data.Bid ,
+    //       timestamp: Date.now(),
+    //       volume: 0,
+    //       isVisible: true,
+    //     };
+
+    //     chart.data.addLastCandle(candle);
+    //     console.log(chartsRef.current.length, "length");
+    //     chart.redraw();
+    //     chart.drawingManager.forceDraw();
+    //     chart.scale.autoScale(true);
+    //     chart.timeZoneModel.observeTimeZoneChanged();
+    //   }
+    // );
 
     // socket.on(
     //   "notification",
@@ -198,7 +190,6 @@ function App() {
 
   const onApiCreated = useCallback((api: ChartReactAPI) => {
     chartReactAPI.current = api;
-    chartReactAPI.current.changePeriod({ duration: 5, durationType: "m" });
     chartReactAPI.current.internal.multiChartViewModel.setChartTypeSync(true);
     chartReactAPI.current.internal.multiChartViewModel.setChartType("area");
 
@@ -248,58 +239,127 @@ function App() {
     chartReactAPI.current.setChartSettings(old);
   }, []);
 
+  useEffect(() => {
+    console.log("connecting to socket");
+    const socket = io("http://85.206.172.238:2088", {
+      reconnectionDelayMax: 10000,
+    });
+
+    socket.on("connect", () => {
+      console.log("connected");
+      socketRef.current = socket;
+      socket.emit("room", "BTCUSD");
+    });
+
+    socket.on(
+      "notification",
+      function (data: {
+        SymbolID: number;
+        Symbol: string;
+        Bid: number;
+        Ask: number;
+        High: number;
+        Low: number;
+        Close: number;
+        Time: string;
+      }) {
+        // const _candles = generateCandlesData({ quantity: 1 });
+        const candle = {
+          hi: data.High / 100,
+          lo: data.Low / 100,
+          open: data.Bid / 100,
+          close: data.Bid / 100,
+          timestamp: new Date().getTime(),
+          volume: 0,
+          isVisible: true,
+        };
+
+        if (chartRef.current) {
+          if(candle.timestamp - lastCandleTimestamp.current > timeFrameIntervalSecRef.current * 1000){
+            lastCandleTimestamp.current = candle.timestamp;
+            chartRef.current.data.addLastCandle(candle);
+            console.log("added")
+
+          }else{
+            candle.timestamp = lastCandleTimestamp.current;
+            chartRef.current.data.updateLastCandle(candle);
+            console.log("updated")
+          }
+
+          chartRef.current.redraw();
+          chartRef.current.drawingManager.forceDraw();
+          chartRef.current.scale.autoScale(true);
+          chartRef.current.timeZoneModel.observeTimeZoneChanged();
+          
+        }
+      }
+    );
+  }, []);
+
   const contextValue: MyAppContextData = {
     chartReactApi: chartReactAPI,
     chartRef: chartRef,
+    socketRef: socketRef,
+    setTimeInterval: changeTimeFrameInterval,
+    setLastCandleTimestamp: setLastCandleTimestamp,
   };
+
+
+  function setLastCandleTimestamp(timestamp: number) {
+    console.log(timestamp, "timestamp")
+
+  }
+  function changeTimeFrameInterval(time: number) {
+    timeFrameIntervalSecRef.current = time;
+  }
 
   return (
     <>
-      <ToastProvider>
-        <AppContext.Provider value={contextValue}>
-          <div className="main-app">
-            <ToolBar />
-            <div className="chart-holder-parent">
-              <img className="image-layer" src={mountainImage} />
-              <div
-                id="chart-holder"
-                style={{ height: "100vh", width: "100%" }}
-                className="chart-holder"
-              >
-                <ChartReactApp
-                  dependencies={{
-                    onApiCreated,
-                    localization: {
-                      studies: {},
+      {/* <ToastProvider> */}
+      <AppContext.Provider value={contextValue}>
+        <div className="main-app">
+          <ToolBar />
+          <div className="chart-holder-parent">
+            <img className="image-layer" src={mountainImage} />
+            <div
+              id="chart-holder"
+              style={{ height: "100vh", width: "100%" }}
+              className="chart-holder"
+            >
+              <ChartReactApp
+                dependencies={{
+                  onApiCreated,
+                  localization: {
+                    studies: {},
+                  },
+                  initialChartReactSettings: {
+                    legend: {
+                      showOHLC: false,
+                      showVolume: false,
+                      showInstrument: false,
+                      showPeriod: false,
                     },
-                    initialChartReactSettings: {
-                      legend: {
-                        showOHLC: false,
-                        showVolume: false,
-                        showInstrument: false,
-                        showPeriod: false,
-                      },
-                    },
+                  },
 
-                    chartReactConfig: {
-                      drawings: {
-                        sidebar: {
-                          enabled: false,
-                        },
-                      },
-                      toolbar: {
-                        showButtonsTooltip: true,
+                  chartReactConfig: {
+                    drawings: {
+                      sidebar: {
                         enabled: false,
                       },
                     },
-                  }}
-                />
-              </div>
+                    toolbar: {
+                      showButtonsTooltip: true,
+                      enabled: false,
+                    },
+                  },
+                }}
+              />
             </div>
-            <RightPanel />
           </div>
-        </AppContext.Provider>
-      </ToastProvider>
+          <RightPanel />
+        </div>
+      </AppContext.Provider>
+      {/* </ToastProvider> */}
     </>
   );
 }

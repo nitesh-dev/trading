@@ -108,7 +108,7 @@ export function RightPanel() {
         <IconLower/>
         Lower
       </button>
-      <ToastExample/>
+      {/* <ToastExample/> */}
     </div>
   );
 }
