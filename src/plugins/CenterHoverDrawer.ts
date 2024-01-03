@@ -30,6 +30,7 @@ export class CenterHoverDrawer implements Drawer {
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
 
     const chartModel = this.chart.chartModel;
+    
     const candle = chartModel.mainCandleSeries.getLastDataSeriesPoint();
     const candle2 = chartModel.mainCandleSeries.getSeriesInViewport();
     const candleSeries = this.chart.chartModel.mainCandleSeries;

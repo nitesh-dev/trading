@@ -10,6 +10,7 @@ import { IconSubtract } from "./icons/IconSubtract";
 import { IconAdd } from "./icons/IconAdd";
 import { IconLower } from "./icons/IconLower";
 import { IconHigher } from "./icons/IconHigher";
+import { ToastExample } from "./widgets/Toast";
 
 export function RightPanel() {
   const [currentAmount, setCurrentAmount] = useState(10);
@@ -107,6 +108,7 @@ export function RightPanel() {
         <IconLower/>
         Lower
       </button>
+      <ToastExample/>
     </div>
   );
 }
