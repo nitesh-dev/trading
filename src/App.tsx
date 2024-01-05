@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useRef } from "react";
 import { ToolBar } from "./components/ToolBar";
-import { createChart, generateCandlesData } from "@devexperts/dxcharts-lite";
+// import { createChart, generateCandlesData } from "@devexperts/dxcharts-lite";
 import { RightPanel } from "./components/RightPanel";
 import mountainImage from "./assets/mountain.jpg";
 import "./styles/app.css";
@@ -41,7 +41,6 @@ function App() {
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-    chartRef.current = chart;
     // {
     //   const candles = generateCandlesData({ quantity: 5 });
     //   chart.setData({candles})
@@ -61,26 +60,7 @@ function App() {
     */
 
     // setTimeout(() => {
-    //   if (isFirst) {
-    //     isFirst = false;
-    //     // const _candles = generateCandlesData({ quantity: 0 });
-    //     const _candles = json2.map((item: any) => {
-    //       return {
-    //         hi: item.high,
-    //         lo: item.low,
-    //         open: item.open ,
-    //         close: item.close,
-    //         timestamp: item.time * 1000,
-    //         volume: 0,
-    //         isVisible: true,
-    //       };
-    //     });
 
-    //     console.log(_candles)
-
-    //     chart.setData({ candles: _candles });
-    //     chart.data.setMainSeries({ candles: _candles });
-    //   }
     // } , 1000)
 
     // const socket = io("http://85.206.172.238:2088", {
@@ -186,6 +166,26 @@ function App() {
     //     chartRef.current.data.addLastCandle(candle);
     //   }
     // }, 1000);
+
+    chartRef.current = chart;
+
+    // const _candles = json2.map((item: any) => {
+    //   return {
+    //     hi: item.high,
+    //     lo: item.low,
+    //     open: item.open,
+    //     close: item.close,
+    //     timestamp: item.time * 1000,
+    //     volume: 0,
+    //     isVisible: true,
+    //   };
+    // });
+
+    // console.log(_candles);
+
+    // chart.setData({ candles: _candles });
+    // chart.data.setMainSeries({ candles: _candles });
+
   }, []);
 
   const onApiCreated = useCallback((api: ChartReactAPI) => {
@@ -213,8 +213,8 @@ function App() {
 
         if (chartId == "0") {
           onChartCreated(chart);
+          chartsRef.current.push(chart);
         }
-        chartsRef.current.push(chart);
       }
     );
 
@@ -275,22 +275,23 @@ function App() {
         };
 
         if (chartRef.current) {
-          if(candle.timestamp - lastCandleTimestamp.current > timeFrameIntervalSecRef.current * 1000){
+          if (
+            candle.timestamp - lastCandleTimestamp.current >
+            timeFrameIntervalSecRef.current * 1000
+          ) {
             lastCandleTimestamp.current = candle.timestamp;
             chartRef.current.data.addLastCandle(candle);
-            console.log("added")
-
-          }else{
+            console.log("added");
+          } else {
             candle.timestamp = lastCandleTimestamp.current;
             chartRef.current.data.updateLastCandle(candle);
-            console.log("updated")
+            console.log("updated");
           }
 
           chartRef.current.redraw();
           chartRef.current.drawingManager.forceDraw();
           chartRef.current.scale.autoScale(true);
           chartRef.current.timeZoneModel.observeTimeZoneChanged();
-          
         }
       }
     );
@@ -304,10 +305,8 @@ function App() {
     setLastCandleTimestamp: setLastCandleTimestamp,
   };
 
-
   function setLastCandleTimestamp(timestamp: number) {
-    console.log(timestamp, "timestamp")
-
+    console.log(timestamp, "timestamp");
   }
   function changeTimeFrameInterval(time: number) {
     timeFrameIntervalSecRef.current = time;

@@ -20,7 +20,7 @@ enum ToolVisible {
 import json1 from "../../others/data1.json";
 import json2 from "../../others/data2.json";
 import { PartialCandle } from "@devexperts/dxcharts-lite/dist/chart/components/chart/chart.component";
-import { generateCandlesData } from "@dx-private/dxchart5-modules";
+// import { generateCandlesData } from "@dx-private/dxchart5-modules";
 
 export function ToolBar() {
   const appContext = useContext(AppContext);
@@ -31,19 +31,26 @@ export function ToolBar() {
     autoScroll: true,
     selectedChart: "area",
     showArea: true,
-    selectedTimeFrame: "S10",
+    selectedTimeFrame: "M1",
   });
 
   useEffect(() => {
-    const durationType = chartToolBar.selectedTimeFrame[0].toLowerCase() as "s" | "m" | "h" | "d";
+    const durationType = chartToolBar.selectedTimeFrame[0].toLowerCase() as
+      | "s"
+      | "m"
+      | "h"
+      | "d";
     const duration = parseInt(chartToolBar.selectedTimeFrame.slice(1));
 
-    console.log(durationType, duration)
+    console.log(durationType, duration);
 
     let _candles: PartialCandle[] = [];
 
-    if (chartToolBar.selectedTimeFrame == "S5") {
-      _candles = json2.map((item: any) => {
+    console.log(chartToolBar.selectedTimeFrame);
+    if (chartToolBar.selectedTimeFrame == "M1") {
+      console.log("passed");
+
+      _candles = json1.map((item: any) => {
         return {
           hi: item.high,
           lo: item.low,
@@ -54,26 +61,38 @@ export function ToolBar() {
           isVisible: true,
         };
       });
-
-    }else{
-      _candles = generateCandlesData({ quantity: 10 });
+    } else {
+      // _candles = generateCandlesData({ quantity: 10 });
     }
     // console.log(_candles);
-    
+
     if (
       appContext &&
       appContext.chartRef.current &&
       appContext.chartReactApi.current
     ) {
+      console.log(_candles, "m1");
+
       appContext.chartReactApi.current.changePeriod({
         duration: duration,
         durationType: durationType,
       });
+
+
+
+
       appContext.chartRef.current.setData({ candles: _candles });
       appContext.chartRef.current.data.setMainSeries({ candles: _candles });
 
-      appContext.setTimeInterval(duration)
-      appContext.setLastCandleTimestamp(_candles[_candles.length - 1].timestamp)
+      // appContext.setTimeInterval(duration);
+      // appContext.setLastCandleTimestamp(
+      //   _candles[_candles.length - 1].timestamp
+      // );
+
+      appContext.chartRef.current.redraw();
+      appContext.chartRef.current.drawingManager.forceDraw();
+      // appContext.chartRef.current.scale.autoScale(true);
+      appContext.chartRef.current.timeZoneModel.observeTimeZoneChanged();
     }
   }, [chartToolBar.selectedTimeFrame]);
 

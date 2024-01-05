@@ -12,6 +12,8 @@ export function ToolsToolBar() {
       <button>Parallel Channel</button>
       <button>Rectangle</button>
       <button>Andrew's Pitchfork</button>
+
+      
     </div>
   );
 }
