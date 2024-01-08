@@ -2,6 +2,7 @@ import { ChartReactAPI } from "@dx-private/dxchart5-react/dist/chart/view-models
 import { CenterHoverDrawer } from "../plugins/CenterHoverDrawer";
 import { Chart } from "@dx-private/dxchart5-modules";
 import { Socket } from "socket.io-client";
+import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
 
 export interface BoxWidgetData {
   icon: React.JSX.Element;
@@ -38,4 +39,5 @@ export interface TradeObject {
   price: number;
   timeInterval: number;
   tradeType: "higher" | "lower";
+  candle: VisualCandle;
 }

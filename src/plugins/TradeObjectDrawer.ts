@@ -15,6 +15,7 @@ import dropdownDownIcon from "../assets/drop-down-arrow.png";
 import dropdownUpIcon from "../assets/drop-up-arrow.png";
 
 import { formatMinutesToTime, formatTimestampToExpiryTime } from "../lib/Utils";
+import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
 export class TradeObjectDrawer implements Drawer {
   private tradeObjects = Array<TradeObject>();
 
@@ -48,9 +49,10 @@ export class TradeObjectDrawer implements Drawer {
     const candleSeries = this.chart.chartModel.mainCandleSeries;
     const chartBounds = this.chart.bounds.getBounds(CanvasElement.CHART);
 
-    const startCandle = chartModel.candleFromTimestamp(
-      tradeObject.startTimestamp
-    );
+    // const startCandle = chartModel.candleFromTimestamp(
+    //   tradeObject.startTimestamp
+    // );
+    const startCandle = tradeObject.candle;
     const endCandle = chartModel.candleFromTimestamp(tradeObject.endTimestamp);
 
     const endCandleX = endCandle.x(candleSeries.view);
@@ -58,8 +60,6 @@ export class TradeObjectDrawer implements Drawer {
 
     const startCandleX = startCandle.x(candleSeries.view);
     const startCandleY = startCandle.y(candleSeries.view);
-
-
 
     this.drawTradeArea(ctx, tradeObject, startCandleX, startCandleY, endCandleX);
     this.drawExpiryArea(
@@ -192,6 +192,7 @@ export class TradeObjectDrawer implements Drawer {
     return [this.chart.dynamicObjectsCanvasModel.canvasId];
   }
 
+
   addTradeObject(
     timeInterval: number,
     tradeType: "higher" | "lower",
@@ -217,6 +218,7 @@ export class TradeObjectDrawer implements Drawer {
       price: price,
       timeInterval: timeInterval,
       tradeType: tradeType,
+      candle: candle
     };
 
     this.tradeObjects.push(newTrade);

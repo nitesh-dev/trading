@@ -99,10 +99,7 @@ function App() {
           subscriptionId: string,
           subscribeCallback: (data: ChartCandleData[]) => void,
           options?: ChartDataOptions
-        ): void {
-
-
-        },
+        ): void {},
         unsubscribeCandles(subscriptionId: string): void {},
         subscribeServiceData(
           symbol: string,
@@ -120,10 +117,11 @@ function App() {
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     // {
-    //   const candles = generateCandlesData({ quantity: 5 });
-    //   chart.setData({candles})
-    // }
+      //   const candles = generateCandlesData({ quantity: 5 });
+      //   chart.setData({candles})
+      // }
     let isFirst = true;
+    chartRef.current = chart;
 
     /*
     {
@@ -141,13 +139,14 @@ function App() {
 
     // } , 1000)
 
+
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
     });
 
     socket.on("connect", () => {
       console.log("connected");
-    })
+    });
 
     socket.emit("room", "BTCUSD");
     // socket.on(
@@ -166,7 +165,7 @@ function App() {
     //       volume: 0,
     //       isVisible: true,
     //     };
-
+    
     //     chart.data.addLastCandle(candle);
     //     console.log(chartsRef.current.length, "length");
     //     chart.redraw();
@@ -175,7 +174,7 @@ function App() {
     //     chart.timeZoneModel.observeTimeZoneChanged();
     //   }
     // );
-
+    
     socket.on(
       "notification",
       function (data: {
@@ -200,63 +199,51 @@ function App() {
         //   isVisible: true,
         // };
 
-         console.log(chart);
-        const a = chart.chartBaseModel.mainDataPoints
+        console.log(chart);
+        const a = chart.chartBaseModel.mainDataPoints;
 
         var lastDataObject = a[a.length - 1];
-        if(lastDataObject)
-        {
-          console.log(a[a.length - 1])
+        if (lastDataObject) {
+          console.log(a[a.length - 1]);
           var previousDate = lastDataObject.timestamp;
           var high = lastDataObject.hi;
           var low = lastDataObject.lo;
           var open = lastDataObject.open;
           var m1 = 60; //Current durationType (s -1, m - 60, h - 3600, d - 86400)
           var m2 = 1; // Current Duration
-  
 
-          var nextChange = previousDate + (m1 * m2 * 1000);
-          var ts = Math.round((new Date()).getTime());
+          var nextChange = previousDate + m1 * m2 * 1000;
+          var ts = Math.round(new Date().getTime());
 
           if (ts >= nextChange) {
-
             const candleAdd = {
-              hi: data.Bid ,
-              lo: data.Bid ,
-              open: data.Bid ,
-              close: data.Bid ,
+              hi: data.Bid,
+              lo: data.Bid,
+              open: data.Bid,
+              close: data.Bid,
               timestamp: Date.now(),
               volume: 0,
               isVisible: true,
             };
-      
+
             chart.data.addLastCandle(candleAdd);
 
             // sbSeries.data.push(dObj1);
             previousDate = candleAdd.timestamp;
-        } else
-        {
+          } else {
+            const candleUpdate = {
+              hi: data.Bid > high ? data.Bid : high,
+              lo: data.Bid < low ? data.Bid : low,
+              open: open,
+              close: data.Bid,
+              timestamp: previousDate,
+              volume: 0,
+              isVisible: true,
+            };
 
-          const candleUpdate = {
-            hi: data.Bid > high ? data.Bid : high,
-            lo: data.Bid < low ? data.Bid : low  ,
-            open: open,
-            close: data.Bid ,
-            timestamp: previousDate,
-            volume: 0,
-            isVisible: true,
-          };
-    
-          chart.data.updateLastCandle(candleUpdate);
-
+            chart.data.updateLastCandle(candleUpdate);
+          }
         }
-  
-  
-  
-
-        }
-
-
 
         // chart.data.addLastCandle(candle);
         // console.log(chartsRef.current.length, "length");
@@ -303,7 +290,6 @@ function App() {
     //   }
     // }, 1000);
 
-    chartRef.current = chart;
 
     // const _candles = json2.map((item: any) => {
     //   return {
@@ -374,63 +360,63 @@ function App() {
     chartReactAPI.current.setChartSettings(old);
   }, []);
 
-  useEffect(() => {
-    console.log("connecting to socket");
-    const socket = io("http://85.206.172.238:2088", {
-      reconnectionDelayMax: 10000,
-    });
+  // useEffect(() => {
+  //   console.log("connecting to socket");
+  //   const socket = io("http://85.206.172.238:2088", {
+  //     reconnectionDelayMax: 10000,
+  //   });
 
-    socket.on("connect", () => {
-      console.log("connected");
-      socketRef.current = socket;
-      socket.emit("room", "BTCUSD");
-    });
+  //   socket.on("connect", () => {
+  //     console.log("connected");
+  //     socketRef.current = socket;
+  //     socket.emit("room", "BTCUSD");
+  //   });
 
-    socket.on(
-      "notification",
-      function (data: {
-        SymbolID: number;
-        Symbol: string;
-        Bid: number;
-        Ask: number;
-        High: number;
-        Low: number;
-        Close: number;
-        Time: string;
-      }) {
-        // const _candles = generateCandlesData({ quantity: 1 });
-        const candle = {
-          hi: data.High / 100,
-          lo: data.Low / 100,
-          open: data.Bid / 100,
-          close: data.Bid / 100,
-          timestamp: new Date().getTime(),
-          volume: 0,
-          isVisible: true,
-        };
+  //   socket.on(
+  //     "notification",
+  //     function (data: {
+  //       SymbolID: number;
+  //       Symbol: string;
+  //       Bid: number;
+  //       Ask: number;
+  //       High: number;
+  //       Low: number;
+  //       Close: number;
+  //       Time: string;
+  //     }) {
+  //       // const _candles = generateCandlesData({ quantity: 1 });
+  //       const candle = {
+  //         hi: data.High / 100,
+  //         lo: data.Low / 100,
+  //         open: data.Bid / 100,
+  //         close: data.Bid / 100,
+  //         timestamp: new Date().getTime(),
+  //         volume: 0,
+  //         isVisible: true,
+  //       };
 
-        // if (chartRef.current) {
-        //   if (
-        //     candle.timestamp - lastCandleTimestamp.current >
-        //     timeFrameIntervalSecRef.current * 1000
-        //   ) {
-        //     lastCandleTimestamp.current = candle.timestamp;
-        //     chartRef.current.data.addLastCandle(candle);
-        //     console.log("added");
-        //   } else {
-        //     candle.timestamp = lastCandleTimestamp.current;
-        //     chartRef.current.data.updateLastCandle(candle);
-        //     console.log("updated");
-        //   }
+  //       // if (chartRef.current) {
+  //       //   if (
+  //       //     candle.timestamp - lastCandleTimestamp.current >
+  //       //     timeFrameIntervalSecRef.current * 1000
+  //       //   ) {
+  //       //     lastCandleTimestamp.current = candle.timestamp;
+  //       //     chartRef.current.data.addLastCandle(candle);
+  //       //     console.log("added");
+  //       //   } else {
+  //       //     candle.timestamp = lastCandleTimestamp.current;
+  //       //     chartRef.current.data.updateLastCandle(candle);
+  //       //     console.log("updated");
+  //       //   }
 
-        //   chartRef.current.redraw();
-        //   chartRef.current.drawingManager.forceDraw();
-        //   chartRef.current.scale.autoScale(true);
-        //   chartRef.current.timeZoneModel.observeTimeZoneChanged();
-        // }
-      }
-    );
-  }, []);
+  //       //   chartRef.current.redraw();
+  //       //   chartRef.current.drawingManager.forceDraw();
+  //       //   chartRef.current.scale.autoScale(true);
+  //       //   chartRef.current.timeZoneModel.observeTimeZoneChanged();
+  //       // }
+  //     }
+  //   );
+  // }, []);
 
   const contextValue: MyAppContextData = {
     chartReactApi: chartReactAPI,
