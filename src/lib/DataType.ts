@@ -3,6 +3,8 @@ import { CenterHoverDrawer } from "../plugins/CenterHoverDrawer";
 import { Chart } from "@dx-private/dxchart5-modules";
 import { Socket } from "socket.io-client";
 import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
+import { ChartCandleData } from "@dx-private/dxchart5-react/dist/providers/chart-data-provider";
+import { ChartWithDrawings } from "@dx-private/dxchart5-modules/dist/drawings/drawings.config";
 
 export interface BoxWidgetData {
   icon: React.JSX.Element;
@@ -17,14 +19,13 @@ export interface ChartDialogData {
 }
 
 export interface MyAppContextData {
-  chartReactApi: React.RefObject<ChartReactAPI | undefined>;
-  chartRef: React.RefObject<Chart | undefined>;
-  socketRef: React.RefObject<Socket | undefined>;
-  setTimeInterval(inv: number): void;
-  setLastCandleTimestamp(timestamp: number): void;
+  chartReactApi: ChartReactAPI | undefined;
+  chart: Chart | undefined;
+  socket: Socket | undefined;
+  setTimeIntervalInSec(inv: number): void;
+  historyData: ChartCandleData[];
+  chartWithDrawings: ChartWithDrawings | undefined
 }
-
-
 
 export enum HoverDirection {
   up,
@@ -40,4 +41,13 @@ export interface TradeObject {
   timeInterval: number;
   tradeType: "higher" | "lower";
   candle: VisualCandle;
+}
+
+
+export interface ServerChartData {
+  high: number;
+  low: number;
+  open: number;
+  close: number;
+  time: number;
 }

@@ -14,8 +14,8 @@ export function ChartToolBar(props: {
   const appContext = useContext(AppContext);
 
   function changeChartType(type: "bar" | "line" | "candle" | "area") {
-    if (appContext && appContext.chartReactApi.current) {
-      appContext.chartReactApi.current.internal.multiChartViewModel.setChartType(
+    if (appContext.chartReactApi) {
+      appContext.chartReactApi.internal.multiChartViewModel.setChartType(
         type
       );
       props.setChart((old) => {

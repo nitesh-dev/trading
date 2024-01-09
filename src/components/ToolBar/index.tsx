@@ -9,7 +9,7 @@ import { IconBar } from "../icons/IconBar";
 import { ChartDialogData } from "../../lib/DataType";
 import { AppContext } from "../../App";
 
-enum ToolVisible {
+export enum ToolVisible {
   none,
   assets,
   chart,
@@ -20,6 +20,7 @@ enum ToolVisible {
 import json1 from "../../others/data1.json";
 import json2 from "../../others/data2.json";
 import { PartialCandle } from "@devexperts/dxcharts-lite/dist/chart/components/chart/chart.component";
+import { serverDataToChartCandleData, serverDataToPartialCandleData } from "../../lib/Utils";
 // import { generateCandlesData } from "@dx-private/dxchart5-modules";
 
 export function ToolBar() {
@@ -29,7 +30,7 @@ export function ToolBar() {
 
   const [chartToolBar, setChartToolBar] = useState<ChartDialogData>({
     autoScroll: true,
-    selectedChart: "area",
+    selectedChart: "candle",
     showArea: true,
     selectedTimeFrame: "M1",
   });
@@ -42,57 +43,53 @@ export function ToolBar() {
       | "d";
     const duration = parseInt(chartToolBar.selectedTimeFrame.slice(1));
 
+
+    let totalSec = 0
+    if(durationType == "s") totalSec = duration
+    if(durationType == "m") totalSec = duration * 60
+    if(durationType == "h") totalSec = duration * 60 * 60
+    if(durationType == "d") totalSec = duration * 60 * 60 * 24
+
     console.log(durationType, duration);
 
     let _candles: PartialCandle[] = [];
 
-    console.log(chartToolBar.selectedTimeFrame);
-    if (chartToolBar.selectedTimeFrame == "M1") {
-      console.log("passed");
 
-      _candles = json1.map((item: any) => {
-        return {
-          hi: item.high,
-          lo: item.low,
-          open: item.open,
-          close: item.close,
-          timestamp: item.time * 1000,
-          volume: 0,
-          isVisible: true,
-        };
-      });
-    } else {
-      // _candles = generateCandlesData({ quantity: 10 });
-    }
-    // console.log(_candles);
+    /*
+    TODO:
+    1. implement api for data fetch from server
 
-    if (
-      appContext &&
-      appContext.chartRef.current &&
-      appContext.chartReactApi.current
-    ) {
+
+    */
+    _candles = serverDataToPartialCandleData(json2)
+
+
+    if (appContext.chart && appContext.chartReactApi) {
       console.log(_candles, "m1");
+      appContext.historyData = serverDataToChartCandleData(json2)
+      appContext.setTimeIntervalInSec(totalSec)
 
-      appContext.chartReactApi.current.changePeriod({
+      appContext.chartReactApi.changePeriod({
         duration: duration,
         durationType: durationType,
       });
 
-
-
-
-      appContext.chartRef.current.setData({ candles: _candles });
-      appContext.chartRef.current.data.setMainSeries({ candles: _candles });
+      // setTimeout(() => {
+      //   if(!appContext.chart) return
+      //   // appContext.chart.setData({ candles: _candles });
+      //   // appContext.chart.data.setMainSeries({ candles: _candles });
+      //   // appContext.chart.redraw();
+      //   // appContext.chart.drawingManager.forceDraw();
+      //   // // appContext.chartRef.current.scale.autoScale(true);
+      //   // appContext.chart.timeZoneModel.observeTimeZoneChanged();
+      // }, 1000)
 
       // appContext.setTimeInterval(duration);
       // appContext.setLastCandleTimestamp(
       //   _candles[_candles.length - 1].timestamp
       // );
 
-      appContext.chartRef.current.redraw();
-      appContext.chartRef.current.drawingManager.forceDraw();
-      // appContext.chartRef.current.scale.autoScale(true);
-      appContext.chartRef.current.timeZoneModel.observeTimeZoneChanged();
+
     }
   }, [chartToolBar.selectedTimeFrame]);
 
@@ -182,10 +179,11 @@ export function ToolBar() {
               <path d="M13.94 5 19 10.06 9.062 20a2.25 2.25 0 0 1-.999.58l-5.116 1.395a.75.75 0 0 1-.92-.921l1.395-5.116a2.25 2.25 0 0 1 .58-.999L13.938 5Zm7.09-2.03a3.578 3.578 0 0 1 0 5.06l-.97.97L15 3.94l.97-.97a3.578 3.578 0 0 1 5.06 0Z" />
             </svg>
           </button>
-          {toolVisible == ToolVisible.tools && <ToolsToolBar />}
+          {toolVisible == ToolVisible.tools && <ToolsToolBar hideToolbar={() => setToolVisible(ToolVisible.none)} />}
         </div>
       </div>
       <p className="legend">12:08:17 UTC+5:30</p>
     </div>
   );
 }
+

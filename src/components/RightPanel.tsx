@@ -47,8 +47,8 @@ export function RightPanel() {
   const appContext = useContext(AppContext);
 
   function showHover(direction: HoverDirection) {
-    if (appContext && appContext.chartRef.current) {
-      const drawer = appContext.chartRef.current.drawingManager.getDrawerByName(
+    if (appContext.chart) {
+      const drawer = appContext.chart.drawingManager.getDrawerByName(
         "center-hover-drawer"
       ) as CenterHoverDrawer;
       drawer.showHover(direction);
@@ -56,8 +56,8 @@ export function RightPanel() {
   }
 
   function addTradeObject(tradeType: "higher" | "lower") {
-    if (appContext && appContext.chartRef.current) {
-      const drawer = appContext.chartRef.current.drawingManager.getDrawerByName(
+    if (appContext && appContext.chart) {
+      const drawer = appContext.chart.drawingManager.getDrawerByName(
         "trade-object-drawer"
       ) as TradeObjectDrawer;
       drawer.addTradeObject(

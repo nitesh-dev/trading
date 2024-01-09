@@ -4,7 +4,11 @@ import { ToolBar } from "./components/ToolBar";
 import { RightPanel } from "./components/RightPanel";
 import mountainImage from "./assets/mountain.jpg";
 import "./styles/app.css";
-import { HoverDirection, MyAppContextData } from "./lib/DataType";
+import {
+  HoverDirection,
+  MyAppContextData,
+  ServerChartData,
+} from "./lib/DataType";
 
 import {
   ChartAppDependencies,
@@ -18,9 +22,14 @@ import { ChartWithModules } from "@dx-private/dxchart5-react/dist/chart/componen
 import { CenterHoverDrawer } from "./plugins/CenterHoverDrawer";
 import { ToastProvider } from "./components/widgets/Toast";
 
-export const AppContext = createContext<MyAppContextData | undefined>(
-  undefined
-);
+export const AppContext = createContext<MyAppContextData>({
+  chartReactApi: undefined,
+  chart: undefined,
+  socket: undefined,
+  chartWithDrawings: undefined,
+  setTimeIntervalInSec: () => {},
+  historyData: [],
+});
 
 import json1 from "./others/data1.json";
 import json2 from "./others/data2.json";
@@ -33,11 +42,17 @@ import {
   ServiceData,
 } from "@dx-private/dxchart5-react/dist/providers/chart-data-provider";
 import { AggregationPeriod } from "@dx-private/dxchart5-react/dist/chart/model/aggregation.model";
+import { serverDataToChartCandleData } from "./lib/Utils";
+import { cloneUnsafe } from "@devexperts/dxcharts-lite/dist/chart/utils/object.utils";
+import { ChartWithDrawings } from "@dx-private/dxchart5-modules/dist/drawings/drawings.config";
+import { attachDrawingsComponent } from "@dx-private/dxchart5-modules/dist/drawings";
+import { DEFAULT_DRAWINGS_CONFIG } from "@dx-private/dxchart5-react/dist/config/drawings-config";
+import { DrawingType } from "@dx-private/dxchart5-modules/dist/drawings/model/drawing-types";
 
-async function genData(): Promise<ChartCandleData[]> {
+function genData() {
   // const data = generateCandlesData({ quantity: 5 });
 
-  const data = json1.map((item: any) => {
+  const data = (json1 as ServerChartData[]).map((item: any) => {
     return {
       hi: item.high,
       lo: item.low,
@@ -49,38 +64,42 @@ async function genData(): Promise<ChartCandleData[]> {
     };
   });
 
-  const newData: ChartCandleData[] = data.map((item) => {
-    return {
-      close: item.close,
-      high: item.hi,
-      low: item.lo,
-      open: item.open,
-      time: item.timestamp,
-      volume: item.volume,
-    } as ChartCandleData;
-  });
-  console.log("gen data");
-  return newData;
+  // const newData: ChartCandleData[] = data.map((item) => {
+  //   return {
+  //     close: item.close,
+  //     high: item.hi,
+  //     low: item.lo,
+  //     open: item.open,
+  //     time: item.timestamp,
+  //     volume: item.volume,
+  //   } as ChartCandleData;
+  // });
+  // console.log("gen data");
+  return data;
 }
 
 function App() {
-  const chartReactAPI = useRef<ChartReactAPI>();
   const chartsRef = useRef<ChartWithModules[]>([]);
-  const chartRef = useRef<Chart>();
-  const socketRef = useRef<Socket>();
-  const timeFrameIntervalSecRef = useRef<number>(10);
-  const lastCandleTimestamp = useRef<number>(0);
+  const timeFrameIntervalSec = useRef<number>(60);
   const [dataProvider, setDataProvider] = useState<ChartDataProvider>();
 
-  const defaultData = useRef<ChartCandleData[]>([]);
+  const appContextData = useRef<MyAppContextData>({
+    chartReactApi: undefined,
+    chart: undefined,
+    socket: undefined,
+    chartWithDrawings: undefined,
+    historyData: serverDataToChartCandleData(json1),
+    setTimeIntervalInSec: changeTimeFrameInterval,
+  });
 
-  async function genData2() {
-    return defaultData.current;
+  async function getHistoryData() {
+    console.log("history data loaded");
+    return appContextData.current.historyData;
   }
 
   useEffect(() => {
     (async () => {
-      defaultData.current = await genData();
+      // defaultData.current = await genData();
 
       setDataProvider({
         requestHistoryData(
@@ -91,7 +110,7 @@ function App() {
             toTime?: number;
           } & ChartDataOptions
         ): Promise<ChartCandleData[]> {
-          return genData2();
+          return getHistoryData();
         },
         subscribeCandles(
           symbol: string,
@@ -110,35 +129,14 @@ function App() {
   }, []);
 
   const onChartCreated = useCallback((chart: Chart) => {
+    appContextData.current.chartWithDrawings = attachDrawingsComponent(chart);
+
     const hoverDrawer = new CenterHoverDrawer(chart);
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
 
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-    // chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-    // {
-      //   const candles = generateCandlesData({ quantity: 5 });
-      //   chart.setData({candles})
-      // }
-    let isFirst = true;
-    chartRef.current = chart;
-
-    /*
-    {
-    "hi": 48.524512290841585,
-    "lo": 47.86020168585476,
-    "open": 48.46116436095697,
-    "close": 48,
-    "timestamp": 1704084300000,
-    "volume": 0,
-    "isVisible": true
-}
-    */
-
-    // setTimeout(() => {
-
-    // } , 1000)
-
+    appContextData.current.chart = chart;
 
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
@@ -149,32 +147,8 @@ function App() {
     });
 
     socket.emit("room", "BTCUSD");
-    // socket.on(
-    //   "notification",
-    //   function (data: any) {
 
-    //     return
-    //     console.log(data);
-    //     // const _candles = generateCandlesData({ quantity: 1 });
-    //     const candle = {
-    //       hi: data.High ,
-    //       lo: data.Low ,
-    //       open: data.Bid ,
-    //       close: data.Bid ,
-    //       timestamp: Date.now(),
-    //       volume: 0,
-    //       isVisible: true,
-    //     };
-    
-    //     chart.data.addLastCandle(candle);
-    //     console.log(chartsRef.current.length, "length");
-    //     chart.redraw();
-    //     chart.drawingManager.forceDraw();
-    //     chart.scale.autoScale(true);
-    //     chart.timeZoneModel.observeTimeZoneChanged();
-    //   }
-    // );
-    
+    return;
     socket.on(
       "notification",
       function (data: {
@@ -188,23 +162,11 @@ function App() {
         Time: string;
       }) {
         console.log(data);
-        // const _candles = generateCandlesData({ quantity: 1 });
-        // const candle = {
-        //   hi: data.Bid ,
-        //   lo: data.Bid ,
-        //   open: data.Bid ,
-        //   close: data.Bid ,
-        //   timestamp: Date.now(),
-        //   volume: 0,
-        //   isVisible: true,
-        // };
+        const allCandles = chart.chartBaseModel.mainDataPoints;
 
-        console.log(chart);
-        const a = chart.chartBaseModel.mainDataPoints;
-
-        var lastDataObject = a[a.length - 1];
+        var lastDataObject = allCandles[allCandles.length - 1];
         if (lastDataObject) {
-          console.log(a[a.length - 1]);
+          console.log(allCandles[allCandles.length - 1]);
           var previousDate = lastDataObject.timestamp;
           var high = lastDataObject.hi;
           var low = lastDataObject.lo;
@@ -212,7 +174,7 @@ function App() {
           var m1 = 60; //Current durationType (s -1, m - 60, h - 3600, d - 86400)
           var m2 = 1; // Current Duration
 
-          var nextChange = previousDate + m1 * m2 * 1000;
+          var nextChange = previousDate + timeFrameIntervalSec.current * 1000;
           var ts = Math.round(new Date().getTime());
 
           if (ts >= nextChange) {
@@ -290,7 +252,6 @@ function App() {
     //   }
     // }, 1000);
 
-
     // const _candles = json2.map((item: any) => {
     //   return {
     //     hi: item.high,
@@ -310,9 +271,10 @@ function App() {
   }, []);
 
   const onApiCreated = useCallback((api: ChartReactAPI) => {
-    chartReactAPI.current = api;
-    chartReactAPI.current.internal.multiChartViewModel.setChartTypeSync(true);
-    // chartReactAPI.current.internal.multiChartViewModel.setChartType("area");
+    appContextData.current.chartReactApi = api;
+    api.internal.multiChartViewModel.setChartTypeSync(true);
+    api.internal.multiChartViewModel.setStudiesSync(true);
+    // api.internal.multiChartViewModel.setChartType("area");
 
     // const a: TStudySettings[] = [{
     //   id: "sdfd",
@@ -325,23 +287,20 @@ function App() {
     //   overlaying: false,
     //   categories: ""
     // }]
-    // chartReactAPI.current.internal.multiChartViewModel.setStudiesSync(true)
-    // chartReactAPI.current.internal.multiChartViewModel.setStudies(a)
+    // api.internal.multiChartViewModel.setStudies(a)
 
-    chartReactAPI.current.onChartCreated(
-      (chartId: string, chart: ChartWithModules) => {
-        console.log({ chartId, chart });
+    api.onChartCreated((chartId: string, chart: ChartWithModules) => {
+      console.log({ chartId, chart });
 
-        if (chartId == "0") {
-          onChartCreated(chart);
-          chartsRef.current.push(chart);
-        }
+      if (chartId == "0") {
+        onChartCreated(chart);
+        chartsRef.current.push(chart);
       }
-    );
+    });
 
-    // chartReactAPI.current
-    chartReactAPI.current.setVolumesEnabled(false);
-    const old = chartReactAPI.current.getSelectedChartInfo().chartSettings;
+    // api
+    api.setVolumesEnabled(false);
+    const old = api.getSelectedChartInfo().chartSettings;
 
     // area chart
     old.chartCore.themes.dark.areaTheme.lineColor = "#0099F7";
@@ -357,7 +316,7 @@ function App() {
     // candle chart
     old.chartCore.themes.dark.candleTheme.upColor = "#0099F7";
 
-    chartReactAPI.current.setChartSettings(old);
+    api.setChartSettings(old);
   }, []);
 
   // useEffect(() => {
@@ -418,26 +377,15 @@ function App() {
   //   );
   // }, []);
 
-  const contextValue: MyAppContextData = {
-    chartReactApi: chartReactAPI,
-    chartRef: chartRef,
-    socketRef: socketRef,
-    setTimeInterval: changeTimeFrameInterval,
-    setLastCandleTimestamp: setLastCandleTimestamp,
-  };
-
-  function setLastCandleTimestamp(timestamp: number) {
-    console.log(timestamp, "timestamp");
-  }
-
   function changeTimeFrameInterval(time: number) {
-    timeFrameIntervalSecRef.current = time;
+    console.log("interval changed");
+    timeFrameIntervalSec.current = time;
   }
 
   return (
     <>
       {/* <ToastProvider> */}
-      <AppContext.Provider value={contextValue}>
+      <AppContext.Provider value={appContextData.current}>
         <div className="main-app">
           <ToolBar />
           <div className="chart-holder-parent">
@@ -471,10 +419,10 @@ function App() {
                   },
                   initialChartReactSettings: {
                     legend: {
-                      showOHLC: true,
+                      showOHLC: false,
                       showVolume: false,
-                      showInstrument: true,
-                      showPeriod: true,
+                      showInstrument: false,
+                      showPeriod: false,
                     },
                   },
 
@@ -486,7 +434,7 @@ function App() {
                     },
                     toolbar: {
                       showButtonsTooltip: true,
-                      enabled: true,
+                      enabled: false,
                     },
                   },
                 }}
