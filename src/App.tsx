@@ -19,6 +19,7 @@ import { ChartAreaTheme } from "@devexperts/dxcharts-lite/dist/chart/chart.confi
 import { TradeObjectDrawer } from "./plugins/TradeObjectDrawer";
 import { Chart, generateCandlesData } from "@dx-private/dxchart5-modules";
 import { ChartWithModules } from "@dx-private/dxchart5-react/dist/chart/components/canvas-chart-renderer/chart-with-modules";
+import { fromRawStudiesSettings } from "@dx-private/dxchart5-react/dist/chart/model/studies.model";
 import { CenterHoverDrawer } from "./plugins/CenterHoverDrawer";
 import { ToastProvider } from "./components/widgets/Toast";
 
@@ -46,8 +47,11 @@ import { serverDataToChartCandleData } from "./lib/Utils";
 import { cloneUnsafe } from "@devexperts/dxcharts-lite/dist/chart/utils/object.utils";
 import { ChartWithDrawings } from "@dx-private/dxchart5-modules/dist/drawings/drawings.config";
 import { attachDrawingsComponent } from "@dx-private/dxchart5-modules/dist/drawings";
-import { DEFAULT_DRAWINGS_CONFIG } from "@dx-private/dxchart5-react/dist/config/drawings-config";
+import { DEFAULT_STUDIES_LIST } from "@dx-private/dxchart5-react/dist/config/studies-list";
 import { DrawingType } from "@dx-private/dxchart5-modules/dist/drawings/model/drawing-types";
+import { createDxStudiesProvider, DxStudiesProvider } from "@dx-private/dxchart5-react/dist/providers/studies/dx-studies-provider";
+import { TStudySettings } from "@dx-private/dxchart5-react/dist/chart/model/studies.model";
+import { Observable } from "rxjs";
 
 function genData() {
   // const data = generateCandlesData({ quantity: 5 });
@@ -82,6 +86,7 @@ function App() {
   const chartsRef = useRef<ChartWithModules[]>([]);
   const timeFrameIntervalSec = useRef<number>(60);
   const [dataProvider, setDataProvider] = useState<ChartDataProvider>();
+  const studiesProvider = useRef<DxStudiesProvider>()
 
   const appContextData = useRef<MyAppContextData>({
     chartReactApi: undefined,
@@ -126,10 +131,25 @@ function App() {
         ): void {},
       });
     })();
+
+
+    const initialStudies = Array<TStudySettings>()
+
+    DEFAULT_STUDIES_LIST().forEach(item => {
+      initialStudies.push(fromRawStudiesSettings(item))
+
+    })
+
+
+    studiesProvider.current = createDxStudiesProvider(initialStudies)
+    console.log(studiesProvider.current.getStudies())
+
+
   }, []);
 
   const onChartCreated = useCallback((chart: Chart) => {
     appContextData.current.chartWithDrawings = attachDrawingsComponent(chart);
+  
 
     const hoverDrawer = new CenterHoverDrawer(chart);
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
@@ -274,6 +294,9 @@ function App() {
     appContextData.current.chartReactApi = api;
     api.internal.multiChartViewModel.setChartTypeSync(true);
     api.internal.multiChartViewModel.setStudiesSync(true);
+
+    // api.internal.multiChartViewModel.setStudies()
+    
     // api.internal.multiChartViewModel.setChartType("area");
 
     // const a: TStudySettings[] = [{
@@ -397,6 +420,8 @@ function App() {
             >
               <ChartReactApp
                 dependencies={{
+                  
+                  dxStudiesProvider: studiesProvider.current,
                   chartDataProvider: dataProvider,
                   initialChartConfig: {
                     scale: {
@@ -426,6 +451,8 @@ function App() {
                     },
                   },
 
+                  initialStudies: ["TDSequential", "RelativeVigorIndex"],
+
                   chartReactConfig: {
                     drawings: {
                       sidebar: {
@@ -436,6 +463,9 @@ function App() {
                       showButtonsTooltip: true,
                       enabled: false,
                     },
+                    studies: {
+                      addStudyButtonEnabled: true
+                    }
                   },
                 }}
               />
@@ -450,3 +480,4 @@ function App() {
 }
 
 export default App;
+
