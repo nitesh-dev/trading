@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -21,12 +21,13 @@ import { Instrument } from '../model/instrument.model';
 import { InstrumentSymbol } from '../model/layout.model';
 import { MultiChartLayoutType } from '../model/multichart.model';
 import { TStudySettings } from '../model/studies.model';
-import { TimestampRange, TimeUnits } from '../model/timeframe.model';
+import { TimestampRange } from '../model/timeframe.model';
 import { ChartWithModules } from '../components/canvas-chart-renderer/chart-with-modules';
 import { UnsubscribeCallback } from './api/chart-react-api.view-model';
 import { TimeframePreset } from '../model/timeframe-presets.model';
 import { CrosshairData } from './cross-tool.vm';
 import { ThemeType } from '../model/theme.model';
+import { TimeFrame } from './timeframe.view-model';
 export type ChartsInfo = NonEmptyArray<ChartInfo>;
 export interface ChartInfo {
     readonly id: string;
@@ -120,10 +121,8 @@ export interface MultiChartViewModel {
      */
     readonly getLayout: () => [number, number];
     readonly updateLocalChartInfo: (chartId: string, update: Partial<ChartInfo>) => void;
-    readonly timestampRange: Property<TimestampRange>;
-    readonly timeUnits: Property<TimeUnits>;
-    readonly updateTimestampRange: (timestampRange: TimestampRange) => void;
-    readonly updateTimeUnits: (timeUnits: TimeUnits) => void;
+    readonly timeframe: Property<TimeFrame>;
+    readonly updateTimeframe: (timeframe: TimeFrame) => void;
     readonly selectedChartId: Property<string>;
     readonly setSelectedChartId: (id: string) => void;
     readonly hoveredChartId: Property<string>;
@@ -133,7 +132,7 @@ export interface MultiChartViewModel {
     readonly setDrawingMode: (enabled: boolean) => void;
     readonly setMagnetMode: (enabled: boolean) => void;
     readonly charts: Property<ChartWithModules[]>;
-    readonly setcharts: (charts: ChartWithModules[]) => void;
+    readonly setCharts: (charts: ChartWithModules[]) => void;
     readonly chartLayersPopoverOpened: Property<boolean>;
     readonly setChartLayersPopoverOpened: (value: boolean) => void;
     readonly setTheme: (theme: ThemeType) => void;

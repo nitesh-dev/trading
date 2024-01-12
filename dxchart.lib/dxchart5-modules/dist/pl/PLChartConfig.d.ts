@@ -1,14 +1,10 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-import { Chart } from '@devexperts/dxcharts-lite/dist';
 import { FullChartConfig, PartialChartConfig } from '@devexperts/dxcharts-lite/dist/chart/chart.config';
 import { StringTMap } from '@devexperts/dxcharts-lite/dist/chart/utils/object.utils';
-export type PLChart = Chart & {
-    config: FullPLChartConfig;
-};
 export declare const applyPLConfig: <T extends FullChartConfig>(_config: T) => T & FullChartConfig & Required<PLChartSpecificConfig>;
 export declare const PL_CONFIG_OVERRIDE: {
     components: {

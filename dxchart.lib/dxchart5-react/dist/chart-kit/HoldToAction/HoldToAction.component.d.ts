@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -25,6 +25,7 @@ export interface HoldToActionProps extends Omit<ButtonHTMLAttributes<HTMLButtonE
     readonly showOnHover?: boolean;
     readonly keyboardModeEnabled?: boolean;
     readonly ariaLabel?: string;
+    readonly disabled?: boolean;
 }
 export declare const HoldToAction: React.NamedExoticComponent<HoldToActionProps>;
 export declare function isTouchEvent(e: Event): e is TouchEvent;

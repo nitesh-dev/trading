@@ -1,20 +1,20 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-import React, { ReactNode, ReactText, MouseEventHandler, Ref } from 'react';
+import React, { ReactNode, MouseEventHandler, Ref } from 'react';
 export interface CKSelectboxAnchorProps {
     readonly isOpened?: boolean;
     readonly caretIcon?: ReactNode;
     readonly prefixIcon?: ReactNode;
     readonly valueText?: ReactNode;
-    readonly value?: ReactText | ReactText[];
+    readonly value?: string | number | Array<string | number>;
     readonly onClick?: MouseEventHandler<Element>;
     readonly onKeyDown?: (e: React.KeyboardEvent) => void;
     readonly isDisabled?: boolean;

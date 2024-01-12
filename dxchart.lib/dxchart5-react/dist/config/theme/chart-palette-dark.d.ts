@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -150,6 +150,8 @@ export declare const DEFAULT_CHART_PALETTE_DARK: {
     'icon-pressed-bg': string;
     'icon-primary-default-bg': string;
     'icon-secondary-default-bg': string;
+    'icon-tertiary-default-bg': string;
+    'icon-tertiary-hovered-bg': string;
     'input-default-bg': string;
     'input-default-border': string;
     'input-default-text': string;

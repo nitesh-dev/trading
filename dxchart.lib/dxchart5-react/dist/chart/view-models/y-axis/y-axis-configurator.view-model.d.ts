@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -11,7 +11,6 @@ This notice must remain intact.
 import { FitType } from '@devexperts/dxcharts-lite/dist/chart/bootstrap';
 import { YAxisAlign, YAxisLabels } from '@devexperts/dxcharts-lite/dist/chart/chart.config';
 import { PriceAxisType } from '@devexperts/dxcharts-lite/dist/chart/components/labels_generator/numeric-axis-labels.generator';
-import { Observable } from 'rxjs';
 import { Sink } from '../../../context/sink2';
 import { Property } from '../../../utils/property.utils';
 import { PartialExcept } from '../../../utils/types';
@@ -31,7 +30,7 @@ export interface YAxisLabelConfig {
 export type LabelMode = 'none' | 'line' | 'label' | 'line-label';
 export type LabelType = keyof YAxisLabelConfig['labels'];
 export interface YAxisConfiguratorViewModel {
-    config$: Observable<ChartSettings>;
+    config: Property<ChartSettings>;
     readonly yAxisWidth: Property<number>;
     readonly chartWidth: Property<number>;
     readonly yAxisAlign: Property<YAxisAlign>;

@@ -1,22 +1,22 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-import React, { ReactNode, ReactText } from 'react';
+import React, { ReactNode } from 'react';
 export interface CKMenuItemProps {
     readonly className?: string;
     readonly children?: ReactNode;
-    readonly value: ReactText;
+    readonly value: string | number;
     readonly isActive?: boolean;
     readonly isMobile?: boolean;
     readonly disabled?: boolean;
-    readonly onSelect?: (value: ReactText) => void;
+    readonly onSelect?: (value: string | number) => void;
     readonly onMouseEnter?: (e: React.MouseEvent) => void;
     readonly onMouseLeave?: (e: React.MouseEvent) => void;
     readonly onMouseOver?: (e: React.MouseEvent) => void;

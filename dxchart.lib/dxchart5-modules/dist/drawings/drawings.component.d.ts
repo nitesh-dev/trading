@@ -1,4 +1,4 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -63,6 +63,10 @@ export declare class DrawingsComponent extends ChartBaseElement {
      */
     removeInstrumentDrawings(): void;
     /**
+     * Removes all drawings for all instruments.
+     */
+    removeAllDrawings(): void;
+    /**
      * Starts a new drawing on the chart
      */
     startDrawing<T extends DrawingType>(initialConfig: InitialDrawingConfig<T>): DrawingConfig<T>;
@@ -102,10 +106,6 @@ export declare class DrawingsComponent extends ChartBaseElement {
      * Cancels the current drawing which is started, but not finished yet.
      */
     cancelDrawing(): void;
-    /**
-     * Removes all drawings for selected instrument.
-     */
-    removeAllDrawings(): void;
     /**
      * Removes the drawing with the specified id for selected instrument.
      */
@@ -165,5 +165,5 @@ export declare class DrawingsComponent extends ChartBaseElement {
     /**
      * Returns internal drawing models for selected instrument, don't use it or use very very carefully
      */
-    _getDrawings(): Record<string, DrawingModel<"line" | "trend" | "rectangle" | "text" | "horizontal_line" | "horizontal_ray" | "vertical_line" | "extended_line" | "ellipse" | "pitchfork" | "extended" | "ray" | "curve" | "arc" | "info_line" | "brush" | "path" | "date_price_range" | "date_range" | "price_range" | "highlighter" | "icon" | "gann_box" | "gann_square" | "fibonacci_ark" | "fibonacci_circles" | "fibonacci_rays" | "gann_fan" | "trend_channel" | "multichannel" | "fibonacci_retracements" | "callout" | "price_label" | "base_isolation_tool" | "magnifying_tool_rectangle" | "magnifying_tool_time_range" | "magnifying_tool_time_range_wheel" | "vertical_arrow_up" | "vertical_arrow_down" | "arrow" | "elliott_wave" | "elliott_correction_wave" | "fibonacci_projection" | "fibonacci_channel" | "fibonacci_time_zones" | "regression_trend" | "fibonacci_spiral" | "cycle_brackets" | "fibonacci_time_extension" | "fibonacci_time_ratios">[]>;
+    _getDrawings(): Record<string, DrawingModel<"text" | "trend" | "line" | "horizontal_line" | "horizontal_ray" | "vertical_line" | "extended_line" | "ellipse" | "pitchfork" | "extended" | "ray" | "curve" | "arc" | "info_line" | "brush" | "path" | "date_price_range" | "date_range" | "price_range" | "highlighter" | "icon" | "rectangle" | "gann_box" | "gann_square" | "fibonacci_ark" | "fibonacci_circles" | "fibonacci_rays" | "gann_fan" | "trend_channel" | "multichannel" | "fibonacci_retracements" | "callout" | "price_label" | "base_isolation_tool" | "magnifying_tool_rectangle" | "magnifying_tool_time_range" | "magnifying_tool_time_range_wheel" | "vertical_arrow_up" | "vertical_arrow_down" | "arrow" | "elliott_wave" | "elliott_correction_wave" | "fibonacci_projection" | "fibonacci_channel" | "fibonacci_time_zones" | "regression_trend" | "fibonacci_spiral" | "cycle_brackets" | "fibonacci_time_extension" | "fibonacci_time_ratios">[]>;
 }

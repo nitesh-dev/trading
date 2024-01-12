@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -27,6 +27,8 @@ export interface StudiesSettingsPopupProps {
     readonly onCreateNewScript: () => void;
     readonly onEditScript: (scriptId: string) => void;
     readonly onDeleteScript: (scriptId: string) => void;
+    readonly checkIfCustomStudyAdded: (study: TStudySettings) => boolean;
+    readonly isEditing: boolean;
     readonly className?: string;
     readonly dxScriptEnabled: boolean;
     readonly addStudyButtonEnabled: boolean;

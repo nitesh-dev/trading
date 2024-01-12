@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -42,6 +42,10 @@ export interface UIOverrides {
     InstrumentSuggest: React.ComponentType<InstrumentSuggestComponentProps>;
     Legend: {
         Header: React.ComponentType;
+    };
+    OutsideContainer: {
+        Popup: Element | null;
+        Popover: Element | null;
     };
 }
 export declare function useUIOverride<T1 extends keyof UIOverrides, T2 extends keyof UIOverrides[T1]>(path: [T1, T2]): UIOverrides[T1][T2] | undefined;

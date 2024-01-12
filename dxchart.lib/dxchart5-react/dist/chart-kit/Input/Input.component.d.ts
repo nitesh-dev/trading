@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -49,4 +49,4 @@ export interface CKInputProps extends Omit<ControlProps<string>, 'value'>, RefAt
     value?: string;
     children?: React.ReactNode;
 }
-export declare const Input: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<React.PropsWithChildren<CKInputProps>, "value" | "error" | "pattern" | "name" | "key" | "min" | "id" | "children" | "type" | "className" | "placeholder" | "tabIndex" | "role" | "onFocus" | "onBlur" | "onChange" | "onKeyDown" | "onKeyPress" | "onKeyUp" | "onClick" | "onMouseDown" | "onMouseEnter" | "onMouseLeave" | "onMouseUp" | "onTouchCancel" | "onTouchEnd" | "onTouchMove" | "onTouchStart" | "onWheel" | "testId" | "onValueChange" | "max" | "ariaLabel" | "isDisabled" | "isReadOnly" | "autofocus" | "ariaDescribedby"> & React.RefAttributes<HTMLDivElement>>>;
+export declare const Input: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<React.PropsWithChildren<CKInputProps>, "value" | "error" | "pattern" | "name" | "key" | "min" | "id" | "type" | "children" | "className" | "placeholder" | "tabIndex" | "role" | "onFocus" | "onBlur" | "onChange" | "onKeyDown" | "onKeyPress" | "onKeyUp" | "onClick" | "onMouseDown" | "onMouseEnter" | "onMouseLeave" | "onMouseUp" | "onTouchCancel" | "onTouchEnd" | "onTouchMove" | "onTouchStart" | "onWheel" | "testId" | "onValueChange" | "ariaLabel" | "max" | "isDisabled" | "isReadOnly" | "autofocus" | "ariaDescribedby"> & React.RefAttributes<HTMLDivElement>>>;

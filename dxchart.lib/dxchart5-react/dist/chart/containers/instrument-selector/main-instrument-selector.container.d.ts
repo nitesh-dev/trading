@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -14,7 +14,7 @@ import { ChartDataViewModel } from '../../view-models/data/chart-data.view-model
 import { InstrumentSelectorViewModel } from '../../view-models/instrument-selector.view-model';
 import { InstrumentSuggestComponentProps } from './instrument-selector.model';
 export declare const InstrumentSuggestComponent: import("../../../context/context2").Context<Record<"instrumentSelectorViewModel", InstrumentSelectorViewModel> & Record<"chartDataViewModel", ChartDataViewModel> & Record<"chartReactConfig", ChartReactConfig>, React.FC<InstrumentSuggestComponentProps>>;
-export declare const MainInstrumentSelectorContainer: import("../../../context/context2").Context<Record<"chartDataViewModel", ChartDataViewModel> & Record<"instrumentSelectorViewModel", InstrumentSelectorViewModel> & Record<"chartReactConfig", ChartReactConfig>, React.FunctionComponent<{}> | (() => React.FunctionComponentElement<{
+export declare const MainInstrumentSelectorContainer: import("../../../context/context2").Context<Record<"chartDataViewModel", ChartDataViewModel> & Record<"instrumentSelectorViewModel", InstrumentSelectorViewModel> & Record<"chartReactConfig", ChartReactConfig>, React.FunctionComponent<Record<string, any>> | (() => React.FunctionComponentElement<{
     children?: React.ReactNode;
 }>)>;
 export default MainInstrumentSelectorContainer;

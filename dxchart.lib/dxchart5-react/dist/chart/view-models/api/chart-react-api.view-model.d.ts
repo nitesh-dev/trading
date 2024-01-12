@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -32,7 +32,6 @@ import { LayoutViewModel } from '../layout.view-model';
 import { InitialLoaderVM } from '../loading/initial-loader.vm';
 import { MultiChartViewModel } from '../multi-chart.view-model';
 import { ChartNotificationOptions, NotificationViewModel } from '../notification.view-model';
-import { ChartSnapshotViewModel } from '../snapshot/chart-snapshot.view-model';
 import { ThemeViewModel } from '../theme.view-model';
 import { MultichartDrawingSyncVM } from '../drawings/drawing-sync.vm';
 import { ExecutedOrder } from '../../model/executed-orders.model';
@@ -339,7 +338,6 @@ interface ChartReactDebug {
 interface ReactAppState {
     readonly multiChartViewModel: MultiChartViewModel;
     readonly chartVMs: Record<string, CombinedViewModels>;
-    readonly snapshotSharingVM: ChartSnapshotViewModel;
 }
 export interface ChartReactInternalAPI extends ReactAppState, ChartReactDebug {
     destroy: () => void;
@@ -354,10 +352,11 @@ export interface ChartReactAPI extends ChartReactSupportedAPI {
 export interface ChartReactApiVM {
     readonly api: Property<ChartReactAPI>;
     readonly addChartVMsAndInstance: (chartId: string, vms: CombinedViewModels, chart: ChartWithModules) => void;
+    readonly clearChartVMsAndInstance: (chartId: string) => void;
 }
 /**
  * This VM contains all external API.
  * Use this VM to bind API with our internal VM's structure.
  */
-export declare const createChartReactApiVM: import("../../../context/context2").Context<Record<"initialLoaderVM", InitialLoaderVM> & Record<"multiChartViewModel", MultiChartViewModel> & Record<"drawingSyncVM", MultichartDrawingSyncVM> & Record<"themeViewModel", ThemeViewModel> & Record<"actionsHistoryVM", ActionsHistoryVM> & Record<"onApiCreated", ChartReactAPICreatedCB> & Record<"notificationVM", NotificationViewModel> & Record<"snapshotSharingVM", ChartSnapshotViewModel> & Record<"layoutViewModel", LayoutViewModel> & Record<"layoutProvider", LayoutProvider> & Record<"dxStudiesProvider", import("../../../providers/studies/dx-studies-provider").DxStudiesProvider> & Record<"chartReactConfig", import("../../../config/chart-react-config").ChartReactConfig> & Record<"timezones", import("../../../utils/timezones/timezone.model").TimezonesConfig>, Sink<ChartReactApiVM>>;
+export declare const createChartReactApiVM: import("../../../context/context2").Context<Record<"initialLoaderVM", InitialLoaderVM> & Record<"multiChartViewModel", MultiChartViewModel> & Record<"drawingSyncVM", MultichartDrawingSyncVM> & Record<"themeViewModel", ThemeViewModel> & Record<"actionsHistoryVM", ActionsHistoryVM> & Record<"onApiCreated", ChartReactAPICreatedCB> & Record<"notificationVM", NotificationViewModel> & Record<"layoutViewModel", LayoutViewModel> & Record<"layoutProvider", LayoutProvider> & Record<"dxStudiesProvider", import("../../../providers/studies/dx-studies-provider").DxStudiesProvider> & Record<"chartReactConfig", import("../../../config/chart-react-config").ChartReactConfig> & Record<"timezones", import("../../../utils/timezones/timezone.model").TimezonesConfig>, Sink<ChartReactApiVM>>;
 export {};

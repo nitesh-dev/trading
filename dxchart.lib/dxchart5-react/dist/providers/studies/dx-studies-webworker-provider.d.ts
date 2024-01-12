@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -20,4 +20,7 @@ declare global {
         };
     }
 }
-export declare const createDxStudiesWebWorkerProvider: (chart: ChartWithModules, tradingSessionsProvider: TradingSessionsProvider, tradingHoursProvider: () => string | undefined, workersDisabled: boolean) => StudiesDataProvider;
+export interface DxStudiesWebworkerProviderOptions {
+    supressErrors: boolean;
+}
+export declare const createDxStudiesWebWorkerProvider: (chart: ChartWithModules, tradingSessionsProvider: TradingSessionsProvider, tradingHoursProvider: () => string | undefined, workersDisabled: boolean, options?: DxStudiesWebworkerProviderOptions) => StudiesDataProvider;

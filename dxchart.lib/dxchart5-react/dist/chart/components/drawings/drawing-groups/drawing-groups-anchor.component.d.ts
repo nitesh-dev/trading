@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -17,4 +17,4 @@ export interface AnchorWidths {
     readonly anchorMaxWidth: string;
     readonly textWidth: string;
 }
-export declare const DrawingGroupsAnchor: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<DrawingGroupsAnchorProps, "value" | "children" | "className" | "tabIndex" | "onKeyDown" | "onClick" | "testId" | "hasMenu" | "isOpened" | "ariaLabel" | "caretIcon" | "prefixIcon" | "valueText" | "isDisabled" | "isCaretIconChanged" | "ariaDescription"> & React.RefAttributes<HTMLButtonElement>>>;
+export declare const DrawingGroupsAnchor: React.MemoExoticComponent<React.ForwardRefExoticComponent<Pick<DrawingGroupsAnchorProps, "value" | "children" | "className" | "tabIndex" | "onKeyDown" | "onClick" | "testId" | "isOpened" | "hasMenu" | "ariaLabel" | "isDisabled" | "caretIcon" | "prefixIcon" | "valueText" | "isCaretIconChanged" | "ariaDescription"> & React.RefAttributes<HTMLButtonElement>>>;

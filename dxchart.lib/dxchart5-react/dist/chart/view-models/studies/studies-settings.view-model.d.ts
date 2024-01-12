@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -38,5 +38,6 @@ export interface StudiesSettingsViewModel {
     setStudies: (studies: TStudySettings[]) => void;
     setStudiesByIds: (studyIds: string[]) => void;
     duplicateStudy: (uuid: string) => void;
+    checkIfCustomStudyAdded: (study: TStudySettings) => boolean;
 }
 export declare const createStudiesSettingsViewModel: import("../../../context/context2").Context<Record<"chart", ChartWithModules> & Record<"multiChartViewModel", MultiChartViewModel> & Record<"chartConfiguratorViewModel", ChartConfiguratorViewModel> & Record<"studiesDataProvider", StudiesDataProvider> & Record<"dxScriptEditViewModel", DxScriptEditViewModel> & Record<"dxStudiesProvider", DxStudiesProvider> & Record<"actionsHistoryVM", ActionsHistoryVM> & Record<"chartReactConfig", ChartReactConfig> & Record<"localization", Localization> & Record<"chartId", string>, Sink<StudiesSettingsViewModel>>;

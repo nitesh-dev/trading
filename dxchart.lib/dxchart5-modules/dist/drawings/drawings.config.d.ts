@@ -1,4 +1,4 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -139,12 +139,19 @@ export interface ChartDrawingsConfigZoomTool {
      */
     showCaptureZone: boolean;
 }
+export interface DrawingsLabelsTheme {
+    textColor: string;
+    invertedTextColor: string;
+}
 export type FullChartConfigDrawings = {
     components: {
         drawings: ChartConfigComponentsDrawings;
     };
     colors: {
         drawingsTheme: DrawingsTheme;
+        labels: {
+            drawings: DrawingsLabelsTheme;
+        };
     };
 } & FullChartConfig;
 export type FullChartColorsDrawings = {
@@ -216,5 +223,8 @@ export declare const applyDrawingsConfig: <T extends FullChartConfig>(_config: T
     };
     colors: {
         drawingsTheme: DrawingsTheme;
+        labels: {
+            drawings: DrawingsLabelsTheme;
+        };
     };
 } & FullChartConfig;

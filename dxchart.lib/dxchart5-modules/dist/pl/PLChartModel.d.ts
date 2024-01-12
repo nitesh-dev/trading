@@ -1,55 +1,63 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-import { PartialChartConfig } from '@devexperts/dxcharts-lite/dist/chart/chart.config';
-import EventBus from '@devexperts/dxcharts-lite/dist/chart/events/event-bus';
-import { CanvasModel } from '@devexperts/dxcharts-lite/dist/chart/model/canvas.model';
-import { PlModel } from './plChart';
-import { Subject } from 'rxjs';
+import { CanvasAnimation } from '@devexperts/dxcharts-lite/dist/chart/animation/canvas-animation';
 import { CanvasBoundsContainer } from '@devexperts/dxcharts-lite/dist/chart/canvas/canvas-bounds-container';
-import { Pixel, Unit, ViewportModel } from '@devexperts/dxcharts-lite/dist/chart/model/scaling/viewport.model';
-import { Bounds } from '@devexperts/dxcharts-lite/dist/chart/model/bounds.model';
+import EventBus from '@devexperts/dxcharts-lite/dist/chart/events/event-bus';
+import { ScaleModel } from '@devexperts/dxcharts-lite/dist/chart/model/scale.model';
+import { Unit } from '@devexperts/dxcharts-lite/dist/chart/model/scaling/viewport.model';
+import { Observable } from 'rxjs';
+import { FullPLChartConfig } from './PLChartConfig';
+import { DataSeriesModel, VisualSeriesPoint } from '@devexperts/dxcharts-lite/dist/chart/model/data-series.model';
+interface PlLineValue {
+    pl: number;
+    price: number;
+}
+export interface PlModelLine {
+    id: string;
+    name: string;
+    type: string;
+    points: Array<PlLineValue>;
+}
+export interface PlModel {
+    price: number;
+    maxXConstraint?: number;
+    plPrecision: number;
+    precision: number;
+    plFormatter: (value: number) => string;
+    lines: Array<PlModelLine>;
+    priceFormatter: (price: number) => string;
+}
 export interface PlLine {
     id: string;
     name: string;
     type: string;
     points: Array<ChartPoint>;
 }
-export declare class PLChartModel extends ViewportModel {
-    private config;
+export declare class PLChartModel extends ScaleModel {
     private eventBus;
-    private canvasModel;
     private canvasBoundsContainer;
     data: Array<PlLine>;
-    start: number;
-    end: number;
     highLow: [number, number];
     pricePrecision: number;
     plPrecision: number;
-    plFormatter: (pl: number) => string;
+    plFormatter?: (pl: number) => string;
     markPrice: number;
     maxXConstraint: number;
     priceFormatter: (price: number) => string;
-    scaleChanged: Subject<Scale>;
-    constructor(config: PartialChartConfig, eventBus: EventBus, canvasModel: CanvasModel, canvasBoundsContainer: CanvasBoundsContainer);
+    candlesPrependSubject: Observable<never>;
+    scaleChanged: Observable<Scale>;
+    dataSeries: DataSeriesModel | undefined;
+    private basicScaleViewportTransformer;
+    constructor(eventBus: EventBus, canvasBoundsContainer: CanvasBoundsContainer, config: FullPLChartConfig, canvasAnimationContainer: CanvasAnimation);
     updateModel(model: PlModel): void;
-    setXRange(start: number, end: number): void;
-    private updateYRange;
-    toX(xValue: Unit): Pixel;
-    toY(yValue: Unit): Pixel;
-    fromX(pixels: Pixel): Unit;
-    fromY(pixels: Pixel): Unit;
-    get xStart(): Unit;
-    get xEnd(): Unit;
-    get yStart(): Unit;
-    get yEnd(): Unit;
     formatPrice(price: Unit): string;
     formatPl(pl: unknown): string;
-    getRange(): number;
-    getBounds(): Bounds;
+    doBasicScale(): void;
 }
+export declare const spread: (plPrecision: number, highLow: [number, number]) => [number, number];
 export interface ChartPoint {
     xValue: number;
     yValue: number;
@@ -60,3 +68,5 @@ export interface Scale {
     yMin: number;
     yMax: number;
 }
+export declare const createBasicScaleViewportTransformer: (scale: ScaleModel) => (visualCandleSource: VisualSeriesPoint[]) => void;
+export {};

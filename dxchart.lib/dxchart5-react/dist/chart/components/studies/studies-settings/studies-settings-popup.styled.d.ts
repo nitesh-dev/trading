@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -11,6 +11,7 @@ This notice must remain intact.
 /// <reference types="react" />
 interface StudiesSettingsPopupStyledProps {
     isMobile: boolean;
+    isEditing: boolean;
 }
 export declare const StudiesSettingsPopupStyled: import("styled-components").StyledComponent<import("react").FC<import("../../../../chart-kit/Popup/Popup.component").CKPopupProps>, any, StudiesSettingsPopupStyledProps, never>;
 export declare const FooterButtonStyled: import("styled-components").StyledComponent<import("react").NamedExoticComponent<import("../../../../chart-kit/Button/default/Button.component").CKButtonProps>, any, {}, never>;

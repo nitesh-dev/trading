@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -13,10 +13,10 @@ import { CKMenuProps } from '../Menu/Menu.component';
 import { CKSelectboxAnchorProps } from './SelectboxAnchor.component';
 import { CKMenuItemProps } from '../Menu/MenuItem.component';
 import { CKPopoverProps } from '../Popover/Popover.lazy-component';
-export type SelectboxValue = string | number | (string | number)[];
+export type SelectboxValue = string | number | Array<string | number>;
 export type SelectboxChildren = ReactElement<CKMenuItemProps>[] | ReactElement<CKMenuItemProps>;
 export interface CKSelectboxProps {
-    readonly multipleFormatter?: (value: (string | number)[]) => ReactNode;
+    readonly multipleFormatter?: (value: Array<string | number>) => ReactNode;
     readonly isDisabled?: boolean;
     readonly placeholder?: string;
     readonly value: SelectboxValue;

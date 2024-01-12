@@ -1,9 +1,9 @@
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-/** Copyright ©2023 Devexperts LLC.
+/** Copyright ©2024 Devexperts LLC.
 All rights reserved. Any unauthorized use will constitute an infringement of copyright.
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
@@ -27,7 +27,8 @@ export declare const LineInputThickStyled: import("styled-components").StyledCom
 export declare const LineInputPlotTypeStyled: import("styled-components").StyledComponent<"div", any, {}, never>;
 export declare const LineInputPixelsStyled: import("styled-components").StyledComponent<"span", any, {}, never>;
 export declare const SelectBoxItemStyled: import("styled-components").StyledComponent<import("react").MemoExoticComponent<import("react").ForwardRefExoticComponent<import("../../../../../../chart-kit/Menu/MenuItem.component").CKMenuItemProps & import("react").RefAttributes<HTMLLIElement>>>, any, {}, never>;
+export declare const StudySettingsPlotTypeSelectboxPopoverStyled: import("styled-components").StyledComponent<import("react").FC<import("react").PropsWithChildren<import("../../../../../../chart-kit/Popover/Popover.component").CKPopoverProps>>, any, {}, never>;
 export declare const StudySettingsSelectBoxAnchorStyled: import("styled-components").StyledComponent<import("react").NamedExoticComponent<import("../../../../../../chart-kit/Selectbox/SelectboxAnchor.component").CKSelectboxAnchorProps>, any, {}, never>;
 export declare const LabeledFormFieldContainer: import("styled-components").StyledComponent<"div", any, {}, never>;
 export declare const LabeledFormFieldLabelStyled: import("styled-components").StyledComponent<"h5", any, {}, never>;
-export declare const StudySettingsNumericStepperStyled: import("styled-components").StyledComponent<import("react").MemoExoticComponent<import("react").ForwardRefExoticComponent<Pick<import("react").PropsWithChildren<import("../../../../../../chart-kit/NumericStepper/NumericStepper.component").CKNumericStepperProps>, "value" | "error" | "key" | "min" | "children" | "className" | "placeholder" | "tabIndex" | "onFocus" | "onBlur" | "onKeyDown" | "onClick" | "onMouseEnter" | "onMouseLeave" | "step" | "onValueChange" | "max" | "ariaLabel" | "isDisabled" | "isIncrementButtonDisabled" | "isDecrementButtonDisabled" | "onIncrement" | "onDecrement" | "onClear" | "incrementIcon" | "decrementIcon" | "clearIcon" | "Input" | "ButtonIcon" | "ClearButtonIcon" | "formatter" | "SteppableInput" | "onValidate"> & import("react").RefAttributes<HTMLDivElement>>>, any, {}, never>;
+export declare const StudySettingsNumericStepperStyled: import("styled-components").StyledComponent<import("react").MemoExoticComponent<import("react").ForwardRefExoticComponent<Pick<import("react").PropsWithChildren<import("../../../../../../chart-kit/NumericStepper/NumericStepper.component").CKNumericStepperProps>, "value" | "error" | "key" | "min" | "children" | "className" | "placeholder" | "tabIndex" | "onFocus" | "onBlur" | "onKeyDown" | "onClick" | "onMouseEnter" | "onMouseLeave" | "step" | "onValueChange" | "ariaLabel" | "max" | "isDisabled" | "isIncrementButtonDisabled" | "isDecrementButtonDisabled" | "onIncrement" | "onDecrement" | "onClear" | "incrementIcon" | "decrementIcon" | "clearIcon" | "Input" | "ButtonIcon" | "ClearButtonIcon" | "formatter" | "SteppableInput" | "onValidate"> & import("react").RefAttributes<HTMLDivElement>>>, any, {}, never>;
