@@ -23,8 +23,9 @@ export interface MyAppContextData {
   chart: Chart | undefined;
   socket: Socket | undefined;
   setTimeIntervalInSec(inv: number): void;
+  setSymbol(symbol: string): void;
   historyData: ChartCandleData[];
-  chartWithDrawings: ChartWithDrawings | undefined
+  chartWithDrawings: ChartWithDrawings | undefined;
 }
 
 export enum HoverDirection {

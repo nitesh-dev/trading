@@ -35,8 +35,6 @@ export function ToolsToolBar(props: { hideToolbar: () => void }) {
       <button onClick={() => addDrawing("pitchfork")}>
         Andrew's Pitchfork
       </button>
-      <button>Fibonacci Fan (not found)</button>
-      <button>Parallel Channel (not found)</button>
     </div>
   );
 }

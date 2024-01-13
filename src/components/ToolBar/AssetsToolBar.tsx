@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getFlagImg } from "../../lib/Utils";
 import { IconDollar } from "../icons/IconDollar";
 import { IconBitcoin } from "../icons/IconBitcoin";
@@ -7,62 +7,45 @@ import { IconFav } from "../icons/IconFav";
 import { IconFile } from "../icons/IconFile";
 import { IconTrend } from "../icons/IconTrend";
 import { IconSchedule } from "../icons/IconSchedule";
+import { AssetsData } from "../../api";
 
-export function AssetsToolBar() {
-  const [activeTab, setActiveTab] = useState(0);
+export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (symbol: string) => void }) {
+  const [activeTab, setActiveTab] = useState("");
+
+  const [tabs, setTabs] = useState<string[]>([]);
+
+  useEffect(() => {
+    const uniqueNames: string[] = [];
+
+    props.assetsData.forEach((element) => {
+      if (!uniqueNames.includes(element.exch)) {
+        uniqueNames.push(element.exch);
+      }
+    });
+
+    if (uniqueNames.length > 0) setActiveTab(uniqueNames[0]);
+    setTabs(uniqueNames);
+  }, []);
+
+
+  function onAssetsSelect(symbol: string){
+    props.hideToolbar(symbol)
+  }
 
   return (
     <div className="assets-bar">
       <div className="tabs">
-        <button
-          onClick={() => setActiveTab(0)}
-          className={activeTab == 0 ? "active" : ""}
-        >
-          <IconDollar/>
-          Currencies
-        </button>
-        <button
-          onClick={() => setActiveTab(1)}
-          className={activeTab == 1 ? "active" : ""}
-        >
-          <IconBitcoin/>
-          Crypto currencies
-        </button>
-        <button
-          onClick={() => setActiveTab(2)}
-          className={activeTab == 2 ? "active" : ""}
-        >
-          <IconDrop/>
-          Commodities
-        </button>
-        <button
-          onClick={() => setActiveTab(3)}
-          className={activeTab == 3 ? "active" : ""}
-        >
-          <IconFile/>
-          Stocks
-        </button>
-        <button
-          onClick={() => setActiveTab(4)}
-          className={activeTab == 4 ? "active" : ""}
-        >
-          <IconTrend/>
-          Indices
-        </button>
-        <button
-          onClick={() => setActiveTab(5)}
-          className={activeTab == 5 ? "active" : ""}
-        >
-          <IconFav/>
-          Favorites
-        </button>
-        <button
-          onClick={() => setActiveTab(6)}
-          className={activeTab == 6 ? "active" : ""}
-        >
-          <IconSchedule/>
-          Schedule
-        </button>
+        {tabs.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveTab(item)}
+            className={activeTab == item ? "active" : ""}
+          >
+            {item}
+          </button>
+        ))}
+
+       
 
         <p>
           OTC quotes are provided directly by international banks, liquidity
@@ -71,39 +54,41 @@ export function AssetsToolBar() {
       </div>
 
       {/* 0 */}
-      {activeTab == 0 && (
-        <div className="tab-content">
-          <form className="search-bar">
-            <input type="text" placeholder="search" />
-            <button type="submit">
+
+      <div className="tab-content">
+        <form className="search-bar">
+          <input type="text" placeholder="search" />
+          <button type="submit">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M10 2.75a7.25 7.25 0 0 1 5.63 11.819l4.9 4.9a.75.75 0 0 1-.976 1.134l-.084-.073-4.901-4.9A7.25 7.25 0 1 1 10 2.75Zm0 1.5a5.75 5.75 0 1 0 0 11.5 5.75 5.75 0 0 0 0-11.5Z" />
+            </svg>
+          </button>
+        </form>
+        <div className="list">
+          <div className="list-header">
+            <span>Asset</span>
+            <button>
+              Payout
               <svg
-                width="24"
-                height="24"
                 fill="none"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M10 2.75a7.25 7.25 0 0 1 5.63 11.819l4.9 4.9a.75.75 0 0 1-.976 1.134l-.084-.073-4.901-4.9A7.25 7.25 0 1 1 10 2.75Zm0 1.5a5.75 5.75 0 1 0 0 11.5 5.75 5.75 0 0 0 0-11.5Z" />
+                <path d="M6.102 8c-1.074 0-1.648 1.265-.94 2.073l5.521 6.31a1.75 1.75 0 0 0 2.634 0l5.522-6.31c.707-.808.133-2.073-.94-2.073H6.101Z" />
               </svg>
             </button>
-          </form>
-          <div className="list">
-            <div className="list-header">
-              <span>Asset</span>
-              <button>
-                Payout
-                <svg
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M6.102 8c-1.074 0-1.648 1.265-.94 2.073l5.521 6.31a1.75 1.75 0 0 0 2.634 0l5.522-6.31c.707-.808.133-2.073-.94-2.073H6.101Z" />
-                </svg>
-              </button>
-            </div>
-            <div className="content">
-              {[0, 1, 2, 3, 4, 5].map((item, index) => (
-                <div key={index} className="item">
+          </div>
+          <div className="content scrollbar">
+            {props.assetsData
+              .filter((item) => item.exch == activeTab)
+              .map((item, index) => (
+                <div onClick={() => onAssetsSelect(item.symbols) } key={index} className="item">
                   <svg
                     fill="none"
                     viewBox="0 0 24 24"
@@ -115,20 +100,13 @@ export function AssetsToolBar() {
                     <img src={getFlagImg("aus")!} />
                     <img src={getFlagImg("can")!} />
                   </div>
-                  <span>aud/cad otc</span>
-                  <span>92%</span>
+                  <span>{item.symbols}</span>
+                  <span>{item.priceSettle}%</span>
                 </div>
               ))}
-            </div>
           </div>
         </div>
-      )}
-
-      {/* 1 */}
-      {activeTab == 1 && <div className="tab-content"></div>}
-
-      {/* 2 */}
-      {activeTab == 2 && <div className="tab-content"></div>}
+      </div>
     </div>
   );
 }

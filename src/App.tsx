@@ -29,6 +29,7 @@ export const AppContext = createContext<MyAppContextData>({
   socket: undefined,
   chartWithDrawings: undefined,
   setTimeIntervalInSec: () => {},
+  setSymbol: () => {},
   historyData: [],
 });
 
@@ -49,9 +50,13 @@ import { ChartWithDrawings } from "@dx-private/dxchart5-modules/dist/drawings/dr
 import { attachDrawingsComponent } from "@dx-private/dxchart5-modules/dist/drawings";
 import { DEFAULT_STUDIES_LIST } from "@dx-private/dxchart5-react/dist/config/studies-list";
 import { DrawingType } from "@dx-private/dxchart5-modules/dist/drawings/model/drawing-types";
-import { createDxStudiesProvider, DxStudiesProvider } from "@dx-private/dxchart5-react/dist/providers/studies/dx-studies-provider";
+import {
+  createDxStudiesProvider,
+  DxStudiesProvider,
+} from "@dx-private/dxchart5-react/dist/providers/studies/dx-studies-provider";
 import { TStudySettings } from "@dx-private/dxchart5-react/dist/chart/model/studies.model";
 import { Observable } from "rxjs";
+import { loadChartHistory } from "./api";
 
 function genData() {
   // const data = generateCandlesData({ quantity: 5 });
@@ -86,7 +91,7 @@ function App() {
   const chartsRef = useRef<ChartWithModules[]>([]);
   const timeFrameIntervalSec = useRef<number>(60);
   const [dataProvider, setDataProvider] = useState<ChartDataProvider>();
-  const studiesProvider = useRef<DxStudiesProvider>()
+  const studiesProvider = useRef<DxStudiesProvider>();
 
   const appContextData = useRef<MyAppContextData>({
     chartReactApi: undefined,
@@ -95,7 +100,11 @@ function App() {
     chartWithDrawings: undefined,
     historyData: serverDataToChartCandleData(json1),
     setTimeIntervalInSec: changeTimeFrameInterval,
+    setSymbol: changeSymbol,
   });
+
+  const selectedSymbol = useRef("BTCUSD");
+  const isDataLoading = useRef(false);
 
   async function getHistoryData() {
     console.log("history data loaded");
@@ -132,24 +141,35 @@ function App() {
       });
     })();
 
+    saveDefaultAggregation();
 
-    const initialStudies = Array<TStudySettings>()
+    const initialStudies = Array<TStudySettings>();
 
-    DEFAULT_STUDIES_LIST().forEach(item => {
-      initialStudies.push(fromRawStudiesSettings(item))
+    DEFAULT_STUDIES_LIST().forEach((item) => {
+      initialStudies.push(fromRawStudiesSettings(item));
+    });
 
-    })
-
-
-    studiesProvider.current = createDxStudiesProvider(initialStudies)
-    console.log(studiesProvider.current.getStudies())
-
-
+    studiesProvider.current = createDxStudiesProvider(initialStudies);
   }, []);
+
+  function saveDefaultAggregation() {
+    localStorage.setItem("aggregate", "m1");
+  }
+
+  function getAggregation() {
+    let item = localStorage.getItem("aggregate");
+    if (!item) item = "m1";
+    const durationType = item[0].toLowerCase() as "s" | "m" | "h" | "d";
+    const duration = parseInt(item.slice(1));
+
+    return {
+      durationType,
+      duration,
+    };
+  }
 
   const onChartCreated = useCallback((chart: Chart) => {
     appContextData.current.chartWithDrawings = attachDrawingsComponent(chart);
-  
 
     const hoverDrawer = new CenterHoverDrawer(chart);
     chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
@@ -166,9 +186,9 @@ function App() {
       console.log("connected");
     });
 
-    socket.emit("room", "BTCUSD");
+    socket.emit("room", selectedSymbol.current);
 
-    return;
+    // return;
     socket.on(
       "notification",
       function (data: {
@@ -181,7 +201,15 @@ function App() {
         Close: number;
         Time: string;
       }) {
-        console.log(data);
+
+
+        
+        if (isDataLoading.current == false) {
+          console.log("Socket data skipped")
+          return
+        };
+        console.log("Socket data added");
+
         const allCandles = chart.chartBaseModel.mainDataPoints;
 
         var lastDataObject = allCandles[allCandles.length - 1];
@@ -294,9 +322,8 @@ function App() {
     appContextData.current.chartReactApi = api;
     api.internal.multiChartViewModel.setChartTypeSync(true);
     api.internal.multiChartViewModel.setStudiesSync(true);
-
     // api.internal.multiChartViewModel.setStudies()
-    
+
     // api.internal.multiChartViewModel.setChartType("area");
 
     // const a: TStudySettings[] = [{
@@ -400,9 +427,42 @@ function App() {
   //   );
   // }, []);
 
+  async function loadHistoryData() {
+    appContextData.current.historyData = [];
+    appContextData.current.chartReactApi!!.changePeriod(getAggregation())
+    isDataLoading.current = true;
+    // appContextData.current.chartReactApi.res
+
+
+    // TODO: remove Math.round(timeFrameIntervalSec.current / 60) if api is fixed in seconds
+    const response = await loadChartHistory(
+      selectedSymbol.current,
+      Math.round(timeFrameIntervalSec.current / 60)
+    );
+
+
+    // TODO: get data from api and call set the aggregation 
+
+    console.log(response);
+  }
   function changeTimeFrameInterval(time: number) {
     console.log("interval changed");
-    timeFrameIntervalSec.current = time;
+
+    if (time != timeFrameIntervalSec.current) {
+      timeFrameIntervalSec.current = time;
+      loadHistoryData();
+    }
+  }
+
+  function changeSymbol(symbol: string) {
+    console.log("symbol changed");
+    // appContextData.current.chartReactApi!!.internal.
+
+    if (symbol != selectedSymbol.current) {
+      selectedSymbol.current = symbol;
+
+      loadHistoryData();
+    }
   }
 
   return (
@@ -418,9 +478,9 @@ function App() {
               style={{ height: "100vh", width: "100%" }}
               className="chart-holder"
             >
+              {/* @ts-ignore */}
               <ChartReactApp
                 dependencies={{
-                  
                   dxStudiesProvider: studiesProvider.current,
                   chartDataProvider: dataProvider,
                   initialChartConfig: {
@@ -451,7 +511,7 @@ function App() {
                     },
                   },
 
-                  initialStudies: ["TDSequential", "RelativeVigorIndex"],
+                  initialStudies: [],
 
                   chartReactConfig: {
                     drawings: {
@@ -464,8 +524,8 @@ function App() {
                       enabled: false,
                     },
                     studies: {
-                      addStudyButtonEnabled: true
-                    }
+                      addStudyButtonEnabled: true,
+                    },
                   },
                 }}
               />
@@ -480,4 +540,3 @@ function App() {
 }
 
 export default App;
-

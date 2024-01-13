@@ -20,13 +20,18 @@ export enum ToolVisible {
 import json1 from "../../others/data1.json";
 import json2 from "../../others/data2.json";
 import { PartialCandle } from "@devexperts/dxcharts-lite/dist/chart/components/chart/chart.component";
-import { serverDataToChartCandleData, serverDataToPartialCandleData } from "../../lib/Utils";
+import {
+  serverDataToChartCandleData,
+  serverDataToPartialCandleData,
+} from "../../lib/Utils";
+import { AssetsData, getAssets, loadChartHistory } from "../../api";
 // import { generateCandlesData } from "@dx-private/dxchart5-modules";
 
 export function ToolBar() {
   const appContext = useContext(AppContext);
-
   const [toolVisible, setToolVisible] = useState<ToolVisible>(ToolVisible.none);
+
+  const [assetsData, setAssetsData] = useState<AssetsData[]>([]);
 
   const [chartToolBar, setChartToolBar] = useState<ChartDialogData>({
     autoScroll: true,
@@ -43,36 +48,27 @@ export function ToolBar() {
       | "d";
     const duration = parseInt(chartToolBar.selectedTimeFrame.slice(1));
 
-
-    let totalSec = 0
-    if(durationType == "s") totalSec = duration
-    if(durationType == "m") totalSec = duration * 60
-    if(durationType == "h") totalSec = duration * 60 * 60
-    if(durationType == "d") totalSec = duration * 60 * 60 * 24
+    let totalSec = 0;
+    if (durationType == "s") totalSec = duration;
+    if (durationType == "m") totalSec = duration * 60;
+    if (durationType == "h") totalSec = duration * 60 * 60;
+    if (durationType == "d") totalSec = duration * 60 * 60 * 24;
 
     console.log(durationType, duration);
 
-    let _candles: PartialCandle[] = [];
+    // let _candles: PartialCandle[] = [];
 
+    // /*
+    // TODO:
+    // 1. implement api for data fetch from server
 
-    /*
-    TODO:
-    1. implement api for data fetch from server
-
-
-    */
-    _candles = serverDataToPartialCandleData(json2)
-
+    // */
+    // _candles = serverDataToPartialCandleData(json2);
 
     if (appContext.chart && appContext.chartReactApi) {
-      console.log(_candles, "m1");
-      appContext.historyData = serverDataToChartCandleData(json2)
-      appContext.setTimeIntervalInSec(totalSec)
-
-      appContext.chartReactApi.changePeriod({
-        duration: duration,
-        durationType: durationType,
-      });
+      // console.log(_candles, "m1");
+      localStorage.setItem("aggregate", durationType + duration);
+      appContext.setTimeIntervalInSec(totalSec);
 
       // setTimeout(() => {
       //   if(!appContext.chart) return
@@ -88,10 +84,22 @@ export function ToolBar() {
       // appContext.setLastCandleTimestamp(
       //   _candles[_candles.length - 1].timestamp
       // );
-
-
     }
   }, [chartToolBar.selectedTimeFrame]);
+
+
+  useEffect(() => {
+    loadAssets();
+  }, []);
+
+  async function loadAssets() {
+    const response = await getAssets();
+    if (response.data) {
+      setAssetsData(response.data);
+    } else {
+      alert(response.message);
+    }
+  }
 
   function toggleDropdown(item: ToolVisible) {
     if (toolVisible == item) {
@@ -99,6 +107,11 @@ export function ToolBar() {
     } else {
       setToolVisible(item);
     }
+  }
+
+  async function onAssetSelect(symbol: string) {
+    setToolVisible(ToolVisible.none);
+    appContext.setSymbol(symbol);
   }
 
   return (
@@ -123,7 +136,12 @@ export function ToolBar() {
               <path d="M6.102 8c-1.074 0-1.648 1.265-.94 2.073l5.521 6.31a1.75 1.75 0 0 0 2.634 0l5.522-6.31c.707-.808.133-2.073-.94-2.073H6.101Z" />
             </svg>
           </button>
-          {toolVisible == ToolVisible.assets && <AssetsToolBar />}
+          {toolVisible == ToolVisible.assets && (
+            <AssetsToolBar
+              assetsData={assetsData}
+              hideToolbar={(symbol) => onAssetSelect(symbol)}
+            />
+          )}
         </div>
 
         <div>
@@ -179,11 +197,14 @@ export function ToolBar() {
               <path d="M13.94 5 19 10.06 9.062 20a2.25 2.25 0 0 1-.999.58l-5.116 1.395a.75.75 0 0 1-.92-.921l1.395-5.116a2.25 2.25 0 0 1 .58-.999L13.938 5Zm7.09-2.03a3.578 3.578 0 0 1 0 5.06l-.97.97L15 3.94l.97-.97a3.578 3.578 0 0 1 5.06 0Z" />
             </svg>
           </button>
-          {toolVisible == ToolVisible.tools && <ToolsToolBar hideToolbar={() => setToolVisible(ToolVisible.none)} />}
+          {toolVisible == ToolVisible.tools && (
+            <ToolsToolBar
+              hideToolbar={() => setToolVisible(ToolVisible.none)}
+            />
+          )}
         </div>
       </div>
       <p className="legend">12:08:17 UTC+5:30</p>
     </div>
   );
 }
-
