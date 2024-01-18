@@ -9,7 +9,7 @@ import { IconTrend } from "../icons/IconTrend";
 import { IconSchedule } from "../icons/IconSchedule";
 import { AssetsData } from "../../api";
 
-export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (symbol: string) => void }) {
+export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (symbol: string) => void, selectedSymbol: string }) {
   const [activeTab, setActiveTab] = useState("");
 
   const [tabs, setTabs] = useState<string[]>([]);
@@ -44,8 +44,6 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
             {item}
           </button>
         ))}
-
-       
 
         <p>
           OTC quotes are provided directly by international banks, liquidity
@@ -88,7 +86,7 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
             {props.assetsData
               .filter((item) => item.exch == activeTab)
               .map((item, index) => (
-                <div onClick={() => onAssetsSelect(item.symbols) } key={index} className="item">
+                <div onClick={() => onAssetsSelect(item.symbols) } key={index} className={props.selectedSymbol == item.symbols ? "item active" : "item"}>
                   <svg
                     fill="none"
                     viewBox="0 0 24 24"

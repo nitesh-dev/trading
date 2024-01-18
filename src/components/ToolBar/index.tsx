@@ -25,6 +25,9 @@ import {
   serverDataToPartialCandleData,
 } from "../../lib/Utils";
 import { AssetsData, getAssets, loadChartHistory } from "../../api";
+import { IconLine } from "../icons/IconLine";
+import { IconCandle } from "../icons/IconCandle";
+import { IconArea } from "../icons/IconArea";
 // import { generateCandlesData } from "@dx-private/dxchart5-modules";
 
 export function ToolBar() {
@@ -108,8 +111,12 @@ export function ToolBar() {
     }
   }
 
+
+  const [selectedSymbol, setSelectedSymbol] = useState("BTCUSD")
+
   async function onAssetSelect(symbol: string) {
     setToolVisible(ToolVisible.none);
+    setSelectedSymbol(symbol)
     appContext.setSymbol(symbol);
   }
 
@@ -125,7 +132,7 @@ export function ToolBar() {
             }
             onClick={() => toggleDropdown(ToolVisible.assets)}
           >
-            EUR/USD OTC
+            {selectedSymbol}
             <svg
               className={toolVisible == ToolVisible.assets ? "flip" : ""}
               fill="none"
@@ -138,7 +145,7 @@ export function ToolBar() {
           {toolVisible == ToolVisible.assets && (
             <AssetsToolBar
               assetsData={assetsData}
-              hideToolbar={(symbol) => onAssetSelect(symbol)}
+              hideToolbar={(symbol) => onAssetSelect(symbol)} selectedSymbol={selectedSymbol}
             />
           )}
         </div>
@@ -152,7 +159,10 @@ export function ToolBar() {
             }
             onClick={() => toggleDropdown(ToolVisible.chart)}
           >
-            <IconBar />
+            {chartToolBar.selectedChart == "bar" && <IconBar/>}
+            {chartToolBar.selectedChart == "area" && <IconArea/>}
+            {chartToolBar.selectedChart == "candle" && <IconCandle/>}
+            {chartToolBar.selectedChart == "line" && <IconLine/>}
           </button>
           {toolVisible == ToolVisible.chart && (
             <ChartToolBar chart={chartToolBar} setChart={setChartToolBar} />
