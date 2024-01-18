@@ -182,6 +182,8 @@ function App() {
       reconnectionDelayMax: 10000,
     });
 
+    appContextData.current.socket = socket
+
     socket.on("connect", () => {
       console.log("connected");
     });
@@ -204,7 +206,7 @@ function App() {
 
 
         
-        if (isDataLoading.current == false) {
+        if (isDataLoading.current) {
           console.log("Socket data skipped")
           return
         };
@@ -441,6 +443,16 @@ function App() {
     );
 
 
+    if(response.data){
+      appContextData.current.historyData = serverDataToChartCandleData(response.data)
+      appContextData.current.chartReactApi!!.changePeriod(getAggregation())
+    }else{
+      alert("failed to load data")
+    }
+
+    isDataLoading.current = false
+
+
     // TODO: get data from api and call set the aggregation 
 
     console.log(response);
@@ -459,8 +471,11 @@ function App() {
     // appContextData.current.chartReactApi!!.internal.
 
     if (symbol != selectedSymbol.current) {
+      appContextData.current.socket?.emit("roomLeave", selectedSymbol.current);
+      console.log(appContextData.current.socket);
+      appContextData.current.socket?.emit("room", symbol);
+      console.log(appContextData.current.socket);
       selectedSymbol.current = symbol;
-
       loadHistoryData();
     }
   }
@@ -509,9 +524,11 @@ function App() {
                       showInstrument: false,
                       showPeriod: false,
                     },
+                    
                   },
 
                   initialStudies: [],
+                  
 
                   chartReactConfig: {
                     drawings: {

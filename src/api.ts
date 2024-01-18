@@ -28,7 +28,7 @@ export async function getAssets() {
 
 export async function loadChartHistory(symbol: string, period: number) {
   const response: ApiResponse<any> = await fetchData(
-    `api/DataHistory?symbol=${symbol}&period=${period}`,
+    `/api/DataHistory?symbol=${symbol}&period=${period}`,
     null
   );
   return response;
@@ -38,7 +38,7 @@ async function fetchData<T>(subUrl: string, body: any) {
   try {
     let response: Response;
     if (body) {
-      response = await fetch(api, {
+      response = await fetch(api + subUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ async function fetchData<T>(subUrl: string, body: any) {
         body: JSON.stringify(body),
       });
     } else {
-      response = await fetch(api, {
+      response = await fetch(api + subUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

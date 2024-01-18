@@ -87,7 +87,6 @@ export function ToolBar() {
     }
   }, [chartToolBar.selectedTimeFrame]);
 
-
   useEffect(() => {
     loadAssets();
   }, []);
