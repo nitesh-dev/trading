@@ -57,6 +57,7 @@ import {
 import { TStudySettings } from "@dx-private/dxchart5-react/dist/chart/model/studies.model";
 import { Observable } from "rxjs";
 import { loadChartHistory } from "./api";
+import { TradeObjectMarkerDrawer } from "./plugins/TradeObjectMarkerDrawer";
 
 function genData() {
   // const data = generateCandlesData({ quantity: 5 });
@@ -177,6 +178,9 @@ function App() {
     const tradeObjectDrawer = new TradeObjectDrawer(chart);
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     appContextData.current.chart = chart;
+
+    const tradeObjectMarkerDrawer = new TradeObjectMarkerDrawer(chart);
+    chart.drawingManager.addDrawer(tradeObjectMarkerDrawer, "trade-object-marker-drawer");
 
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
