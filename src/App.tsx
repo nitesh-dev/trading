@@ -178,11 +178,14 @@ function App() {
     chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
     appContextData.current.chart = chart;
 
+    // TODO: remove this
+    return
+
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
     });
 
-    appContextData.current.socket = socket
+    appContextData.current.socket = socket;
 
     socket.on("connect", () => {
       console.log("connected");
@@ -203,13 +206,10 @@ function App() {
         Close: number;
         Time: string;
       }) {
-
-
-        
         if (isDataLoading.current) {
-          console.log("Socket data skipped")
-          return
-        };
+          console.log("Socket data skipped");
+          return;
+        }
         console.log("Socket data added");
 
         const allCandles = chart.chartBaseModel.mainDataPoints;
@@ -431,10 +431,9 @@ function App() {
 
   async function loadHistoryData() {
     appContextData.current.historyData = [];
-    appContextData.current.chartReactApi!!.changePeriod(getAggregation())
+    appContextData.current.chartReactApi!!.changePeriod(getAggregation());
     isDataLoading.current = true;
     // appContextData.current.chartReactApi.res
-
 
     // TODO: remove Math.round(timeFrameIntervalSec.current / 60) if api is fixed in seconds
     const response = await loadChartHistory(
@@ -442,18 +441,18 @@ function App() {
       Math.round(timeFrameIntervalSec.current / 60)
     );
 
-
-    if(response.data){
-      appContextData.current.historyData = serverDataToChartCandleData(response.data)
-      appContextData.current.chartReactApi!!.changePeriod(getAggregation())
-    }else{
-      alert("failed to load data")
+    if (response.data) {
+      appContextData.current.historyData = serverDataToChartCandleData(
+        response.data
+      );
+      appContextData.current.chartReactApi!!.changePeriod(getAggregation());
+    } else {
+      alert("failed to load data");
     }
 
-    isDataLoading.current = false
+    isDataLoading.current = false;
 
-
-    // TODO: get data from api and call set the aggregation 
+    // TODO: get data from api and call set the aggregation
 
     console.log(response);
   }
@@ -482,76 +481,74 @@ function App() {
 
   return (
     <>
-      {/* <ToastProvider> */}
-      <AppContext.Provider value={appContextData.current}>
-        <div className="main-app">
-          <ToolBar />
-          <div className="chart-holder-parent">
-            <img className="image-layer" src={mountainImage} />
-            <div
-              id="chart-holder"
-              style={{ height: "100vh", width: "100%" }}
-              className="chart-holder"
-            >
-              {/* @ts-ignore */}
-              <ChartReactApp
-                dependencies={{
-                  dxStudiesProvider: studiesProvider.current,
-                  chartDataProvider: dataProvider,
-                  initialChartConfig: {
-                    scale: {
-                      auto: true,
-                    },
-                  },
-
-                  onApiCreated,
-                  localization: {
-                    studies: {},
-                  },
-                  initialInstrument: "BTCUSD",
-                  initialAggregationPeriods: [
-                    { duration: 30, durationType: "m" },
-                    { duration: 1, durationType: "h" },
-                  ],
-                  initialAggregation: {
-                    duration: 1,
-                    durationType: "s",
-                  },
-                  initialChartReactSettings: {
-                    legend: {
-                      showOHLC: false,
-                      showVolume: false,
-                      showInstrument: false,
-                      showPeriod: false,
-                    },
-                    
-                  },
-
-                  initialStudies: [],
-                  
-
-                  chartReactConfig: {
-                    drawings: {
-                      sidebar: {
-                        enabled: false,
+      <ToastProvider>
+        <AppContext.Provider value={appContextData.current}>
+          <div className="main-app">
+            <ToolBar />
+            <div className="chart-holder-parent">
+              <img className="image-layer" src={mountainImage} />
+              <div
+                id="chart-holder"
+                style={{ height: "100vh", width: "100%" }}
+                className="chart-holder"
+              >
+                {/* @ts-ignore */}
+                <ChartReactApp
+                  dependencies={{
+                    dxStudiesProvider: studiesProvider.current,
+                    chartDataProvider: dataProvider,
+                    initialChartConfig: {
+                      scale: {
+                        auto: true,
                       },
                     },
-                    toolbar: {
-                      showButtonsTooltip: true,
-                      enabled: false,
+
+                    onApiCreated,
+                    localization: {
+                      studies: {},
                     },
-                    studies: {
-                      addStudyButtonEnabled: true,
+                    initialInstrument: "BTCUSD",
+                    initialAggregationPeriods: [
+                      { duration: 30, durationType: "m" },
+                      { duration: 1, durationType: "h" },
+                    ],
+                    initialAggregation: {
+                      duration: 1,
+                      durationType: "s",
                     },
-                  },
-                }}
-              />
+                    initialChartReactSettings: {
+                      legend: {
+                        showOHLC: false,
+                        showVolume: false,
+                        showInstrument: false,
+                        showPeriod: false,
+                      },
+                    },
+
+                    initialStudies: [],
+
+                    chartReactConfig: {
+                      drawings: {
+                        sidebar: {
+                          enabled: false,
+                        },
+                      },
+                      toolbar: {
+                        showButtonsTooltip: true,
+                        enabled: false,
+                      },
+                      studies: {
+                        addStudyButtonEnabled: true,
+                      },
+                    },
+                  }}
+                />
+              </div>
             </div>
+            <RightPanel />
           </div>
-          <RightPanel />
-        </div>
-      </AppContext.Provider>
-      {/* </ToastProvider> */}
+        </AppContext.Provider>
+      </ToastProvider>
     </>
   );
 }

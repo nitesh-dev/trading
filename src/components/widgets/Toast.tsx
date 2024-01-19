@@ -16,10 +16,13 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { IconHigher } from "../icons/IconHigher";
+import { TradeToastData } from "../../lib/DataType";
+import { IconLower } from "../icons/IconLower";
 //context
 interface ToastContextProps {
-  addToast: (message: string) => void;
-  toasts: string[];
+  addToast: (data: TradeToastData) => void;
+  toasts: TradeToastData[];
 }
 
 const ToastContext = createContext<ToastContextProps | undefined>(undefined);
@@ -34,7 +37,7 @@ export const useToast = () => {
 
 //create toast view
 interface ToastBoxProps {
-  toasts: string[];
+  toasts: TradeToastData[];
 }
 
 interface ToastBoxRef {
@@ -51,27 +54,44 @@ const ToastBox = forwardRef<ToastBoxRef, ToastBoxProps>(({ toasts }, ref) => {
       }
     },
   }));
-  const message = toasts[0];
+
   return (
     <div className="toast-box" ref={toastBoxRef}>
-      {/* {toasts.map((message, i) => (
-        <div className="toast" key={i}>
-          {message}
+      {toasts.map((data, i) => (
+        <div className="trade-toast" key={i}>
+          <div className="title">{data.title}</div>
+          <div className={data.type == "higher" ? "symbol" : "symbol danger"}>
+            {data.symbol}{" "}
+            {data.type == "higher" ? <IconHigher /> : <IconLower />}
+          </div>
+          <div className="values">
+            <div>
+              <span>{data.place == "start" ? "Forecast" : "Payout"}</span>
+              <span className="text">{data.value1}</span>
+            </div>
+            <div>
+              <span>
+                {data.place == "start"
+                  ? "Amount"
+                  : data.isProfit
+                  ? "Profit"
+                  : "Lose"}
+              </span>
+              <span className="text">{data.value2}</span>
+            </div>
+          </div>
         </div>
-      ))} */}
-      <div className="toast">{message}</div>
+      ))}
     </div>
   );
 });
 
 //provider
-export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<string[]>([]);
+export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+  const [toasts, setToasts] = useState<TradeToastData[]>([]);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timerId, setTimerId] = useState<number | undefined>(undefined);
   const toastBoxRef = useRef<ToastBoxRef | null>(null);
-
-  const [activeToast, setActiveToast] = useState<string | null>(null);
   useEffect(() => {
     return () => {
       clearInterval(timerId);
@@ -85,37 +105,40 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, [toasts]);
 
   const removeLastToast = () => {
-    setToasts((oldToasts) => {
-      const del = oldToasts[0];
-      const newToasts = oldToasts.slice(1, oldToasts.length);
-      console.log("deleted", del, newToasts);
-      return newToasts;
-    });
+    setToasts((oldToasts) => oldToasts.slice(1, oldToasts.length));
   };
 
-  const addToast = (message: string) => {
-    setToasts((prevToasts) => [...prevToasts, message]);
+  const addToast = (data: TradeToastData) => {
+    setToasts((prevToasts) => [...prevToasts, data]);
     if (toasts.length == 0 && !timerRunning) {
-      setTimerId(() => setInterval(removeLastToast, 5000));
+      setTimerId(() => setInterval(removeLastToast, 4000) as any);
     }
     setTimerRunning(true);
     if (toastBoxRef.current) {
-      //   toastBoxRef.current.scrollToBottom();
+      toastBoxRef.current.scrollToBottom();
     }
   };
 
   return (
     <ToastContext.Provider value={{ toasts, addToast }}>
       {children}
-      {activeToast && <ToastBox toasts={toasts} ref={toastBoxRef} />}
+      <ToastBox toasts={toasts} ref={toastBoxRef} />
     </ToastContext.Provider>
   );
-}
+};
 
 export function ToastExample() {
   const { addToast } = useToast();
   function show() {
-    addToast("hello " + Math.random());
+    addToast({
+      type: "lower",
+      isProfit: false,
+      place: "end",
+      symbol: "ABC",
+      title: "hi toast",
+      value1: "$10",
+      value2: "higher",
+    });
   }
   return (
     <div>

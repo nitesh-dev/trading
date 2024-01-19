@@ -10,9 +10,10 @@ import { IconSubtract } from "./icons/IconSubtract";
 import { IconAdd } from "./icons/IconAdd";
 import { IconLower } from "./icons/IconLower";
 import { IconHigher } from "./icons/IconHigher";
-import { ToastExample } from "./widgets/Toast";
+import { ToastExample, useToast } from "./widgets/Toast";
 
 export function RightPanel() {
+  const {addToast} = useToast();
   const [currentAmount, setCurrentAmount] = useState(10);
   const timeButtons = useRef<Array<BoxWidgetData>>([
     {

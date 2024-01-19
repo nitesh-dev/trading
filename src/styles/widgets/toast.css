@@ -19,34 +19,79 @@
 }
 
 
-.toast {
-    min-height: 120px;
+.trade-toast {
+    min-height: 80px;
     min-width: 200px;
-    padding: 5px;
+    padding: 1em;
     background-color: rgba(0, 0, 0);
     margin-left: 16px;
     border-radius: var(--default-radius);
     border: 1px solid var(--border-color);
     animation-name: toast-animation;
     animation-duration: 4s;
-    transform: translateX(-100%);
+    transform: translateX(-120%);
+    margin-bottom: 6px;
 
+}
+
+
+.trade-toast .title{
+    font-size: var(--small-font2);
+    color: var(--color-on-surface);
+}
+
+.trade-toast .symbol{
+    font-size: var(--medium-font2);
+    color: var(--color-on-surface);
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    fill: var(--success-color);
+}
+
+.trade-toast .symbol.danger{
+    fill: var(--error-color);
+}
+
+.trade-toast .symbol svg{
+    width: 18px;
+    height: auto;
+    fill: inherit;
+}
+
+.trade-toast .values{
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    color: var(--color-on-surface-light);
+    font-size: var(--small-font2);
+}
+
+.trade-toast .values .text{
+    font-size: var(--medium-font);
+    color: var(--color-on-surface);
+}
+
+.trade-toast .values div{
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes toast-animation {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-120%);
     }
 
-    25% {
+    10% {
         transform: translateX(0);
     }
 
-    50% {
+    90% {
         transform: translateX(0);
     }
 
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-120%);
     }
 }

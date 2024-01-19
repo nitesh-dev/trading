@@ -52,3 +52,15 @@ export interface ServerChartData {
   close: number;
   time: number;
 }
+
+
+export interface TradeToastData{
+  place: "start" | "end";
+  type: "higher" | "lower";
+  isProfit: boolean;
+  title: string
+  symbol: string
+  value1: string
+  value2: string
+}
+
