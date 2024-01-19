@@ -84,7 +84,7 @@ export class TradeObjectMarkerDrawer implements Drawer {
     ctx.fillStyle = expiryColor; // Color of the text
 
     // Draw text using fillText  12:40:23
-    ctx.fillText("ETT", endCandleX + 10, 50);
+    ctx.fillText("Expiry Time", endCandleX + 10, 50);
     ctx.fillText(
       formatTimestampToExpiryTime(endTimestamp),
       endCandleX + 10,

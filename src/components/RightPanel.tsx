@@ -77,7 +77,7 @@ export function RightPanel() {
           setTimeout(() => {
             drawer.removeTradeObjectById(obj.id);
           }, 4000);
-        }, 5000);
+        }, tradeDuration.current * 1000);
       }
 
       addToast({
