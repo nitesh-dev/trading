@@ -12,7 +12,6 @@ import { IconLower } from "./icons/IconLower";
 import { IconHigher } from "./icons/IconHigher";
 
 import { ToastExample, useToast } from "./widgets/Toast";
-import TimePicker from "./widgets/TimePicker";
 import RightPanelTime from "./RightPanelTime";
 
 export function RightPanel() {
@@ -56,6 +55,16 @@ export function RightPanel() {
         "trade-object-drawer"
       ) as TradeObjectDrawer;
       drawer.addTradeObject(tradeDuration.current, tradeType, currentAmount);
+
+      addToast({
+        place: "start",
+        type: tradeType,
+        isProfit: false,
+        title: "Trade order placed",
+        symbol: localStorage.getItem("symbol") || "",
+        value1: tradeType,
+        value2: "$" + currentAmount
+      })
     }
   }
 

@@ -180,12 +180,6 @@ function App() {
     appContextData.current.chart = chart;
 
     const tradeObjectMarkerDrawer = new TradeObjectMarkerDrawer(chart);
-    chart.drawingManager.addDrawer(tradeObjectMarkerDrawer, "trade-object-marker-drawer");
-
-    // TODO: remove this
-    return
-
-    const tradeObjectMarkerDrawer = new TradeObjectMarkerDrawer(chart);
     chart.drawingManager.addDrawer(
       tradeObjectMarkerDrawer,
       "trade-object-marker-drawer"
@@ -479,6 +473,7 @@ function App() {
 
   function changeSymbol(symbol: string) {
     console.log("symbol changed");
+    localStorage.setItem("symbol", symbol)
     // appContextData.current.chartReactApi!!.internal.
 
     if (symbol != selectedSymbol.current) {
@@ -490,6 +485,11 @@ function App() {
       loadHistoryData();
     }
   }
+
+
+  useEffect(() => {
+    localStorage.setItem("symbol", selectedSymbol.current)
+  }, [])
 
   return (
     <>
