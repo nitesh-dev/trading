@@ -185,8 +185,6 @@ function App() {
       "trade-object-marker-drawer"
     );
 
-    // TODO: remove this
-    return;
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
     });

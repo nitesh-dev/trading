@@ -10,9 +10,13 @@ import {
 } from "../lib/Color";
 import { TradeObject } from "../lib/DataType";
 import { uid } from "uid";
-import flagIcon from "../assets/flag.png";
+import flagIcon from "../assets/flag-out.png";
 import dropdownDownIcon from "../assets/drop-down-arrow.png";
 import dropdownUpIcon from "../assets/drop-up-arrow.png";
+import successIcon from "../assets/success.png";
+import closeIcon from "../assets/close.png";
+
+
 
 import { formatMinutesToTime, formatTimestampToExpiryTime } from "../lib/Utils";
 import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
@@ -61,7 +65,26 @@ export class TradeObjectDrawer implements Drawer {
     const startCandleX = startCandle.x(candleSeries.view);
     const startCandleY = startCandle.y(candleSeries.view);
 
-    this.drawTradeArea(ctx, tradeObject, startCandleX, startCandleY, endCandleX);
+    if (tradeObject.isClosed) {
+      this.drawCloseTradeArea(
+        ctx,
+        tradeObject,
+        startCandleX,
+        startCandleY,
+        endCandleX
+      );
+
+      return;
+    }
+
+    // skip drawing
+    this.drawTradeArea(
+      ctx,
+      tradeObject,
+      startCandleX,
+      startCandleY,
+      endCandleX
+    );
     this.drawExpiryArea(
       ctx,
       endCandleX,
@@ -71,7 +94,13 @@ export class TradeObjectDrawer implements Drawer {
     );
   }
 
-  private drawTradeArea(ctx: CanvasRenderingContext2D, tradeObject: TradeObject, startCandleX: number, startCandleY: number, endCandleX: number) {
+  private drawTradeArea(
+    ctx: CanvasRenderingContext2D,
+    tradeObject: TradeObject,
+    startCandleX: number,
+    startCandleY: number,
+    endCandleX: number
+  ) {
     ctx.save();
     ctx.beginPath();
 
@@ -104,22 +133,18 @@ export class TradeObjectDrawer implements Drawer {
       ctx.fillStyle = dangerColor;
     }
 
-
     // calculate text width
-    ctx.font = "20px Arial";
-    const priceText = "$" + tradeObject.price
-    const priceTextWidth = ctx.measureText(priceText).width;
-    
-    
     ctx.font = "16px Arial";
-    const timeText = formatMinutesToTime(tradeObject.timeInterval)
+    const priceText = "$" + tradeObject.price;
+    const priceTextWidth = ctx.measureText(priceText).width;
+
+    ctx.font = "12px Arial";
+    const timeText = formatMinutesToTime(tradeObject.timeInterval);
     const timeTextWidth = ctx.measureText(timeText).width;
 
-
-
-    const padding = 5;
+    const padding = 3;
     const rectWidth = Math.max(timeTextWidth, priceTextWidth) * 2;
-    const rectHeight = 60;
+    const rectHeight = 45;
     const rectX = startCandleX - rectWidth - 10; // 10 is offset
     const rectY = startCandleY - Math.round(rectHeight / 2);
     ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 4);
@@ -128,29 +153,83 @@ export class TradeObjectDrawer implements Drawer {
     // arrow img
     const image = new Image();
     image.src = dropdownDownIcon;
-    if(tradeObject.tradeType == "higher")  image.src = dropdownUpIcon;
-    ctx.drawImage(image, rectX + padding, rectY + padding, 24, 24);
+    if (tradeObject.tradeType == "higher") image.src = dropdownUpIcon;
+    ctx.drawImage(image, rectX + padding, rectY + padding + 3, 16, 16);
 
     // price text
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText(
-      priceText,
-      rectX + padding + 24,
-      rectY + padding + 18
-    );
-
     ctx.font = "16px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(priceText, rectX + padding + 16, rectY + padding + 18);
 
-    const timeCenterX = rectX +  Math.round((rectWidth - timeTextWidth) / 2)
-    ctx.fillText(
-      timeText,
-      timeCenterX,
-      rectY + padding + 18 + 25
-    );
+    ctx.font = "12px Arial";
+
+    const timeCenterX = rectX + Math.round((rectWidth - timeTextWidth) / 2);
+    ctx.fillText(timeText, timeCenterX, rectY + padding + 18 + 16);
 
     ctx.restore();
+  }
 
+  private drawCloseTradeArea(
+    ctx: CanvasRenderingContext2D,
+    tradeObject: TradeObject,
+    startCandleX: number,
+    startCandleY: number,
+    endCandleX: number
+  ) {
+    ctx.save();
+    ctx.beginPath();
+    // circle
+    ctx.fillStyle = "white";
+    ctx.ellipse(startCandleX, startCandleY, 4, 4, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore;
+
+    ctx.save();
+    ctx.beginPath();
+
+    // trade box
+
+    // calculate text width
+    ctx.font = "16px Arial";
+    const priceText = tradeObject.value;
+    const priceTextWidth = ctx.measureText(priceText).width;
+
+    const padding = 3;
+    const iconWidth = 28;
+    const rectWidth = priceTextWidth * 1.5 + iconWidth;
+    const rectHeight = 32;
+    const rectX = startCandleX - rectWidth - 10; // 10 is offset
+    const rectY = startCandleY - Math.round(rectHeight / 2);
+
+    // background
+    ctx.fillStyle = "black";
+    ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 16);
+    ctx.fill();
+
+    // border
+    if (tradeObject.isProfit) {
+      ctx.strokeStyle = successColor;
+    } else {
+      ctx.strokeStyle = dangerColor;
+    }
+    ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 16);
+    ctx.stroke();
+
+    // img
+    const image = new Image();
+    if(tradeObject.isProfit){
+      image.src = successIcon;
+    }else{
+      image.src = closeIcon;
+    }
+    ctx.drawImage(image, rectX + rectWidth - iconWidth - 2, rectY + Math.round(rectHeight - iconWidth) / 2, iconWidth, iconWidth);
+
+    // price text
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(priceText, rectX + padding + 16, rectY + padding + 18);
+
+    ctx.restore();
   }
 
   private drawExpiryArea(
@@ -172,18 +251,18 @@ export class TradeObjectDrawer implements Drawer {
     // flag icon
     const image = new Image();
     image.src = flagIcon;
-    ctx.drawImage(image, endCandleX, 24, 24, 16);
+    ctx.drawImage(image, endCandleX, 0, 18, 12);
 
     // text
-    ctx.font = "16px Arial";
+    ctx.font = "12px Arial";
     ctx.fillStyle = expiryColor; // Color of the text
 
     // Draw text using fillText  12:40:23
-    ctx.fillText("Expiration time", endCandleX + 10, 70);
+    ctx.fillText("ETT", endCandleX + 10, 50);
     ctx.fillText(
       formatTimestampToExpiryTime(endTimestamp),
       endCandleX + 10,
-      95
+      70
     );
     ctx.restore();
   }
@@ -191,7 +270,6 @@ export class TradeObjectDrawer implements Drawer {
   getCanvasIds(): Array<string> {
     return [this.chart.dynamicObjectsCanvasModel.canvasId];
   }
-
 
   addTradeObject(
     timeInterval: number,
@@ -213,12 +291,15 @@ export class TradeObjectDrawer implements Drawer {
     const id = uid();
     const newTrade: TradeObject = {
       id: id,
+      isClosed: false,
       startTimestamp: candle.candle.timestamp,
       endTimestamp: endCandle.candle.timestamp,
       price: price,
       timeInterval: timeInterval,
       tradeType: tradeType,
-      candle: candle
+      candle: candle,
+      value: "",
+      isProfit: false,
     };
 
     this.tradeObjects.push(newTrade);
@@ -227,8 +308,33 @@ export class TradeObjectDrawer implements Drawer {
     return structuredClone(newTrade);
   }
 
+  closeTradeObject(id: string, value: string, isProfit: boolean) {
+    console.log("close trade object");
+    // const index = this.tradeObjects.findIndex((tradeObject) => {
+    //   return tradeObject.id == id;
+    // });
 
-  removeTradeObjectById(id: string){
+    let isClosed = false;
+
+    for (const iterator of this.tradeObjects) {
+      if (iterator.id == id) {
+        iterator.isClosed = true;
+        iterator.value = value;
+        iterator.isProfit = isProfit;
+        isClosed = true;
+        break;
+      }
+    }
+
+    if (!isClosed) {
+      console.log("No trade object found");
+      return;
+    }
+
+    this.chart.drawingManager.redrawCanvasesImmediate();
+  }
+
+  removeTradeObjectById(id: string) {
     this.tradeObjects = this.tradeObjects.filter((tradeObject) => {
       return tradeObject.id != id;
     });

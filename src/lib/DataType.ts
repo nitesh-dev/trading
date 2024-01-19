@@ -36,12 +36,15 @@ export enum HoverDirection {
 
 export interface TradeObject {
   id: string;
+  isClosed: boolean;
   startTimestamp: number;
   endTimestamp: number;
   price: number;
   timeInterval: number;
   tradeType: "higher" | "lower";
   candle: VisualCandle;
+  value: string;
+  isProfit: boolean;
 }
 
 export interface ServerChartData {
@@ -52,14 +55,12 @@ export interface ServerChartData {
   time: number;
 }
 
-
-export interface TradeToastData{
+export interface TradeToastData {
   place: "start" | "end";
   type: "higher" | "lower";
   isProfit: boolean;
-  title: string
-  symbol: string
-  value1: string
-  value2: string
+  title: string;
+  symbol: string;
+  value1: string;
+  value2: string;
 }
-

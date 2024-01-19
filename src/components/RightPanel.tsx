@@ -15,7 +15,7 @@ import { ToastExample, useToast } from "./widgets/Toast";
 import RightPanelTime from "./RightPanelTime";
 
 export function RightPanel() {
-  const {addToast} = useToast();
+  const { addToast } = useToast();
   const [currentAmount, setCurrentAmount] = useState(10);
   const tradeDuration = useRef(0);
 
@@ -54,7 +54,31 @@ export function RightPanel() {
       const drawer = appContext.chart.drawingManager.getDrawerByName(
         "trade-object-drawer"
       ) as TradeObjectDrawer;
-      drawer.addTradeObject(tradeDuration.current, tradeType, currentAmount);
+      const obj = drawer.addTradeObject(
+        tradeDuration.current,
+        tradeType,
+        currentAmount
+      );
+
+      // TODO: close trade object after 2 seconds
+      if (obj) {
+        setTimeout(() => {
+          drawer.closeTradeObject(obj.id, "$100.6999", false);
+          addToast({
+            place: "end",
+            type: "higher",
+            isProfit: false,
+            title: "Trade order closed",
+            symbol: localStorage.getItem("symbol") || "",
+            value1: "$100",
+            value2: "$50",
+          });
+
+          setTimeout(() => {
+            drawer.removeTradeObjectById(obj.id);
+          }, 4000);
+        }, 5000);
+      }
 
       addToast({
         place: "start",
@@ -63,8 +87,8 @@ export function RightPanel() {
         title: "Trade order placed",
         symbol: localStorage.getItem("symbol") || "",
         value1: tradeType,
-        value2: "$" + currentAmount
-      })
+        value2: "$" + currentAmount,
+      });
     }
   }
 

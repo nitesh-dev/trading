@@ -19,9 +19,20 @@ import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-cand
 export class TradeObjectMarkerDrawer implements Drawer {
   private timeIntervalInSec = 10; // in seconds
   private isFixed = false;
+  private lastDrawn = 0
 
-  constructor(private chart: Chart) {}
+  constructor(private chart: Chart) {
+    setInterval(() => {
+      const now = new Date().getTime()
+      const diff = now - this.lastDrawn
+      if(diff > 500){
+        console.log("redraw")
+        this.chart.drawingManager.redrawCanvasesImmediate();
+      }
+    }, 300)
+  }
   draw() {
+    this.lastDrawn = new Date().getTime()
     const canvasModel = this.chart.dynamicObjectsCanvasModel;
     const ctx = canvasModel.ctx;
 
@@ -66,7 +77,7 @@ export class TradeObjectMarkerDrawer implements Drawer {
     // flag icon
     const image = new Image();
     image.src = flagIcon;
-    ctx.drawImage(image, endCandleX, 0, 24, 16);
+    ctx.drawImage(image, endCandleX, 0, 18, 12);
 
     // text
     ctx.font = "12px Arial";
@@ -195,7 +206,7 @@ export class TradeObjectMarkerDrawer implements Drawer {
   }
 
   /*
-  @ Note param 0 means no expiry line
+  @Note: param 0 means no expiry line
   */
   setExpiry(intervalInSec: number, isFixed = false) {
     this.isFixed = isFixed
