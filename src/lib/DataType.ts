@@ -44,7 +44,6 @@ export interface TradeObject {
   candle: VisualCandle;
 }
 
-
 export interface ServerChartData {
   high: number;
   low: number;
