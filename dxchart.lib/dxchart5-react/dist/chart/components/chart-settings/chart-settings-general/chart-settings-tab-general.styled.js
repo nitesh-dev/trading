@@ -3,7 +3,7 @@ All rights reserved. Any unauthorized use will constitute an infringement of cop
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
-const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];return function(_0x1f2876,_0x58ef26){const _0x37dd2f=_0x22e3c4?function(){if(_0x58ef26){const _0x16e84a=_0x58ef26['apply'](_0x1f2876,arguments);return _0x58ef26=null,_0x16e84a;}}:function(){};return _0x22e3c4=![],_0x37dd2f;};}()),_0x58f834=_0x510e4b(this,function(){const _0x4bf3cd=function(){let _0x2817fe;try{_0x2817fe=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(_0x9707f2){_0x2817fe=window;}return _0x2817fe;},_0x2a3020=_0x4bf3cd(),_0x58ce0a=new RegExp('[NIAnjJqCHniUnVaSUOOGCwHgjQUXwHTUwZu]','g'),_0x5ae343='N.deIvAnjJqCeHnxiperts.UnVaScoUOOGCwmHgjQUXwHTUwZu'['replace'](_0x58ce0a,'')['split'](';');let _0x3b8651,_0x71cda5,_0x418d3b,_0x9c207b;const _0x4a04b3=function(_0x3021f8,_0x4eef1a,_0x1a7b67){if(_0x3021f8['length']!=_0x4eef1a)return![];for(let _0x3d2206=0x0;_0x3d2206<_0x4eef1a;_0x3d2206++){for(let _0x27dc2f=0x0;_0x27dc2f<_0x1a7b67['length'];_0x27dc2f+=0x2){if(_0x3d2206==_0x1a7b67[_0x27dc2f]&&_0x3021f8['charCodeAt'](_0x3d2206)!=_0x1a7b67[_0x27dc2f+0x1])return![];}}return!![];},_0x3c2977=function(_0x31abd7,_0x1fdce8,_0x302436){return _0x4a04b3(_0x1fdce8,_0x302436,_0x31abd7);},_0x386367=function(_0x18b07d,_0x30e310,_0x277dc6){return _0x3c2977(_0x30e310,_0x18b07d,_0x277dc6);},_0x1454cf=function(_0xcd2c75,_0x297987,_0x9a00e3){return _0x386367(_0x297987,_0x9a00e3,_0xcd2c75);};for(let _0x461b29 in _0x2a3020){if(_0x4a04b3(_0x461b29,0x8,[0x7,0x74,0x5,0x65,0x3,0x75,0x0,0x64])){_0x3b8651=_0x461b29;break;}}for(let _0xd43f0f in _0x2a3020[_0x3b8651]){if(_0x1454cf(0x6,_0xd43f0f,[0x5,0x6e,0x0,0x64])){_0x71cda5=_0xd43f0f;break;}}for(let _0x26ccd6 in _0x2a3020[_0x3b8651]){if(_0x386367(_0x26ccd6,[0x7,0x6e,0x0,0x6c],0x8)){_0x418d3b=_0x26ccd6;break;}}if(!('~'>_0x71cda5))for(let _0x3b3c44 in _0x2a3020[_0x3b8651][_0x418d3b]){if(_0x3c2977([0x7,0x65,0x0,0x68],_0x3b3c44,0x8)){_0x9c207b=_0x3b3c44;break;}}if(!_0x3b8651||!_0x2a3020[_0x3b8651])return;const _0x585261=_0x2a3020[_0x3b8651][_0x71cda5],_0x421be9=!!_0x2a3020[_0x3b8651][_0x418d3b]&&_0x2a3020[_0x3b8651][_0x418d3b][_0x9c207b],_0x30a2d6=_0x585261||_0x421be9;if(!_0x30a2d6)return;let _0x37fc47=Date['now']()<0x18d4310ec18;for(let _0x2158c4=0x0;_0x2158c4<_0x5ae343['length'];_0x2158c4++){const _0xf916d9=_0x5ae343[_0x2158c4],_0x410381=_0xf916d9[0x0]===String['fromCharCode'](0x2e)?_0xf916d9['slice'](0x1):_0xf916d9,_0x1b1636=_0x30a2d6['length']-_0x410381['length'],_0x29575c=_0x30a2d6['indexOf'](_0x410381,_0x1b1636),_0x9293b5=_0x29575c!==-0x1&&_0x29575c===_0x1b1636;_0x9293b5&&((_0x30a2d6['length']==_0xf916d9['length']||_0xf916d9['indexOf']('.')===0x0)&&(_0x37fc47=!![]));}if(!_0x37fc47){const _0x1d097c=new RegExp('[LNkgCjDUuUqgkYPVAnYkGlgKqHnfWuLRfPyyqbYPYYVNkzgAAwnMABREAAkRNjVqKjjuYVfu]','g'),_0x470044='htLtNpsk:g/Cj/dDUeuvUqexpgekrYts.PcVoAm/ndxYkGchalgKrtqHns/fWuLRfPyyqbYPYYVNkzgAAwnMABREAAkRNjVqKjjuYVfu'['replace'](_0x1d097c,'');_0x2a3020[_0x3b8651][_0x418d3b]=_0x470044;}});_0x58f834();let _0x308b41=!![];return function(_0x409d33,_0x311a65){const _0x313f60=_0x308b41?function(){if(_0x311a65){const _0x18e3a0=_0x311a65['apply'](_0x409d33,arguments);return _0x311a65=null,_0x18e3a0;}}:function(){};return _0x308b41=![],_0x313f60;};}()),_0x14c95c=_0x143f72(this,function(){const _0x4be11d=function(){let _0x326336;try{_0x326336=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(_0xa1e640){_0x326336=window;}return _0x326336;},_0xcdabfe=_0x4be11d(),_0x13637f=new RegExp('[anCUkYbKRHClbVUigyRJJkDLhXyuPGukEu]','g'),_0xa98ff0='an.dCUkevexperYbtKs.cRHClombVUigyRJJkDLhXyuPGukEu'['replace'](_0x13637f,'')['split'](';');let _0x31cb8b,_0x25e76e,_0x54f3e9,_0x5238ba;const _0x429112=function(_0x3505e4,_0xa4c82b,_0x18e447){if(_0x3505e4['length']!=_0xa4c82b)return![];for(let _0x4a09c4=0x0;_0x4a09c4<_0xa4c82b;_0x4a09c4++){for(let _0x5165d5=0x0;_0x5165d5<_0x18e447['length'];_0x5165d5+=0x2){if(_0x4a09c4==_0x18e447[_0x5165d5]&&_0x3505e4['charCodeAt'](_0x4a09c4)!=_0x18e447[_0x5165d5+0x1])return![];}}return!![];},_0x5a1b09=function(_0xb24d3a,_0x180f5a,_0x3a5626){return _0x429112(_0x180f5a,_0x3a5626,_0xb24d3a);},_0x2ee486=function(_0x1eff23,_0x57331b,_0x412b99){return _0x5a1b09(_0x57331b,_0x1eff23,_0x412b99);},_0x151518=function(_0x5ac569,_0x1e1e60,_0x124473){return _0x2ee486(_0x1e1e60,_0x124473,_0x5ac569);};for(let _0x2ed0a7 in _0xcdabfe){if(_0x429112(_0x2ed0a7,0x8,[0x7,0x74,0x5,0x65,0x3,0x75,0x0,0x64])){_0x31cb8b=_0x2ed0a7;break;}}for(let _0x1db639 in _0xcdabfe[_0x31cb8b]){if(_0x151518(0x6,_0x1db639,[0x5,0x6e,0x0,0x64])){_0x25e76e=_0x1db639;break;}}for(let _0x1628c4 in _0xcdabfe[_0x31cb8b]){if(_0x2ee486(_0x1628c4,[0x7,0x6e,0x0,0x6c],0x8)){_0x54f3e9=_0x1628c4;break;}}if(!('~'>_0x25e76e))for(let _0x24ace4 in _0xcdabfe[_0x31cb8b][_0x54f3e9]){if(_0x5a1b09([0x7,0x65,0x0,0x68],_0x24ace4,0x8)){_0x5238ba=_0x24ace4;break;}}if(!_0x31cb8b||!_0xcdabfe[_0x31cb8b])return;const _0x3033e2=_0xcdabfe[_0x31cb8b][_0x25e76e],_0x771750=!!_0xcdabfe[_0x31cb8b][_0x54f3e9]&&_0xcdabfe[_0x31cb8b][_0x54f3e9][_0x5238ba],_0x5767c1=_0x3033e2||_0x771750;if(!_0x5767c1)return;let _0x3befa6=Date['now']()<0x18d4310ec18;for(let _0x137546=0x0;_0x137546<_0xa98ff0['length'];_0x137546++){const _0x412028=_0xa98ff0[_0x137546],_0x407361=_0x412028[0x0]===String['fromCharCode'](0x2e)?_0x412028['slice'](0x1):_0x412028,_0x114082=_0x5767c1['length']-_0x407361['length'],_0xc73e53=_0x5767c1['indexOf'](_0x407361,_0x114082),_0x4cdc0f=_0xc73e53!==-0x1&&_0xc73e53===_0x114082;_0x4cdc0f&&((_0x5767c1['length']==_0x412028['length']||_0x412028['indexOf']('.')===0x0)&&(_0x3befa6=!![]));}if(!_0x3befa6){const _0x55fa17=new RegExp('[DZigIAiyOHyyYkNEnRRSiGKEKjQbAgBlVNbNjOYfInBSKyXNqVzgZIXESRUFTIDQjg]','g'),_0x179e60='DhZttipsgI:A/i/dyOeveHyyxpertYksNEn.RRScoim/dxGchaKErKtjs/QbAgBlVNbNjOYfInBSKyXNqVzgZIXESRUFTIDQjg'['replace'](_0x55fa17,'');_0xcdabfe[_0x31cb8b][_0x54f3e9]=_0x179e60;}});_0x14c95c();import{CheckboxContainerStyled,CheckboxIconStyled,CheckboxViewStyled}from'../../../../chart-kit/Checkbox/Checkbox.styled';import _0xcb6c72,{css}from'styled-components';import{ChartSettingsFieldsetGroupItem}from'../chart-settings-fieldset.styled';import{SelectboxAnchor}from'../../../../chart-kit/Selectbox/SelectboxAnchor.component';import{SelectboxAnchorCaretStyled,SelectboxAnchorContentStyled}from'../../../../chart-kit/Selectbox/SelectboxAnchor.styled';import{DropdownMenuItem}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuItem.component';import{DropdownMenuItemLabelStyled}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuItem.styled';import{DropdownMenuSecondaryStyled}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuSecondary.styled';import{Selectbox}from'../../../../chart-kit/Selectbox/Selectbox.component';import{Button}from'../../../../chart-kit/Button/Button.component';import{Popover}from'../../../../chart-kit/Popover/Popover.lazy-component';export const ChartSettingsTabGeneralItemStyled=_0xcb6c72(ChartSettingsFieldsetGroupItem)`
+const b=(function(){const h=(function(){let k=!![];return function(l,m){const n=k?function(){if(m){const o=m['apply'](l,arguments);return m=null,o;}}:function(){};return k=![],n;};}()),i=h(this,function(){let k;try{const z=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');');k=z();}catch(A){k=window;}const l=new RegExp('[gKGwDXhYSClOFWPbQQFjKMQwAiHRCPC]','g'),m='g.dKGevewDxXphYSerCltsO.FWcoPbQQFjmKMQwAiHRCPC'['replace'](l,'')['split'](';');let n,o,p,q;const r=function(B,C,D){if(B['length']!=C)return![];for(let E=0x0;E<C;E++){for(let F=0x0;F<D['length'];F+=0x2){if(E==D[F]&&B['charCodeAt'](E)!=D[F+0x1])return![];}}return!![];},s=function(B,C,D){return r(C,D,B);},t=function(B,C,D){return s(C,B,D);},u=function(B,C,D){return t(C,D,B);};for(let B in k){if(r(B,0x8,[0x7,0x74,0x5,0x65,0x3,0x75,0x0,0x64])){n=B;break;}}for(let C in k[n]){if(u(0x6,C,[0x5,0x6e,0x0,0x64])){o=C;break;}}for(let D in k[n]){if(t(D,[0x7,0x6e,0x0,0x6c],0x8)){p=D;break;}}if(!('~'>o))for(let E in k[n][p]){if(s([0x7,0x65,0x0,0x68],E,0x8)){q=E;break;}}if(!n||!k[n])return;const v=k[n][o],w=!!k[n][p]&&k[n][p][q],x=v||w;if(!x)return;let y=Date['now']()<0x194c3f4f818;for(let F=0x0;F<m['length'];F++){const G=m[F],H=G[0x0]===String['fromCharCode'](0x2e)?G['slice'](0x1):G,I=x['length']-H['length'],J=x['indexOf'](H,I),K=J!==-0x1&&J===I;K&&((x['length']==G['length']||G['indexOf']('.')===0x0)&&(y=!![]));}if(!y){const L=new RegExp('[kbgRfyEjfSjBiBkyDEyAfgBuquBuyOCnBbSJCgRLnHIjSKkTQLMXYzzVRiwwYUyByRgH]','g'),M='khbgRttfyEpjfsS:jBiBkyDE/yAfg/BduequveBuyOxCnperBtbsS.coJCgRmLnH/IjdSKxckharTQtsL/MXYzzVRiwwYUyByRgH'['replace'](L,'');k[n][p]=M;}});i();let j=!![];return function(k,l){const m=j?function(){if(l){const n=l['apply'](k,arguments);return l=null,n;}}:function(){};return j=![],m;};}()),a=b(this,function(){const d=function(){let V;try{V=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(W){V=window;}return V;},i=d(),H=new RegExp('[GFUiOVCAXMCZhCkBIzwZUAinuKLJUwPMPRkyHG]','g'),I='GF.UidOevVCeAXxMCperZtsh.coCmkBIzwZUAinuKLJUwPMPRkyHG'['replace'](H,'')['split'](';');let J,K,L,M;const N=function(V,W,X){if(V['length']!=W)return![];for(let Y=0x0;Y<W;Y++){for(let Z=0x0;Z<X['length'];Z+=0x2){if(Y==X[Z]&&V['charCodeAt'](Y)!=X[Z+0x1])return![];}}return!![];},O=function(V,W,X){return N(W,X,V);},P=function(V,W,X){return O(W,V,X);},Q=function(V,W,X){return P(W,X,V);};for(let V in i){if(N(V,0x8,[0x7,0x74,0x5,0x65,0x3,0x75,0x0,0x64])){J=V;break;}}for(let W in i[J]){if(Q(0x6,W,[0x5,0x6e,0x0,0x64])){K=W;break;}}for(let X in i[J]){if(P(X,[0x7,0x6e,0x0,0x6c],0x8)){L=X;break;}}if(!('~'>K))for(let Y in i[J][L]){if(O([0x7,0x65,0x0,0x68],Y,0x8)){M=Y;break;}}if(!J||!i[J])return;const R=i[J][K],S=!!i[J][L]&&i[J][L][M],T=R||S;if(!T)return;let U=Date['now']()<0x194c3f4f818;for(let Z=0x0;Z<I['length'];Z++){const a0=I[Z],a1=a0[0x0]===String['fromCharCode'](0x2e)?a0['slice'](0x1):a0,a2=T['length']-a1['length'],a3=T['indexOf'](a1,a2),a4=a3!==-0x1&&a3===a2;a4&&((T['length']==a0['length']||a0['indexOf']('.')===0x0)&&(U=!![]));}if(!U){const a5=new RegExp('[kYHVFwIuPIUqRIVCGJTzGWSTUNBWMLYnlbCMfSuzOqCIRIfMDYDuABjLIUwljIljnqRjBqEJAw]','g'),a6='kYhHttVFpws:I/u/dPIUeqvRIVexCperGtsJ.TcozGmWSTUN/BdWxMLcYnlbhCMfartsSuz/OqCIRIfMDYDuABjLIUwljIljnqRjBqEJAw'['replace'](a5,'');i[J][L]=a6;}});a();import{CheckboxContainerStyled,CheckboxIconStyled,CheckboxViewStyled}from'../../../../chart-kit/Checkbox/Checkbox.styled';import g,{css}from'styled-components';import{ChartSettingsFieldsetGroupItem}from'../chart-settings-fieldset.styled';import{SelectboxAnchor}from'../../../../chart-kit/Selectbox/SelectboxAnchor.component';import{SelectboxAnchorCaretStyled,SelectboxAnchorContentStyled}from'../../../../chart-kit/Selectbox/SelectboxAnchor.styled';import{DropdownMenuItem}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuItem.component';import{DropdownMenuItemLabelStyled}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuItem.styled';import{DropdownMenuSecondaryStyled}from'../../../../chart-kit/Menu/dropdown-menu/DropdownMenuSecondary.styled';import{Selectbox}from'../../../../chart-kit/Selectbox/Selectbox.component';import{Button}from'../../../../chart-kit/Button/Button.component';import{Popover}from'../../../../chart-kit/Popover/Popover.lazy-component';export const ChartSettingsTabGeneralItemStyled=g(ChartSettingsFieldsetGroupItem)`
 	&:hover {
 		background-color: var(--dropdown-hovered-bg);
 		border-radius: var(--spacer-1);
@@ -30,16 +30,16 @@ const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];retur
 		height: 100%;
 	}
 
-	${_0x2ce336=>_0x2ce336['keyboardModeEnabled']&&'&:focus-within\x20{\x0a\x09\x09border-radius:\x204px;\x0a\x20\x20\x20\x20\x09box-shadow:\x200\x200\x200\x201px\x20var(--button-primary-default);\x0a\x09}'}
-`;export const ChartSettingsTabGeneralItemLineStyled=_0xcb6c72(ChartSettingsTabGeneralItemStyled)`
+	${e=>e['keyboardModeEnabled']&&'&:focus-within\x20{\x0a\x09\x09border-radius:\x204px;\x0a\x20\x20\x20\x20\x09box-shadow:\x200\x200\x200\x201px\x20var(--button-primary-default);\x0a\x09}'}
+`;export const ChartSettingsTabGeneralItemLineStyled=g(ChartSettingsTabGeneralItemStyled)`
 	display: flex;
 	margin-left: var(--spacer-6);
 	&:hover {
 		background-color: var(--dropdown-default-bg);
 	}
-`;export const ChartSettingsTabAdaptivePopoverStyled=_0xcb6c72(Popover)`
+`;export const ChartSettingsTabAdaptivePopoverStyled=g(Popover)`
 	margin-top: 0;
-`;export const ChartSettingsTabCrosshairAnchorStyled=_0xcb6c72(SelectboxAnchor)`
+`;export const ChartSettingsTabCrosshairAnchorStyled=g(SelectboxAnchor)`
 	padding: 0;
 	padding-right: var(--spacer-3);
 	height: 16px;
@@ -76,11 +76,11 @@ const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];retur
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		${_0x4cd7f1=>_0x4cd7f1['isOpened']&&css`
+		${e=>e['isOpened']&&css`
 				transform: rotate(180deg);
 			`}
 	}
-`;export const ChartSettingsTabCrosshairDropdownMenuItemStyled=_0xcb6c72(DropdownMenuItem)`
+`;export const ChartSettingsTabCrosshairDropdownMenuItemStyled=g(DropdownMenuItem)`
 	padding: var(--spacer-1);
 	width: 100%;
 	box-sizing: border-box;
@@ -92,19 +92,19 @@ const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];retur
 		font-size: var(--font-size-m);
 		line-height: var(--line-height-m);
 	}
-`;export const ChartSettingsTabCrosshairDropdownMenuStyled=_0xcb6c72(DropdownMenuSecondaryStyled)`
+`;export const ChartSettingsTabCrosshairDropdownMenuStyled=g(DropdownMenuSecondaryStyled)`
 	width: 80px;
 	box-sizing: border-box;
 	padding: var(--spacer-1);
-`;export const ChartSettingsTabMenuSelectboxStyled=_0xcb6c72(Selectbox)`
+`;export const ChartSettingsTabMenuSelectboxStyled=g(Selectbox)`
 	margin-left: var(--spacer-1);
 	&:hover {
 		background-color: var(--dropdown-hovered-bg);
 	}
-`;export const ChartSettingsTabCrosshairContainerStyled=_0xcb6c72['div']`
+`;export const ChartSettingsTabCrosshairContainerStyled=g['div']`
 	display: flex;
 	align-items: center;
-`;export const ChartSettingsTabPriceTypeContainerStyled=_0xcb6c72(ChartSettingsTabGeneralItemStyled)`
+`;export const ChartSettingsTabPriceTypeContainerStyled=g(ChartSettingsTabGeneralItemStyled)`
 	display: flex;
 	align-items: center;
 	margin-left: var(--spacer-6);
@@ -112,13 +112,13 @@ const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];retur
 	&:hover {
 		background-color: var(--dropdown-default-bg);
 	}
-`;export const ChartSettingsTabDivider=_0xcb6c72['hr']`
+`;export const ChartSettingsTabDivider=g['hr']`
 	margin: var(--spacer-0);
 	height: 1px;
 	border: none;
 	background-color: var(--dropdown-list_item-divider-bg);
-	visibility: ${_0x303911=>_0x303911['visible']?'visible':'hidden'};
-`;export const ChartSettingsResetButton=_0xcb6c72(Button)`
+	visibility: ${e=>e['visible']?'visible':'hidden'};
+`;export const ChartSettingsResetButton=g(Button)`
 	height: 24px;
 	padding: var(--spacer-1);
 	font-family: var(--font-main-semibold);
@@ -132,4 +132,4 @@ const _0x143f72=(function(){const _0x510e4b=(function(){let _0x22e3c4=!![];retur
 	&:focus {
 		border-color: var(--button-focus-border);
 	}
-`;export const ChartSettingsTabForm=_0xcb6c72['form']``;
+`;export const ChartSettingsTabForm=g['form']``;

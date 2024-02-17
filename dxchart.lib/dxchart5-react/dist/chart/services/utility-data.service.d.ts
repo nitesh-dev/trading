@@ -11,6 +11,7 @@ This notice must remain intact.
 import { ChartDataProvider, ServiceData } from '../../providers/chart-data-provider';
 import { Observable } from 'rxjs';
 export interface UtilityDataService {
-    readonly subscribeServiceData: (symbol: string) => Observable<ServiceData>;
+    readonly subscribeServiceData: (chartId: string, symbol: string) => Observable<ServiceData>;
+    readonly unsubscribeServiceData: (chartId: string, symbol: string) => void;
 }
 export declare const createUtilityDataService: import("../../context/context2").Context<Record<"chartDataProvider", ChartDataProvider>, UtilityDataService>;

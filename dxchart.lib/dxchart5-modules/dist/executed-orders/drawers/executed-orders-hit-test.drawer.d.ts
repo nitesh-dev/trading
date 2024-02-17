@@ -21,7 +21,8 @@ export declare class ExecutedOrdersHitTestDrawer implements Drawer {
     private readonly hitTestCanvasModel;
     private readonly canvasBoundsContainer;
     private readonly chartModel;
-    constructor(executedOrdersModel: ExecutedOrdersModel, executedOrderHitTestModel: ExecutedOrdersHitTestModel, config: FullChartConfigExecutedOrders, hitTestCanvasModel: HitTestCanvasModel, canvasBoundsContainer: CanvasBoundsContainer, chartModel: ChartModel);
+    private drawPredicate;
+    constructor(executedOrdersModel: ExecutedOrdersModel, executedOrderHitTestModel: ExecutedOrdersHitTestModel, config: FullChartConfigExecutedOrders, hitTestCanvasModel: HitTestCanvasModel, canvasBoundsContainer: CanvasBoundsContainer, chartModel: ChartModel, drawPredicate?: () => boolean);
     getCanvasIds(): Array<string>;
     draw(): void;
     private drawExecutedOrders;

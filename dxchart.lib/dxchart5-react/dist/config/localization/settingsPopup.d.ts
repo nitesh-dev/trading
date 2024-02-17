@@ -113,7 +113,7 @@ export declare const settingsPopupDictionary: {
             showVolume: string;
             overlaying: string;
             separate: string;
-            alignCandlesToSessions: string;
+            alignDataToSessionStart: string;
             snapCrosshairTo: {
                 title: string;
                 open: string;

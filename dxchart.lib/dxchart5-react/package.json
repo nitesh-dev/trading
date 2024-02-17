@@ -1,6 +1,6 @@
 {
   "name": "@dx-private/dxchart5-react",
-  "version": "5.8.0",
+  "version": "5.8.5",
   "author": "devexperts",
   "license": "UNLICENSED",
   "scripts": {
@@ -34,7 +34,7 @@
     "localization:translate": "ts-node --project ./tsconfig.node.json ./scripts/translate/cli/run.ts"
   },
   "dependencies": {
-    "@devexperts/dxcharts-lite": "2.4.3",
+    "@devexperts/dxcharts-lite": "2.4.4",
     "@react-spring/web": "^9.7.1",
     "accounting": "^0.4.1",
     "ace-builds": "^1.4.13",

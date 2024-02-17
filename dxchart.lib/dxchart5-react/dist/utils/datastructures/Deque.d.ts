@@ -8,8 +8,12 @@ All rights reserved. Any unauthorized use will constitute an infringement of cop
 In case of any questions regarding types of use, please contact legal@devexperts.com.
 This notice must remain intact.
 **/
+/**
+ * Double-ended queue data structure.
+ * @doc-tags utility
+ */
 export declare class Deque<T> {
-    private readonly data;
+    private data;
     private front;
     private back;
     private size;
@@ -21,4 +25,6 @@ export declare class Deque<T> {
     addBack(value: T): void;
     removeBack(): any;
     peekBack(): any;
+    getSize(): number;
+    clear(): void;
 }

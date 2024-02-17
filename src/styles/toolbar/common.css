@@ -289,8 +289,11 @@
 .indicators {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5em;
     min-width: 700px;
     text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .indicators>button {
@@ -301,7 +304,8 @@
     padding: 0.5em 1em;
     color: var(--color-on-surface-light);
     font-size: var(--medium-font);
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content 1fr;
     align-items: center;
     gap: 0.5em;
     border-radius: var(--default-radius);

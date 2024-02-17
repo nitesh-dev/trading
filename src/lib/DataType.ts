@@ -5,6 +5,7 @@ import { Socket } from "socket.io-client";
 import VisualCandle from "@devexperts/dxcharts-lite/dist/chart/model/visual-candle";
 import { ChartCandleData } from "@dx-private/dxchart5-react/dist/providers/chart-data-provider";
 import { ChartWithDrawings } from "@dx-private/dxchart5-modules/dist/drawings/drawings.config";
+import { DxStudiesProvider } from "@dx-private/dxchart5-react/dist/providers/studies/dx-studies-provider";
 
 export interface BoxWidgetData {
   icon: React.JSX.Element;
@@ -22,6 +23,7 @@ export interface MyAppContextData {
   chartReactApi: ChartReactAPI | undefined;
   chart: Chart | undefined;
   socket: Socket | undefined;
+  studiesProvider: DxStudiesProvider | undefined;
   setTimeIntervalInSec(inv: number): void;
   setSymbol(symbol: string): void;
   historyData: ChartCandleData[];

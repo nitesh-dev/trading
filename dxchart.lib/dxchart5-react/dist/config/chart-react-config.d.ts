@@ -144,6 +144,7 @@ export interface PartialChartReactConfig extends OptionalChartReactConfig {
 export interface PartialActionsHistoryConfig {
     undoKeyCode?: string;
     redoKeyCode?: string;
+    limit?: number;
 }
 export interface PartialDrawingsConfig {
     drawingsList?: DrawingGroup[];

@@ -26,7 +26,6 @@ import { InstrumentSymbol } from '../../model/layout.model';
 import { VisualOrder } from '../../model/trading/order.model';
 import { TStudySettings } from '../../model/studies.model';
 import { ThemeType } from '../../model/theme.model';
-import { ActionsHistoryVM } from '../actions/actions-history.vm';
 import { TimeframeChangeStrategy } from '../global-effects/keep-same-timestamp-range-aggregation.effect';
 import { LayoutViewModel } from '../layout.view-model';
 import { InitialLoaderVM } from '../loading/initial-loader.vm';
@@ -240,13 +239,13 @@ export interface ChartReactSupportedAPI extends ChartReactSupportedCallbacks, Ch
      */
     setStudiesByIds: (studyIds: string[], chartId?: string) => void;
     /**
-     * undo the last action on the chart if there is something to undo
+     * undo the last action on the chart if there is something to undo, takes selected chart id if none is provided
      */
-    undo: () => void;
+    undo: (chartId?: string) => void;
     /**
-     * redo the last action on chart if there is something to redo
+     * redo the last action on the chart if there is something to redo, takes selected chart id if none is provided
      */
-    redo: () => void;
+    redo: (chartId?: string) => void;
     /**
      * Sets Y Axis align to left or to right
      * @param align - 'left' or 'right'
@@ -358,5 +357,5 @@ export interface ChartReactApiVM {
  * This VM contains all external API.
  * Use this VM to bind API with our internal VM's structure.
  */
-export declare const createChartReactApiVM: import("../../../context/context2").Context<Record<"initialLoaderVM", InitialLoaderVM> & Record<"multiChartViewModel", MultiChartViewModel> & Record<"drawingSyncVM", MultichartDrawingSyncVM> & Record<"themeViewModel", ThemeViewModel> & Record<"actionsHistoryVM", ActionsHistoryVM> & Record<"onApiCreated", ChartReactAPICreatedCB> & Record<"notificationVM", NotificationViewModel> & Record<"layoutViewModel", LayoutViewModel> & Record<"layoutProvider", LayoutProvider> & Record<"dxStudiesProvider", import("../../../providers/studies/dx-studies-provider").DxStudiesProvider> & Record<"chartReactConfig", import("../../../config/chart-react-config").ChartReactConfig> & Record<"timezones", import("../../../utils/timezones/timezone.model").TimezonesConfig>, Sink<ChartReactApiVM>>;
+export declare const createChartReactApiVM: import("../../../context/context2").Context<Record<"initialLoaderVM", InitialLoaderVM> & Record<"multiChartViewModel", MultiChartViewModel> & Record<"drawingSyncVM", MultichartDrawingSyncVM> & Record<"themeViewModel", ThemeViewModel> & Record<"onApiCreated", ChartReactAPICreatedCB> & Record<"notificationVM", NotificationViewModel> & Record<"layoutViewModel", LayoutViewModel> & Record<"layoutProvider", LayoutProvider> & Record<"dxStudiesProvider", import("../../../providers/studies/dx-studies-provider").DxStudiesProvider> & Record<"chartReactConfig", import("../../../config/chart-react-config").ChartReactConfig> & Record<"timezones", import("../../../utils/timezones/timezone.model").TimezonesConfig>, Sink<ChartReactApiVM>>;
 export {};

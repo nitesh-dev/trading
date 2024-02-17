@@ -13,7 +13,8 @@ export declare class NewsHitTestDrawer implements Drawer {
     private newsComponent;
     private config;
     private canvasBoundsContainer;
-    constructor(canvasModel: HitTestCanvasModel, newsComponent: NewsComponent, config: FullChartConfigNews, canvasBoundsContainer: CanvasBoundsContainer);
+    private drawPredicate;
+    constructor(canvasModel: HitTestCanvasModel, newsComponent: NewsComponent, config: FullChartConfigNews, canvasBoundsContainer: CanvasBoundsContainer, drawPredicate?: () => boolean);
     draw(): void;
     getCanvasIds(): Array<string>;
 }

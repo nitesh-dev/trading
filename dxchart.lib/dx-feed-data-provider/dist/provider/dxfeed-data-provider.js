@@ -1,0 +1,6 @@
+/** Copyright ©2024 Devexperts LLC.
+All rights reserved. Any unauthorized use will constitute an infringement of copyright.
+In case of any questions regarding types of use, please contact legal@devexperts.com.
+This notice must remain intact.
+**/
+import{createCometdAdapter}from'../dx-feed-adapter/cometd-new/cometd-data-adapter';import{DEFAULT_LAZY_LOADING_CONFIG,createCandleAdapter}from'./candle-provider-adapter';import{createDxFeedCandleDataProvider}from'./dx-feed-candle-data-provider';import{createDxFeedQuoteDataProvider}from'./dx-feed-quote-data-provider';import{createDxFeedServiceDataProvider}from'./dx-feed-service-data-provider';import{createDxFeedSummaryDataProvider}from'./dx-feed-summary-data-provider';import{createDxFeedTradeETHDataProvider}from'./dx-feed-trade-eth-data-provider';export const createDxFeedProviderWithAdapter=(a,b=DEFAULT_LAZY_LOADING_CONFIG)=>{const c=createCometdAdapter(a);return createDxFeedProvider(c,b);};export const createDxFeedProvider=(a,b=DEFAULT_LAZY_LOADING_CONFIG)=>{const c=createCandleAdapter(createDxFeedCandleDataProvider(a,b),b),d=createDxFeedQuoteDataProvider(a),e=createDxFeedSummaryDataProvider(a),f=createDxFeedTradeETHDataProvider(a),g=createDxFeedServiceDataProvider(e,f,d);return Object['assign'](Object['assign']({},c),g);};

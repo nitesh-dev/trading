@@ -29,6 +29,7 @@ export interface ServiceData {
 }
 export interface ServiceDataProvider {
     subscribeServiceData(symbol: string, subscribeCallback: (data: ServiceData) => void): void;
+    unsubscribeServiceData(symbol: string): void;
 }
 export interface ChartDataOptions {
     extendedHours?: boolean;

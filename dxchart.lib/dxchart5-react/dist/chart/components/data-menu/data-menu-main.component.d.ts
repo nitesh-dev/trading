@@ -25,5 +25,7 @@ export interface DataMenuMainProps {
     readonly chartTypes: Readonly<Array<ChartType>>;
     readonly onChartTypeClose: () => void;
     readonly onPriceTypeClose: () => void;
+    readonly onChangeSeriesColor: (color: string) => void;
+    readonly palette: string[];
 }
 export declare const DataMenuMainComponent: React.NamedExoticComponent<DataMenuMainProps>;

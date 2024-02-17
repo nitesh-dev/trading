@@ -12,7 +12,8 @@ export declare class DrawingsHitTestDrawer implements Drawer {
     private drawings;
     private canvases;
     private hitTestCanvasModel;
-    constructor(drawings: DrawingsModel, canvases: Canvases, hitTestCanvasModel: HitTestCanvasModel);
+    private drawPredicate;
+    constructor(drawings: DrawingsModel, canvases: Canvases, hitTestCanvasModel: HitTestCanvasModel, drawPredicate?: () => boolean);
     draw(): void;
     getCanvasIds(): Array<string>;
 }

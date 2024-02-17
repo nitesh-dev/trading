@@ -10,4 +10,5 @@ This notice must remain intact.
 **/
 import { ChartDataViewModel } from '../data/chart-data.view-model';
 import { ChartWithModules } from '../../components/canvas-chart-renderer/chart-with-modules';
-export declare const doBasicScaleEffect: import("../../../context/context2").Context<Record<"chartDataViewModel", ChartDataViewModel> & Record<"chart", ChartWithModules>, import("rxjs").Observable<import("../../../providers/chart-data-provider").ChartCandleData[]>>;
+import { TimeframePresetsViewModel } from '../timeframe-presets.view-model';
+export declare const doBasicScaleEffect: import("../../../context/context2").Context<Record<"chartDataViewModel", ChartDataViewModel> & Record<"timeframePresetsViewModel", TimeframePresetsViewModel> & Record<"chart", ChartWithModules>, import("rxjs").Observable<import("../../../providers/chart-data-provider").ChartCandleData[]>>;

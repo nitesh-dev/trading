@@ -3,7 +3,7 @@ import "../../styles/toolbar/index.css";
 import "../../styles/toolbar/common.css";
 import { AssetsToolBar } from "./AssetsToolBar";
 import { ChartToolBar } from "./ChartToolBar";
-import { IndicatorToolBar } from "./IndicatorToolBar";
+import { IndicatorData, IndicatorToolBar } from "./IndicatorToolBar";
 import { ToolsToolBar } from "./ToolsToolBar";
 import { IconBar } from "../icons/IconBar";
 import { ChartDialogData } from "../../lib/DataType";
@@ -33,8 +33,8 @@ import { IconArea } from "../icons/IconArea";
 export function ToolBar() {
   const appContext = useContext(AppContext);
   const [toolVisible, setToolVisible] = useState<ToolVisible>(ToolVisible.none);
-
   const [assetsData, setAssetsData] = useState<AssetsData[]>([]);
+  const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
 
   const [chartToolBar, setChartToolBar] = useState<ChartDialogData>({
     autoScroll: true,
@@ -92,6 +92,10 @@ export function ToolBar() {
 
   useEffect(() => {
     loadAssets();
+    document.body.addEventListener("click", onOutsideClick, true);
+    return () => {
+      document.body.removeEventListener("click", onOutsideClick, true);
+    };
   }, []);
 
   async function loadAssets() {
@@ -111,13 +115,47 @@ export function ToolBar() {
     }
   }
 
-
-  const [selectedSymbol, setSelectedSymbol] = useState("BTCUSD")
+  const [selectedSymbol, setSelectedSymbol] = useState("BTCUSD");
 
   async function onAssetSelect(symbol: string) {
     setToolVisible(ToolVisible.none);
-    setSelectedSymbol(symbol)
+    setSelectedSymbol(symbol);
     appContext.setSymbol(symbol);
+  }
+
+  function rawIndicatorsToIndicators(rawIndicators: any): IndicatorData[] {
+    if (appContext.studiesProvider) {
+      const indicators: IndicatorData[] = appContext.studiesProvider
+        .getStudies()
+        .map((indicator) => {
+          return {
+            name: indicator.title,
+            id: indicator.id,
+          };
+        });
+
+      return indicators;
+    }
+    return [];
+  }
+
+  // useEffect(() => {
+
+  // }, [selectedIndicators])
+
+  function onOutsideClick(event: any) {
+    // console.log(event.target);
+    // console.log(event.target.className);
+
+    let box = document.getElementById("assets-bar");
+    if (!box) box = document.getElementById("chart-bar");
+    if (!box) box = document.getElementById("indicator-bar");
+    if (!box) box = document.getElementById("tools-bar");
+
+    if (box) {
+      const isInside = box.contains(event.target);
+      if (!isInside) setToolVisible(ToolVisible.none);
+    }
   }
 
   return (
@@ -145,7 +183,8 @@ export function ToolBar() {
           {toolVisible == ToolVisible.assets && (
             <AssetsToolBar
               assetsData={assetsData}
-              hideToolbar={(symbol) => onAssetSelect(symbol)} selectedSymbol={selectedSymbol}
+              hideToolbar={(symbol) => onAssetSelect(symbol)}
+              selectedSymbol={selectedSymbol}
             />
           )}
         </div>
@@ -159,10 +198,10 @@ export function ToolBar() {
             }
             onClick={() => toggleDropdown(ToolVisible.chart)}
           >
-            {chartToolBar.selectedChart == "bar" && <IconBar/>}
-            {chartToolBar.selectedChart == "area" && <IconArea/>}
-            {chartToolBar.selectedChart == "candle" && <IconCandle/>}
-            {chartToolBar.selectedChart == "line" && <IconLine/>}
+            {chartToolBar.selectedChart == "bar" && <IconBar />}
+            {chartToolBar.selectedChart == "area" && <IconArea />}
+            {chartToolBar.selectedChart == "candle" && <IconCandle />}
+            {chartToolBar.selectedChart == "line" && <IconLine />}
           </button>
           {toolVisible == ToolVisible.chart && (
             <ChartToolBar chart={chartToolBar} setChart={setChartToolBar} />
@@ -186,7 +225,17 @@ export function ToolBar() {
               <path d="M8.75 13.5a3.251 3.251 0 0 1 3.163 2.5h9.337a.75.75 0 0 1 .102 1.493l-.102.007h-9.337a3.251 3.251 0 0 1-6.326 0H2.75a.75.75 0 0 1-.102-1.493L2.75 16h2.837a3.251 3.251 0 0 1 3.163-2.5Zm6.5-9.5a3.251 3.251 0 0 1 3.163 2.5h2.837a.75.75 0 0 1 .102 1.493L21.25 8h-2.837a3.251 3.251 0 0 1-6.326 0H2.75a.75.75 0 0 1-.102-1.493L2.75 6.5h9.337A3.251 3.251 0 0 1 15.25 4Z" />
             </svg>
           </button>
-          {toolVisible == ToolVisible.indicator && <IndicatorToolBar />}
+          {toolVisible == ToolVisible.indicator && (
+            <IndicatorToolBar
+              allIndicators={rawIndicatorsToIndicators(
+                appContext.studiesProvider
+              )}
+              chartReactApi={appContext.chartReactApi}
+              selectedIndicators={selectedIndicators}
+              setSelectedIndicators={setSelectedIndicators}
+              hideToolbar={() => setToolVisible(ToolVisible.none)}
+            />
+          )}
         </div>
 
         <div>
@@ -213,7 +262,7 @@ export function ToolBar() {
           )}
         </div>
       </div>
-      <p className="legend">12:08:17 UTC+5:30</p>
+      {/* <p className="legend">12:08:17 UTC+5:30</p> */}
     </div>
   );
 }

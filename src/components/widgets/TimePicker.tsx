@@ -66,6 +66,7 @@ export default function TimePicker({
             maxLength={2}
             type="number"
             value={padNumber(hours)}
+            readOnly
           />
         </div>
         <div className="bottom icon" onClick={() => incrDecrHour(1)}>
@@ -80,7 +81,7 @@ export default function TimePicker({
           <IconSubtract />
         </div>
         <div className="center">
-          <input max={59} min={0} type="number" value={padNumber(minutes)} />
+          <input max={59} min={0} type="number" value={padNumber(minutes)} readOnly />
         </div>
         <div
           className="bottom icon"
@@ -97,7 +98,7 @@ export default function TimePicker({
           <IconSubtract />
         </div>
         <div className="center">
-          <input max={59} min={0} type="number" value={padNumber(seconds)} />
+          <input max={59} min={0} type="number" value={padNumber(seconds)} readOnly />
         </div>
         <div
           className="bottom icon"

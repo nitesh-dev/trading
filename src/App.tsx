@@ -31,6 +31,7 @@ export const AppContext = createContext<MyAppContextData>({
   setTimeIntervalInSec: () => {},
   setSymbol: () => {},
   historyData: [],
+  studiesProvider: undefined,
 });
 
 import json1 from "./others/data1.json";
@@ -88,11 +89,12 @@ function genData() {
   return data;
 }
 
+
+
 function App() {
   const chartsRef = useRef<ChartWithModules[]>([]);
   const timeFrameIntervalSec = useRef<number>(60);
   const [dataProvider, setDataProvider] = useState<ChartDataProvider>();
-  const studiesProvider = useRef<DxStudiesProvider>();
 
   const appContextData = useRef<MyAppContextData>({
     chartReactApi: undefined,
@@ -102,6 +104,7 @@ function App() {
     historyData: serverDataToChartCandleData(json1),
     setTimeIntervalInSec: changeTimeFrameInterval,
     setSymbol: changeSymbol,
+    studiesProvider: undefined,
   });
 
   const selectedSymbol = useRef("BTCUSD");
@@ -115,6 +118,31 @@ function App() {
   useEffect(() => {
     (async () => {
       // defaultData.current = await genData();
+
+      // setDataProvider({
+      //   requestHistoryData(
+      //     symbol: string,
+      //     aggregation: AggregationPeriod,
+      //     options?: {
+      //       fromTime?: number;
+      //       toTime?: number;
+      //     } & ChartDataOptions
+      //   ): Promise<ChartCandleData[]> {
+      //     return getHistoryData();
+      //   },
+      //   subscribeCandles(
+      //     symbol: string,
+      //     aggregation: AggregationPeriod,
+      //     subscriptionId: string,
+      //     subscribeCallback: (data: ChartCandleData[]) => void,
+      //     options?: ChartDataOptions
+      //   ): void {},
+      //   unsubscribeCandles(subscriptionId: string): void {},
+      //   subscribeServiceData(
+      //     symbol: string,
+      //     subscribeCallback: (data: ServiceData) => void
+      //   ): void {},
+      // });
 
       setDataProvider({
         requestHistoryData(
@@ -139,18 +167,18 @@ function App() {
           symbol: string,
           subscribeCallback: (data: ServiceData) => void
         ): void {},
+        unsubscribeServiceData(symbol: string): void {}, // Add this line
       });
     })();
 
     saveDefaultAggregation();
 
     const initialStudies = Array<TStudySettings>();
-
     DEFAULT_STUDIES_LIST().forEach((item) => {
       initialStudies.push(fromRawStudiesSettings(item));
     });
 
-    studiesProvider.current = createDxStudiesProvider(initialStudies);
+    appContextData.current.studiesProvider = createDxStudiesProvider(initialStudies);
   }, []);
 
   function saveDefaultAggregation() {
@@ -328,6 +356,16 @@ function App() {
     appContextData.current.chartReactApi = api;
     api.internal.multiChartViewModel.setChartTypeSync(true);
     api.internal.multiChartViewModel.setStudiesSync(true);
+
+    // api.setStudiesByIds(['EMA', 'WaveTrend'], '0')
+
+    // const initialStudies = Array<TStudySettings>()
+    // DEFAULT_STUDIES_LIST().forEach(item => {
+    //   initialStudies.push(fromRawStudiesSettings(item))
+    // })
+
+    // appContextData.current.studiesProvider = createDxStudiesProvider(initialStudies)
+    // console.table(appContextData.current.studiesProvider.getStudies())
     // api.internal.multiChartViewModel.setStudies()
 
     // api.internal.multiChartViewModel.setChartType("area");
@@ -471,7 +509,7 @@ function App() {
 
   function changeSymbol(symbol: string) {
     console.log("symbol changed");
-    localStorage.setItem("symbol", symbol)
+    localStorage.setItem("symbol", symbol);
     // appContextData.current.chartReactApi!!.internal.
 
     if (symbol != selectedSymbol.current) {
@@ -484,10 +522,9 @@ function App() {
     }
   }
 
-
   useEffect(() => {
-    localStorage.setItem("symbol", selectedSymbol.current)
-  }, [])
+    localStorage.setItem("symbol", selectedSymbol.current);
+  }, []);
 
   return (
     <>
@@ -505,7 +542,7 @@ function App() {
                 {/* @ts-ignore */}
                 <ChartReactApp
                   dependencies={{
-                    dxStudiesProvider: studiesProvider.current,
+                    dxStudiesProvider: appContextData.current.studiesProvider,
                     chartDataProvider: dataProvider,
                     initialChartConfig: {
                       scale: {

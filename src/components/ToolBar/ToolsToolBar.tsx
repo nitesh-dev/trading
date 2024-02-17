@@ -21,7 +21,7 @@ export function ToolsToolBar(props: { hideToolbar: () => void }) {
   }
 
   return (
-    <div className="tools">
+    <div className="tools" id="tools-bar">
       <button onClick={() => addDrawing("horizontal_line")}>
         Horizontal Line
       </button>

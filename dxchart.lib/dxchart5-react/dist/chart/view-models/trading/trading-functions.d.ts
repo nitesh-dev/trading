@@ -63,7 +63,7 @@ export declare const mapOrderToVisualOrder: (order: OrderWithId, chart: Chart, m
  */
 export declare const findAllRelatedItems: (tradingItems: Record<string, VisualTradingItem>, sourceItem: VisualTradingItem) => Record<string, VisualTradingItem>;
 export declare const compareTradingItemIds: (o1: VisualTradingItem, o2: VisualTradingItem) => boolean;
-export declare const mapPositionToVisualPosition: (position: Position, priceToY: PriceToYConverter, chart: Chart, prevVisualPosition?: VisualPosition) => VisualPosition;
+export declare const mapPositionToVisualPosition: (nextPosition: Position, priceToY: PriceToYConverter, chart: Chart, previousVisualPosition?: VisualPosition) => VisualPosition;
 export interface LineStyledOptionProps {
     readonly disabled?: boolean;
     readonly selected?: boolean;

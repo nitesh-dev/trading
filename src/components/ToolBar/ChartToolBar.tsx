@@ -64,7 +64,7 @@ export function ChartToolBar(props: {
   ];
 
   return (
-    <div className="chart-bar">
+    <div className="chart-bar" id="chart-bar">
       <p>Chart Types</p>
       <div className="chart-holder">
         <div

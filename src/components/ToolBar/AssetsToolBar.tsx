@@ -33,7 +33,7 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
   }
 
   return (
-    <div className="assets-bar">
+    <div className="assets-bar" id="assets-bar">
       <div className="tabs">
         {tabs.map((item, index) => (
           <button

@@ -21,5 +21,6 @@ export interface OrderProps extends Readonly<VisualOrderProps> {
     readonly onClose?: () => void;
     readonly onDeselect?: () => void;
     readonly withDeselectBtn?: boolean;
+    readonly testId?: string;
 }
 export declare const Order: React.MemoExoticComponent<(props: OrderProps) => JSX.Element>;
