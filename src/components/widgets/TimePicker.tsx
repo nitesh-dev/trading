@@ -81,7 +81,13 @@ export default function TimePicker({
           <IconSubtract />
         </div>
         <div className="center">
-          <input max={59} min={0} type="number" value={padNumber(minutes)} readOnly />
+          <input
+            max={59}
+            min={0}
+            type="number"
+            value={padNumber(minutes)}
+            readOnly
+          />
         </div>
         <div
           className="bottom icon"
@@ -98,7 +104,13 @@ export default function TimePicker({
           <IconSubtract />
         </div>
         <div className="center">
-          <input max={59} min={0} type="number" value={padNumber(seconds)} readOnly />
+          <input
+            max={59}
+            min={0}
+            type="number"
+            value={padNumber(seconds)}
+            readOnly
+          />
         </div>
         <div
           className="bottom icon"

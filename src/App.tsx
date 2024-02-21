@@ -587,6 +587,7 @@ function App() {
                       studies: {
                         addStudyButtonEnabled: true,
                       },
+                      disableWorkers: true,
                     },
                   }}
                 />

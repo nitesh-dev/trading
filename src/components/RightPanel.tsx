@@ -13,6 +13,7 @@ import { IconHigher } from "./icons/IconHigher";
 
 import { ToastExample, useToast } from "./widgets/Toast";
 import RightPanelTime from "./RightPanelTime";
+import ProfitLoseView from "./ProfitLoseView";
 
 export function RightPanel() {
   const { addToast } = useToast();
@@ -93,49 +94,51 @@ export function RightPanel() {
   }
 
   return (
-    <div className="right-panel">
-      <RightPanelTime
-        onTradeDurationChange={(e) => (tradeDuration.current = e)}
-      />
+    <>
+      <div className="right-panel">
+        <RightPanelTime
+          onTradeDurationChange={(e) => (tradeDuration.current = e)}
+        />
 
-      <BoxWidget
-        title="Amount"
-        value={"$" + currentAmount}
-        buttons={amountButtons.current}
-      />
+        <BoxWidget
+          title="Amount"
+          value={"$" + currentAmount}
+          buttons={amountButtons.current}
+        />
 
-      <div className="payout">
-        <div>
-          <p className="title">Payout</p>
-          <h3 className="success">+92%</h3>
-          <p className="success">$19.20</p>
+        <div className="payout">
+          <div>
+            <p className="title">Payout</p>
+            <h3 className="success">+92%</h3>
+            <p className="success">$19.20</p>
+          </div>
+          <div>
+            <p>Profit</p>
+            <p className="error">+$9.20</p>
+          </div>
         </div>
-        <div>
-          <p>Profit</p>
-          <p className="error">+$9.20</p>
-        </div>
+
+        <button
+          onClick={() => addTradeObject("higher")}
+          className="high"
+          onMouseOver={() => showHover(HoverDirection.up)}
+          onMouseOut={() => showHover(HoverDirection.none)}
+        >
+          <IconHigher />
+          Higher
+        </button>
+
+        <button
+          onClick={() => addTradeObject("lower")}
+          className="low"
+          onMouseOver={() => showHover(HoverDirection.down)}
+          onMouseOut={() => showHover(HoverDirection.none)}
+        >
+          <IconLower />
+          Lower
+        </button>
       </div>
-
-      <button
-        onClick={() => addTradeObject("higher")}
-        className="high"
-        onMouseOver={() => showHover(HoverDirection.up)}
-        onMouseOut={() => showHover(HoverDirection.none)}
-      >
-        <IconHigher />
-        Higher
-      </button>
-
-      <button
-        onClick={() => addTradeObject("lower")}
-        className="low"
-        onMouseOver={() => showHover(HoverDirection.down)}
-        onMouseOut={() => showHover(HoverDirection.none)}
-      >
-        <IconLower />
-        Lower
-      </button>
-      {/* <ToastExample/> */}
-    </div>
+      <ProfitLoseView isShow={true} profit="+$100.80" lose="-$10.50" />
+    </>
   );
 }

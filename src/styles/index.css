@@ -41,16 +41,16 @@ input[type=number] {
 }
 
 
-body{
+body {
   margin: 0;
   background-color: var(--color-surface);
 }
 
-.success{
+.success {
   color: var(--success-color) !important;
 }
 
-.error{
+.error {
   color: var(--error-color) !important;
 }
 
@@ -63,16 +63,16 @@ body{
 
 /* Track */
 .scrollbar::-webkit-scrollbar-track {
-  background: #ffffff1f; 
+  background: #ffffff1f;
 }
- 
+
 /* Handle */
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.63); 
+  background: rgba(255, 255, 255, 0.63);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.452); 
+  background: rgba(255, 255, 255, 0.452);
 }
