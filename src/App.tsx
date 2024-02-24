@@ -89,8 +89,6 @@ function genData() {
   return data;
 }
 
-
-
 function App() {
   const chartsRef = useRef<ChartWithModules[]>([]);
   const timeFrameIntervalSec = useRef<number>(60);
@@ -178,7 +176,8 @@ function App() {
       initialStudies.push(fromRawStudiesSettings(item));
     });
 
-    appContextData.current.studiesProvider = createDxStudiesProvider(initialStudies);
+    appContextData.current.studiesProvider =
+      createDxStudiesProvider(initialStudies);
   }, []);
 
   function saveDefaultAggregation() {
@@ -531,66 +530,77 @@ function App() {
       <ToastProvider>
         <AppContext.Provider value={appContextData.current}>
           <div className="main-app">
-            <ToolBar />
-            <div className="chart-holder-parent">
-              <img className="image-layer" src={mountainImage} />
-              <div
-                id="chart-holder"
-                style={{ height: "100vh", width: "100%" }}
-                className="chart-holder"
-              >
-                {/* @ts-ignore */}
-                <ChartReactApp
-                  dependencies={{
-                    dxStudiesProvider: appContextData.current.studiesProvider,
-                    chartDataProvider: dataProvider,
-                    initialChartConfig: {
-                      scale: {
-                        auto: true,
-                      },
-                    },
-
-                    onApiCreated,
-                    localization: {
-                      studies: {},
-                    },
-                    initialInstrument: "BTCUSD",
-                    initialAggregationPeriods: [
-                      { duration: 30, durationType: "m" },
-                      { duration: 1, durationType: "h" },
-                    ],
-                    initialAggregation: {
-                      duration: 1,
-                      durationType: "s",
-                    },
-                    initialChartReactSettings: {
-                      legend: {
-                        showOHLC: false,
-                        showVolume: false,
-                        showInstrument: false,
-                        showPeriod: false,
-                      },
-                    },
-
-                    initialStudies: [],
-
-                    chartReactConfig: {
-                      drawings: {
-                        sidebar: {
-                          enabled: false,
+            <div>
+              <ToolBar />
+              <div className="main-area">
+                <div className="chart-holder-parent">
+                  <img className="image-layer" src={mountainImage} />
+                  <div id="chart-holder" className="chart-holder">
+                    
+                    {/* @ts-ignore */}
+                    <ChartReactApp
+                    
+                      dependencies={{
+                        dxStudiesProvider:
+                          appContextData.current.studiesProvider,
+                        chartDataProvider: dataProvider,
+                        initialChartConfig: {
+                          scale: {
+                            auto: true,
+                          },
+                          components: {
+                            yAxis: {
+                              labels:{
+                              }
+                            }
+                          }
                         },
-                      },
-                      toolbar: {
-                        showButtonsTooltip: true,
-                        enabled: false,
-                      },
-                      studies: {
-                        addStudyButtonEnabled: true,
-                      },
-                      disableWorkers: true,
-                    },
-                  }}
-                />
+
+                        onApiCreated,
+                        localization: {
+                          studies: {},
+                        },
+                        initialInstrument: "BTCUSD",
+                        initialAggregationPeriods: [
+                          { duration: 30, durationType: "m" },
+                          { duration: 1, durationType: "h" },
+                        ],
+                        initialAggregation: {
+                          duration: 1,
+                          durationType: "s",
+                        },
+                        initialChartReactSettings: {
+                          legend: {
+                            showOHLC: true,
+                            showVolume:true,
+                            showInstrument: false,
+                            showPeriod: false,
+                            mode: "pinned",
+
+                          },
+
+                        },
+                        initialStudies: [],
+
+                        chartReactConfig: {
+                          drawings: {
+                            sidebar: {
+                              enabled: false,
+                            },
+                          },
+                          toolbar: {
+                            showButtonsTooltip: true,
+                            enabled: false,
+                          },
+                          studies: {
+                            addStudyButtonEnabled: true,
+                          },
+                          disableWorkers: true,
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <RightPanel />

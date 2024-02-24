@@ -1,16 +1,20 @@
 
 
 .my-toolbar{
-    position: absolute;
+    /* position: absolute;
     z-index: 1000;
     top: 0px;
     left: 0px;
     min-width: 200px;
-    min-height: 40px;
+    min-height: 40px; */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
 }
 
 .my-toolbar .inner{
-    margin: 24px;
+    margin-left: 12px;
     display: flex;
     align-items: center;
     gap: 8px;

@@ -15,14 +15,13 @@
   --small-font2: 12px;
   --small-font: 10px;
 
-
   --color-primary: rgba(0, 152, 247);
   --color-primary-light: rgba(0, 152, 247, 0.08);
-  --color-surface: black;
+  --color-surface: #141414;
   --color-surface-2: #1c1f27;
   --color-on-surface: white;
   --color-on-surface-light: #8CA6BF;
-  --border-color: rgba(255, 255, 255, 0.24);
+  --border-color: rgba(255, 255, 255, 0.13);
 
   --temp: rgba(239, 35, 59, 0.102);
   --success-color: #29bf12;

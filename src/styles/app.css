@@ -1,23 +1,32 @@
-
-
-.main-app{
+.main-app {
   display: grid;
   grid-template-columns: auto max-content;
 }
 
-.main-app .chart-holder-parent{
+.main-app .main-area {
+  /* display: grid;
+  grid-template-columns: auto max-content; */
+}
+
+.main-app .chart-holder-parent {
   position: relative;
 }
 
-.main-app .image-layer{
+.main-app .image-layer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.1;
-  z-index: 10;
+  opacity: 0.05;
+  z-index: 10000;
   pointer-events: none;
 }
 
+.main-app #chart-holder {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 50px);
+  z-index: 20;
+}
