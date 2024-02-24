@@ -117,6 +117,7 @@ export function RightPanel() {
             <p className="error">+$9.20</p>
           </div>
         </div>
+        
 
         <button
           onClick={() => addTradeObject("higher")}

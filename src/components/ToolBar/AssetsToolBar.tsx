@@ -11,9 +11,11 @@ import { AssetsData } from "../../api";
 
 export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (symbol: string) => void, selectedSymbol: string }) {
   const [activeTab, setActiveTab] = useState("");
-
   const [tabs, setTabs] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<AssetsData[]>([]);
 
+  
   useEffect(() => {
     const uniqueNames: string[] = [];
 
@@ -26,6 +28,25 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
     if (uniqueNames.length > 0) setActiveTab(uniqueNames[0]);
     setTabs(uniqueNames);
   }, []);
+
+
+  useEffect(() => {
+    if (search === "") {
+      setFilteredData(props.assetsData);
+    } else {
+      setFilteredData(
+        props.assetsData.filter((item) =>
+          item.symbols.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    }
+  }, [search, props.assetsData]);
+
+
+
+
+
+
 
 
   function onAssetsSelect(symbol: string){
@@ -55,7 +76,7 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
 
       <div className="tab-content">
         <form className="search-bar">
-          <input type="text" placeholder="search" />
+          <input type="text" placeholder="search" value={search} onChange={(e) => setSearch(e.target.value)} />
           <button type="submit">
             <svg
               width="24"
@@ -83,7 +104,7 @@ export function AssetsToolBar(props: { assetsData: AssetsData[], hideToolbar: (s
             </button>
           </div>
           <div className="content scrollbar">
-            {props.assetsData
+            {filteredData
               .filter((item) => item.exch == activeTab)
               .map((item, index) => (
                 <div onClick={() => onAssetsSelect(item.symbols) } key={index} className={props.selectedSymbol == item.symbols ? "item active" : "item"}>
