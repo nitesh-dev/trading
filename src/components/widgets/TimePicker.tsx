@@ -18,6 +18,7 @@ export default function TimePicker({
     let newHour = hours + value;
     if (newHour > 23) {
       newHour = 0;
+      
     } else if (newHour < 0) {
       newHour = 23;
     }
@@ -38,8 +39,12 @@ export default function TimePicker({
 
     if (newValue > 59) {
       newValue = 0;
+      if(symbol == "m") incrDecrHour(1);
+      if(symbol == "s") incrDecrMinuteOrSecond(1, "m");
     } else if (newValue < 0) {
       newValue = 59;
+      if(symbol == "m") incrDecrHour(-1);
+      if(symbol == "s") incrDecrMinuteOrSecond(-1, "m");
     }
 
     if (symbol == "m") {
