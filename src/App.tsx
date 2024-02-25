@@ -34,8 +34,6 @@ export const AppContext = createContext<MyAppContextData>({
   studiesProvider: undefined,
 });
 
-import json1 from "./others/data1.json";
-import json2 from "./others/data2.json";
 import { io, Socket } from "socket.io-client";
 
 import {
@@ -59,35 +57,7 @@ import { TStudySettings } from "@dx-private/dxchart5-react/dist/chart/model/stud
 import { Observable } from "rxjs";
 import { loadChartHistory } from "./api";
 import { TradeObjectMarkerDrawer } from "./plugins/TradeObjectMarkerDrawer";
-
-function genData() {
-  // const data = generateCandlesData({ quantity: 5 });
-
-  const data = (json1 as ServerChartData[]).map((item: any) => {
-    return {
-      hi: item.high,
-      lo: item.low,
-      open: item.open,
-      close: item.close,
-      timestamp: item.time * 1000,
-      volume: 0,
-      isVisible: true,
-    };
-  });
-
-  // const newData: ChartCandleData[] = data.map((item) => {
-  //   return {
-  //     close: item.close,
-  //     high: item.hi,
-  //     low: item.lo,
-  //     open: item.open,
-  //     time: item.timestamp,
-  //     volume: item.volume,
-  //   } as ChartCandleData;
-  // });
-  // console.log("gen data");
-  return data;
-}
+import Loading from "./components/Loading";
 
 function App() {
   const chartsRef = useRef<ChartWithModules[]>([]);
@@ -99,49 +69,21 @@ function App() {
     chart: undefined,
     socket: undefined,
     chartWithDrawings: undefined,
-    historyData: serverDataToChartCandleData(json1),
+    historyData: serverDataToChartCandleData([]),
     setTimeIntervalInSec: changeTimeFrameInterval,
     setSymbol: changeSymbol,
     studiesProvider: undefined,
   });
 
   const selectedSymbol = useRef("BTCUSD");
-  const isDataLoading = useRef(false);
+  const [isDataLoading, setIsDataLoading] = useState(false);
 
   async function getHistoryData() {
-    console.log("history data loaded");
     return appContextData.current.historyData;
   }
 
   useEffect(() => {
     (async () => {
-      // defaultData.current = await genData();
-
-      // setDataProvider({
-      //   requestHistoryData(
-      //     symbol: string,
-      //     aggregation: AggregationPeriod,
-      //     options?: {
-      //       fromTime?: number;
-      //       toTime?: number;
-      //     } & ChartDataOptions
-      //   ): Promise<ChartCandleData[]> {
-      //     return getHistoryData();
-      //   },
-      //   subscribeCandles(
-      //     symbol: string,
-      //     aggregation: AggregationPeriod,
-      //     subscriptionId: string,
-      //     subscribeCallback: (data: ChartCandleData[]) => void,
-      //     options?: ChartDataOptions
-      //   ): void {},
-      //   unsubscribeCandles(subscriptionId: string): void {},
-      //   subscribeServiceData(
-      //     symbol: string,
-      //     subscribeCallback: (data: ServiceData) => void
-      //   ): void {},
-      // });
-
       setDataProvider({
         requestHistoryData(
           symbol: string,
@@ -178,6 +120,8 @@ function App() {
 
     appContextData.current.studiesProvider =
       createDxStudiesProvider(initialStudies);
+
+    setupSocket();
   }, []);
 
   function saveDefaultAggregation() {
@@ -196,22 +140,7 @@ function App() {
     };
   }
 
-  const onChartCreated = useCallback((chart: Chart) => {
-    appContextData.current.chartWithDrawings = attachDrawingsComponent(chart);
-
-    const hoverDrawer = new CenterHoverDrawer(chart);
-    chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
-
-    const tradeObjectDrawer = new TradeObjectDrawer(chart);
-    chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
-    appContextData.current.chart = chart;
-
-    const tradeObjectMarkerDrawer = new TradeObjectMarkerDrawer(chart);
-    chart.drawingManager.addDrawer(
-      tradeObjectMarkerDrawer,
-      "trade-object-marker-drawer"
-    );
-
+  function setupSocket() {
     const socket = io("http://85.206.172.238:2088", {
       reconnectionDelayMax: 10000,
     });
@@ -220,6 +149,7 @@ function App() {
 
     socket.on("connect", () => {
       console.log("connected");
+      loadHistoryData();
     });
 
     socket.emit("room", selectedSymbol.current);
@@ -237,17 +167,18 @@ function App() {
         Close: number;
         Time: string;
       }) {
-        if (isDataLoading.current) {
+        if (isDataLoading) {
           console.log("Socket data skipped");
           return;
         }
-        console.log("Socket data added");
+
+        const chart = appContextData.current.chart;
+        if (!chart) return;
 
         const allCandles = chart.chartBaseModel.mainDataPoints;
 
         var lastDataObject = allCandles[allCandles.length - 1];
         if (lastDataObject) {
-          console.log(allCandles[allCandles.length - 1]);
           var previousDate = lastDataObject.timestamp;
           var high = lastDataObject.hi;
           var low = lastDataObject.lo;
@@ -287,100 +218,31 @@ function App() {
             chart.data.updateLastCandle(candleUpdate);
           }
         }
-
-        // chart.data.addLastCandle(candle);
-        // console.log(chartsRef.current.length, "length");
-        // chart.redraw();
-        // chart.drawingManager.forceDraw();
-        // chart.scale.autoScale(true);
-        // chart.timeZoneModel.observeTimeZoneChanged();
       }
     );
+  }
 
-    // setInterval(() => {
-    //   if (isFirst) {
-    //     isFirst = false;
-    //     const _candles = generateCandlesData({ quantity: 50 });
-    //     //     chart.setData({ candles: _candles });
+  const onChartCreated = useCallback((chart: Chart) => {
+    appContextData.current.chartWithDrawings = attachDrawingsComponent(chart);
 
-    //     // chart.data.setMainSeries({ candles: _candles });
-    //     // chart.data.setSecondarySeries({ candles: _candles });
+    const hoverDrawer = new CenterHoverDrawer(chart);
+    chart.drawingManager.addDrawer(hoverDrawer, "center-hover-drawer");
 
-    //     console.log(_candles);
-    //     chart.setData({candles: _candles})
-    //   }
-    //   const _candles = generateCandlesData({ quantity: 1 });
-    //   const candle = _candles[0];
-    //   candle.timestamp = new Date().getTime();
-    //   console.log(candle)
+    const tradeObjectDrawer = new TradeObjectDrawer(chart);
+    chart.drawingManager.addDrawer(tradeObjectDrawer, "trade-object-drawer");
+    appContextData.current.chart = chart;
 
-    //   chart.redraw();
-    //   chart.drawingManager.forceDraw();
-    //   chart.timeZoneModel.observeTimeZoneChanged();
-    //   chart.data.addLastCandle(candle);
-    // }, 1000);
-
-    // chart.data.setMainSeries({
-    //   candles: generateCandlesData({ quantity: 5 }),
-    // });
-    // chartRef.current.setData();
-    // setInterval(() => {
-    //   const data = generateCandlesData({ quantity: 5 });
-    //   const candle = data[0];
-    //   candle.timestamp = Date.now();
-    //   if (chartRef.current) {
-    //     chartRef.current.data.addLastCandle(candle);
-    //   }
-    // }, 1000);
-
-    // const _candles = json2.map((item: any) => {
-    //   return {
-    //     hi: item.high,
-    //     lo: item.low,
-    //     open: item.open,
-    //     close: item.close,
-    //     timestamp: item.time * 1000,
-    //     volume: 0,
-    //     isVisible: true,
-    //   };
-    // });
-
-    // console.log(_candles);
-
-    // chart.setData({ candles: _candles });
-    // chart.data.setMainSeries({ candles: _candles });
+    const tradeObjectMarkerDrawer = new TradeObjectMarkerDrawer(chart);
+    chart.drawingManager.addDrawer(
+      tradeObjectMarkerDrawer,
+      "trade-object-marker-drawer"
+    );
   }, []);
 
   const onApiCreated = useCallback((api: ChartReactAPI) => {
     appContextData.current.chartReactApi = api;
     api.internal.multiChartViewModel.setChartTypeSync(true);
     api.internal.multiChartViewModel.setStudiesSync(true);
-
-    // api.setStudiesByIds(['EMA', 'WaveTrend'], '0')
-
-    // const initialStudies = Array<TStudySettings>()
-    // DEFAULT_STUDIES_LIST().forEach(item => {
-    //   initialStudies.push(fromRawStudiesSettings(item))
-    // })
-
-    // appContextData.current.studiesProvider = createDxStudiesProvider(initialStudies)
-    // console.table(appContextData.current.studiesProvider.getStudies())
-    // api.internal.multiChartViewModel.setStudies()
-
-    // api.internal.multiChartViewModel.setChartType("area");
-
-    // const a: TStudySettings[] = [{
-    //   id: "sdfd",
-    //   uuid: "sdfsd",
-    //   title: "dfsdf",
-    //   type: "dxStudy",
-    //   parameters: [],
-    //   lines: [],
-    //   calculateFutureData: false,
-    //   overlaying: false,
-    //   categories: ""
-    // }]
-    // api.internal.multiChartViewModel.setStudies(a)
 
     api.onChartCreated((chartId: string, chart: ChartWithModules) => {
       console.log({ chartId, chart });
@@ -412,69 +274,11 @@ function App() {
     api.setChartSettings(old);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("connecting to socket");
-  //   const socket = io("http://85.206.172.238:2088", {
-  //     reconnectionDelayMax: 10000,
-  //   });
-
-  //   socket.on("connect", () => {
-  //     console.log("connected");
-  //     socketRef.current = socket;
-  //     socket.emit("room", "BTCUSD");
-  //   });
-
-  //   socket.on(
-  //     "notification",
-  //     function (data: {
-  //       SymbolID: number;
-  //       Symbol: string;
-  //       Bid: number;
-  //       Ask: number;
-  //       High: number;
-  //       Low: number;
-  //       Close: number;
-  //       Time: string;
-  //     }) {
-  //       // const _candles = generateCandlesData({ quantity: 1 });
-  //       const candle = {
-  //         hi: data.High / 100,
-  //         lo: data.Low / 100,
-  //         open: data.Bid / 100,
-  //         close: data.Bid / 100,
-  //         timestamp: new Date().getTime(),
-  //         volume: 0,
-  //         isVisible: true,
-  //       };
-
-  //       // if (chartRef.current) {
-  //       //   if (
-  //       //     candle.timestamp - lastCandleTimestamp.current >
-  //       //     timeFrameIntervalSecRef.current * 1000
-  //       //   ) {
-  //       //     lastCandleTimestamp.current = candle.timestamp;
-  //       //     chartRef.current.data.addLastCandle(candle);
-  //       //     console.log("added");
-  //       //   } else {
-  //       //     candle.timestamp = lastCandleTimestamp.current;
-  //       //     chartRef.current.data.updateLastCandle(candle);
-  //       //     console.log("updated");
-  //       //   }
-
-  //       //   chartRef.current.redraw();
-  //       //   chartRef.current.drawingManager.forceDraw();
-  //       //   chartRef.current.scale.autoScale(true);
-  //       //   chartRef.current.timeZoneModel.observeTimeZoneChanged();
-  //       // }
-  //     }
-  //   );
-  // }, []);
-
   async function loadHistoryData() {
+    console.log("loading history data");
+    setIsDataLoading(true);
     appContextData.current.historyData = [];
     appContextData.current.chartReactApi!!.changePeriod(getAggregation());
-    isDataLoading.current = true;
-    // appContextData.current.chartReactApi.res
 
     // TODO: remove Math.round(timeFrameIntervalSec.current / 60) if api is fixed in seconds
     const response = await loadChartHistory(
@@ -482,7 +286,10 @@ function App() {
       Math.round(timeFrameIntervalSec.current / 60)
     );
 
+    setIsDataLoading(false);
+
     if (response.data) {
+      console.table(response.data);
       appContextData.current.historyData = serverDataToChartCandleData(
         response.data
       );
@@ -491,10 +298,7 @@ function App() {
       alert("failed to load data");
     }
 
-    isDataLoading.current = false;
-
     // TODO: get data from api and call set the aggregation
-
     console.log(response);
   }
   function changeTimeFrameInterval(time: number) {
@@ -509,13 +313,10 @@ function App() {
   function changeSymbol(symbol: string) {
     console.log("symbol changed");
     localStorage.setItem("symbol", symbol);
-    // appContextData.current.chartReactApi!!.internal.
 
     if (symbol != selectedSymbol.current) {
       appContextData.current.socket?.emit("roomLeave", selectedSymbol.current);
-      console.log(appContextData.current.socket);
       appContextData.current.socket?.emit("room", symbol);
-      console.log(appContextData.current.socket);
       selectedSymbol.current = symbol;
       loadHistoryData();
     }
@@ -536,10 +337,8 @@ function App() {
                 <div className="chart-holder-parent">
                   <img className="image-layer" src={mountainImage} />
                   <div id="chart-holder" className="chart-holder">
-                    
                     {/* @ts-ignore */}
                     <ChartReactApp
-                    
                       dependencies={{
                         dxStudiesProvider:
                           appContextData.current.studiesProvider,
@@ -550,10 +349,9 @@ function App() {
                           },
                           components: {
                             yAxis: {
-                              labels:{
-                              }
-                            }
-                          }
+                              labels: {},
+                            },
+                          },
                         },
 
                         onApiCreated,
@@ -572,13 +370,11 @@ function App() {
                         initialChartReactSettings: {
                           legend: {
                             showOHLC: true,
-                            showVolume:true,
+                            showVolume: true,
                             showInstrument: false,
                             showPeriod: false,
                             mode: "pinned",
-
                           },
-
                         },
                         initialStudies: [],
 
@@ -605,6 +401,7 @@ function App() {
             </div>
             <RightPanel />
           </div>
+          <Loading isLoading={isDataLoading} />
         </AppContext.Provider>
       </ToastProvider>
     </>

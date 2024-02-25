@@ -17,13 +17,8 @@ export enum ToolVisible {
   tools,
 }
 
-import json1 from "../../others/data1.json";
-import json2 from "../../others/data2.json";
-import { PartialCandle } from "@devexperts/dxcharts-lite/dist/chart/components/chart/chart.component";
-import {
-  serverDataToChartCandleData,
-  serverDataToPartialCandleData,
-} from "../../lib/Utils";
+
+
 import { AssetsData, getAssets, loadChartHistory } from "../../api";
 import { IconLine } from "../icons/IconLine";
 import { IconCandle } from "../icons/IconCandle";
@@ -59,34 +54,10 @@ export function ToolBar() {
 
     console.log(durationType, duration);
 
-    // let _candles: PartialCandle[] = [];
-
-    // /*
-    // TODO:
-    // 1. implement api for data fetch from server
-
-    // */
-    // _candles = serverDataToPartialCandleData(json2);
-
     if (appContext.chart && appContext.chartReactApi) {
       // console.log(_candles, "m1");
       localStorage.setItem("aggregate", durationType + duration);
       appContext.setTimeIntervalInSec(totalSec);
-
-      // setTimeout(() => {
-      //   if(!appContext.chart) return
-      //   // appContext.chart.setData({ candles: _candles });
-      //   // appContext.chart.data.setMainSeries({ candles: _candles });
-      //   // appContext.chart.redraw();
-      //   // appContext.chart.drawingManager.forceDraw();
-      //   // // appContext.chartRef.current.scale.autoScale(true);
-      //   // appContext.chart.timeZoneModel.observeTimeZoneChanged();
-      // }, 1000)
-
-      // appContext.setTimeInterval(duration);
-      // appContext.setLastCandleTimestamp(
-      //   _candles[_candles.length - 1].timestamp
-      // );
     }
   }, [chartToolBar.selectedTimeFrame]);
 
@@ -96,6 +67,7 @@ export function ToolBar() {
     return () => {
       document.body.removeEventListener("click", onOutsideClick, true);
     };
+
   }, []);
 
   async function loadAssets() {
@@ -105,6 +77,8 @@ export function ToolBar() {
     } else {
       alert(response.message);
     }
+
+    onAssetSelect("BTCUSD");
   }
 
   function toggleDropdown(item: ToolVisible) {
@@ -115,7 +89,7 @@ export function ToolBar() {
     }
   }
 
-  const [selectedSymbol, setSelectedSymbol] = useState("BTCUSD");
+  const [selectedSymbol, setSelectedSymbol] = useState("");
 
   async function onAssetSelect(symbol: string) {
     setToolVisible(ToolVisible.none);

@@ -17,7 +17,6 @@ import redArrow from "../assets/red-arrow.png";
 import greenArrow from "../assets/green-arrow.png";
 export class CenterHoverDrawer implements Drawer {
   constructor(private chart: Chart) {
-    console.log("created");
   }
 
   private hoverDir = HoverDirection.none;
