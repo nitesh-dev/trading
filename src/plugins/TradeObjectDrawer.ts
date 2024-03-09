@@ -274,16 +274,17 @@ export class TradeObjectDrawer implements Drawer {
   addTradeObject(
     timeInterval: number,
     tradeType: "higher" | "lower",
-    price: number
+    price: number,
   ) {
-    console.log("add trade object");
     const chartModel = this.chart.chartModel;
     const candle = chartModel.mainCandleSeries.getLastDataSeriesPoint();
-
+    
     if (!candle) {
       console.log("Unable to add trade");
       return null;
     }
+    
+    console.log("added trade object");
 
     const endCandleTime = 1000 * timeInterval + candle.candle.timestamp;
     const endCandle = chartModel.candleFromTimestamp(endCandleTime);
