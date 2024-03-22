@@ -272,7 +272,7 @@ export class TradeObjectDrawer implements Drawer {
   }
 
   addTradeObject(
-    timeInterval: number,
+    timeIntervalSec: number,
     tradeType: "higher" | "lower",
     price: number,
   ) {
@@ -286,7 +286,7 @@ export class TradeObjectDrawer implements Drawer {
     
     console.log("added trade object");
 
-    const endCandleTime = 1000 * timeInterval + candle.candle.timestamp;
+    const endCandleTime = 1000 * timeIntervalSec + candle.candle.timestamp;
     const endCandle = chartModel.candleFromTimestamp(endCandleTime);
 
     const id = uid();
@@ -296,7 +296,7 @@ export class TradeObjectDrawer implements Drawer {
       startTimestamp: candle.candle.timestamp,
       endTimestamp: endCandle.candle.timestamp,
       price: price,
-      timeInterval: timeInterval,
+      timeInterval: timeIntervalSec,
       tradeType: tradeType,
       candle: candle,
       value: "",

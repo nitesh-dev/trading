@@ -242,7 +242,8 @@ function App() {
   const onApiCreated = useCallback((api: ChartReactAPI) => {
     appContextData.current.chartReactApi = api;
     api.internal.multiChartViewModel.setChartTypeSync(true);
-    api.internal.multiChartViewModel.setStudiesSync(true);
+    api.internal.multiChartViewModel.setStudiesSync(true)
+    api.setTradingQuantityPrecision(10);
 
     api.onChartCreated((chartId: string, chart: ChartWithModules) => {
       console.log({ chartId, chart });
