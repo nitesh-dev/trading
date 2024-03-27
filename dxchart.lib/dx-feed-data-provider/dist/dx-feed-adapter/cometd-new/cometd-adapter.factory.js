@@ -1,6 +1,0 @@
-/** Copyright ©2024 Devexperts LLC.
-All rights reserved. Any unauthorized use will constitute an infringement of copyright.
-In case of any questions regarding types of use, please contact legal@devexperts.com.
-This notice must remain intact.
-**/
-import{option}from'fp-ts';import{pipe}from'fp-ts/function';import{ReplaySubject}from'rxjs';export const subscriptionFactory=(a,b)=>{const c=new Map();let d=0x0;const e=()=>b+'_'+d++,f=g=>{const h=new ReplaySubject(0x1),i=e(),j=n=>pipe(option['fromNullable'](n['eventSymbol']),option['map'](o=>pipe(option['fromNullable'](c['get'](i)),option['map'](p=>p['subject']['next']([o,n]))))),k=n=>a['subscribe']([b],n,j),l={'unsubscribe':k(g),'symbols':g},m={'addSymbols':n=>{l['unsubscribe']();const o=new Set(l['symbols']);n['forEach'](q=>o['add'](q));const p=Array['from'](o);l['symbols']=p,l['unsubscribe']=k(p);},'removeSymbols':n=>{l['unsubscribe']();const o=new Set(l['symbols']);n['forEach'](q=>o['delete'](q));const p=Array['from'](o);l['symbols']=p,l['unsubscribe']=k(p);},'subject':h,'observable':h['asObservable'](),'unsubscribe':()=>{h['complete'](),l['unsubscribe'](),c['delete'](i);}};return c['set'](i,m),m;};return{'createSubscription':f,'unsubscribeAllInternal'(){Array['from'](c['values']())['forEach'](g=>g['unsubscribe']());}};};

@@ -1,6 +1,0 @@
-/** Copyright ©2024 Devexperts LLC.
-All rights reserved. Any unauthorized use will constitute an infringement of copyright.
-In case of any questions regarding types of use, please contact legal@devexperts.com.
-This notice must remain intact.
-**/
-import a from'@dxfeed/api';import{defaultDxFeedConfig}from'../dx-feed-adapter.config';import{createDxFeedCandlesAdapter}from'./dx-feed-candles-adapter';import{createDxFeedQuotesAdapter}from'./dx-feed-quotes-adapter';import{createDxFeedSummaryAdapter}from'./dx-feed-summary-adapter';import{createDxFeedTradeETHAdapter}from'./dx-feed-trade-eth-adapter';export const createCometdAdapter=(b=defaultDxFeedConfig)=>{const c=new a();b['authToken']&&c['setAuthToken'](b['authToken']),c['connect'](b['endpointUrl']);const d=createDxFeedCandlesAdapter(c),e=createDxFeedQuotesAdapter(c),f=createDxFeedSummaryAdapter(c),g=createDxFeedTradeETHAdapter(c);return Object['assign'](Object['assign'](Object['assign'](Object['assign'](Object['assign']({},d),e),f),g),{'unsubscribeAll':()=>[d,e,f,g]['forEach'](h=>h['unsubscribeAllInternal']())});};
