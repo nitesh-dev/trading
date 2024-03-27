@@ -1,7 +1,7 @@
 import { Drawer } from "@devexperts/dxcharts-lite/dist/chart/drawers/drawing-manager";
 import { CanvasElement } from "@devexperts/dxcharts-lite/dist/chart/canvas/canvas-bounds-container";
 import { Chart } from "@dx-private/dxchart5-modules";
-import { expiryColor } from "../lib/Color";
+import { expiryColor, dangerColor } from "../lib/Color";
 
 import flagIcon from "../assets/flag.png";
 
@@ -74,7 +74,7 @@ export class TradeObjectMarkerDrawer implements Drawer {
     ctx.beginPath();
 
     // vertical line
-    ctx.strokeStyle = expiryColor;
+    ctx.strokeStyle = dangerColor;
     ctx.moveTo(endCandleX, endCandleY);
     ctx.lineTo(endCandleX, chartBounds.height);
     ctx.stroke();

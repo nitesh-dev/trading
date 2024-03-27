@@ -259,18 +259,21 @@ function App() {
     const old = api.getSelectedChartInfo().chartSettings;
 
     // area chart
-    old.chartCore.themes.dark.areaTheme.lineColor = "#0099F7";
-    old.chartCore.themes.dark.areaTheme.startColor = "rgba(0, 152, 247, 0.08)";
-    old.chartCore.themes.dark.areaTheme.stopColor = "rgba(0, 152, 247, 0.08)";
+    old.chartCore.themes.dark.areaTheme.lineColor = "#fff";
+    old.chartCore.themes.dark.areaTheme.startColor = "rgba(255, 255, 255, 0.06)";
+    old.chartCore.themes.dark.areaTheme.stopColor = "rgba(255, 255, 255, 0.06)";
 
     // line chart
     old.chartCore.themes.dark.lineTheme.upColor = "#0099F7";
+    old.chartCore.themes.dark.lineTheme.upColor = "#0099F7";
+    
 
     // bar chart
     old.chartCore.themes.dark.barTheme.upColor = "#0099F7";
 
     // candle chart
     old.chartCore.themes.dark.candleTheme.upColor = "#0099F7";
+    old.chartCore.themes.dark.candleTheme.noneColor = "#0099F7";
 
     api.setChartSettings(old);
   }, []);

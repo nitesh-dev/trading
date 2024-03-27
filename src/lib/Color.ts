@@ -1,5 +1,5 @@
-export const primaryColor = "#0099F7"
-export const dangerColor = "#ef233c"
+export const primaryColor = "#fff"
+export const dangerColor = "#ee5326"
 export const dangerHover = "rgba(239, 35, 59, 0.3)"
 export const dangerHoverLight = "rgba(239, 35, 59, 0.02)"
 export const successColor = '#29bf12'

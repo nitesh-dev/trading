@@ -190,44 +190,49 @@ export class TradeObjectDrawer implements Drawer {
     // trade box
 
     // calculate text width
-    ctx.font = "16px Arial";
+    ctx.font = "20px Arial";
     const priceText = tradeObject.value;
     const priceTextWidth = ctx.measureText(priceText).width;
 
     const padding = 3;
-    const iconWidth = 28;
+    const iconWidth = 5;
     const rectWidth = priceTextWidth * 1.5 + iconWidth;
-    const rectHeight = 32;
-    const rectX = startCandleX - rectWidth - 10; // 10 is offset
+    const rectHeight = 52;
+    const rectX = startCandleX + 10; // 10 is offset
     const rectY = startCandleY - Math.round(rectHeight / 2);
 
     // background
-    ctx.fillStyle = "black";
-    ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 16);
+    if (tradeObject.isProfit) {
+      ctx.fillStyle = successColor;
+    } else {
+      ctx.fillStyle = dangerColor;
+    }
+    ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 4);
     ctx.fill();
 
-    // border
-    if (tradeObject.isProfit) {
-      ctx.strokeStyle = successColor;
-    } else {
-      ctx.strokeStyle = dangerColor;
-    }
-    ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 16);
-    ctx.stroke();
+    // // border
 
-    // img
-    const image = new Image();
-    if(tradeObject.isProfit){
-      image.src = successIcon;
-    }else{
-      image.src = closeIcon;
-    }
-    ctx.drawImage(image, rectX + rectWidth - iconWidth - 2, rectY + Math.round(rectHeight - iconWidth) / 2, iconWidth, iconWidth);
+    // ctx.roundRect(rectX, rectY, rectWidth, rectHeight, 16);
+    // ctx.stroke();
+
+    // // img
+    // const image = new Image();
+    // if(tradeObject.isProfit){
+    //   image.src = successIcon;
+    // }else{
+    //   image.src = closeIcon;
+    // }
+    // ctx.drawImage(image, rectX + rectWidth - iconWidth - 2, rectY + Math.round(rectHeight - iconWidth) / 2, iconWidth, iconWidth);
+
+
+    ctx.font = "14px Arial";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+    ctx.fillText("RESULT (P/L)", rectX + padding + 16, rectY + padding + 16);
 
     // price text
-    ctx.font = "16px Arial";
+    ctx.font = "20px Arial";
     ctx.fillStyle = "white";
-    ctx.fillText(priceText, rectX + padding + 16, rectY + padding + 18);
+    ctx.fillText(priceText, rectX + padding + 16, rectY + Math.round(rectHeight / 2) + 16);
 
     ctx.restore();
   }
